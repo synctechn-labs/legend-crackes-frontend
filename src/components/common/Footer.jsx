@@ -93,23 +93,23 @@ export const Footer = () => {
                 <Sparkles className="w-5 h-5 text-amber-300" />
               </div>
               <span className="text-2xl font-black font-heading text-white tracking-tight">
-                SIVAKASI<span className="text-red-500">SPARKLES</span>
+                CLASSIC<span className="text-red-500">LEGEND</span>
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
-              India's trusted direct-from-Sivakasi crackers e-commerce store. Providing premium eco-green sparklers, sky shots, flower pots, and family gift boxes directly to your doorstep since 1994.
+              India's trusted direct-from-factory crackers e-commerce store. Providing premium eco-green sparklers, sky shots, flower pots, and family gift boxes directly to your doorstep since 1994.
             </p>
             
             {/* WhatsApp Contact CTA */}
             <div className="pt-2">
               <a
-                href="https://wa.me/919840123456?text=Hi,%20I%20want%20to%20order%20Diwali%20crackers%20directly%20from%20Sivakasi"
+                href="https://wa.me/919840123456?text=Hi,%20I%20want%20to%20order%20Diwali%20crackers%20directly%20from%20Classic%20Legend%20Crackers"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-emerald-900/30"
               >
                 <MessageCircle className="w-4 h-4" />
-                Chat with Sivakasi Factory on WhatsApp
+                Chat with Factory Desk on WhatsApp
               </a>
             </div>
           </div>
@@ -161,7 +161,7 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm text-slate-400">
               <li>
                 <Link to="/about" className="hover:text-red-400 transition-colors">
-                  About Sivakasi Sparkles
+                  About Classic Legend Crackers
                 </Link>
               </li>
               <li>
@@ -205,8 +205,8 @@ export const Footer = () => {
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-red-500 shrink-0" />
-                <a href="mailto:orders@sivakasisparkles.com" className="hover:text-white transition-colors">
-                  orders@sivakasisparkles.com
+                <a href="mailto:orders@classiclegendcrackers.com" className="hover:text-white transition-colors">
+                  orders@classiclegendcrackers.com
                 </a>
               </div>
             </div>
@@ -238,7 +238,7 @@ export const Footer = () => {
       {/* Statutory Disclaimer & Copyright */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-800/80 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
         <p>
-          © 2026 Sivakasi Sparkles Fireworks Ltd. All Rights Reserved. As per Supreme Court guidelines, we sell only CSIR-NEERI certified green crackers.
+          © 2026 Classic Legend Crackers Ltd. All Rights Reserved. As per Supreme Court guidelines, we sell only CSIR-NEERI certified green crackers.
         </p>
         <div className="flex items-center gap-4">
           <span>Safe Transport Packaging</span>

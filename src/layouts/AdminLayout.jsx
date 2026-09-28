@@ -48,7 +48,7 @@ export const AdminLayout = () => {
             <Sparkles className="w-4 h-4 text-amber-300" />
           </div>
           <div>
-            <span className="font-heading font-black text-sm tracking-tight text-white block leading-none">SIVAKASI ADMIN</span>
+            <span className="font-heading font-black text-sm tracking-tight text-white block leading-none">CLASSIC LEGEND ADMIN</span>
             <span className="text-[9px] text-slate-400 font-semibold tracking-wider uppercase mt-0.5 block">Mobile Ops</span>
           </div>
         </div>
@@ -87,7 +87,7 @@ export const AdminLayout = () => {
             </div>
             <div>
               <h2 className="font-heading font-black text-base tracking-tight leading-none text-white">
-                Sivakasi<span className="text-red-500">Ops</span>
+                Classic<span className="text-red-500">Legend</span>
               </h2>
               <p className="text-[10px] text-slate-400 font-semibold tracking-wider uppercase mt-1">
                 FastAPI Backend Live

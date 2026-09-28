@@ -84,7 +84,7 @@ export const Contact = () => {
               </p>
             </div>
             <a
-              href="https://wa.me/917010849600?text=Hi%20Sivakasi%20Sparkles,%20I%20have%20an%20order%20inquiry"
+              href="https://wa.me/917010849600?text=Hi%20Classic%20Legend%20Crackers,%20I%20have%20an%20order%20inquiry"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-emerald-800 font-bold text-xs rounded-xl shadow-xs hover:bg-emerald-50 transition-colors"
@@ -118,11 +118,11 @@ export const Contact = () => {
                 </div>
                 <div>
                   <span className="font-bold text-slate-900 block">Email Inquiries</span>
-                  <a href="mailto:orders@sivakasisparkles.com" className="text-slate-600 hover:text-red-600 block mt-0.5">
-                    orders@sivakasisparkles.com
+                  <a href="mailto:orders@classiclegendcrackers.com" className="text-slate-600 hover:text-red-600 block mt-0.5">
+                    orders@classiclegendcrackers.com
                   </a>
-                  <a href="mailto:support@sivakasisparkles.com" className="text-slate-600 hover:text-red-600 block">
-                    support@sivakasisparkles.com
+                  <a href="mailto:support@classiclegendcrackers.com" className="text-slate-600 hover:text-red-600 block">
+                    support@classiclegendcrackers.com
                   </a>
                 </div>
               </div>
@@ -134,7 +134,7 @@ export const Contact = () => {
                 <div>
                   <span className="font-bold text-slate-900 block">Factory & Warehouse Depot</span>
                   <p className="text-slate-600 mt-0.5 leading-relaxed">
-                    Sivakasi Sparkles Fireworks Complex, 42/B, Sattur Main Road, Industrial Estate, Sivakasi, Tamil Nadu - 626123, India.
+                    Classic Legend Fireworks Complex, 42/B, Sattur Main Road, Industrial Estate, Sivakasi, Tamil Nadu - 626123, India.
                   </p>
                 </div>
               </div>
@@ -262,7 +262,7 @@ export const Contact = () => {
                 <div className="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center mx-auto shadow-lg animate-bounce">
                   <MapPin className="w-5 h-5" />
                 </div>
-                <h5 className="font-bold text-slate-800 text-xs">Sivakasi Sparkles Complex</h5>
+                <h5 className="font-bold text-slate-800 text-xs">Classic Legend Fireworks Complex</h5>
                 <p className="text-[11px] text-slate-500">Sattur Road, Sivakasi (Virudhunagar Dist, TN - 626123)</p>
                 <a
                   href="https://maps.google.com/?q=Sivakasi+Fireworks+Industrial+Estate"

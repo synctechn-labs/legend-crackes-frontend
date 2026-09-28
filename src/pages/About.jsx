@@ -23,7 +23,7 @@ export const About = () => {
             <span>Over 3 Decades of Fireworks Mastery</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-black font-heading tracking-tight">
-            The Sivakasi Sparkles Heritage
+            The Classic Legend Heritage
           </h1>
           <p className="text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Crafting the finest festive memories for Indian homes since 1994 with 100% legal CSIR-NEERI green fireworks and direct-from-factory wholesale value.
@@ -42,7 +42,7 @@ export const About = () => {
               From Sivakasi's Traditional Artisans to Your Family Celebration
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Nestled in the sun-drenched industrial heartland of Sivakasi, Tamil Nadu, <strong>Sivakasi Sparkles</strong> was founded in 1994 by master pyrotechnicians with a singular passion: creating fireworks that burst with unmatched color vibrancy, crystal-clear acoustic timing, and zero duds.
+              Nestled in the sun-drenched industrial heartland of Sivakasi, Tamil Nadu, <strong>Classic Legend Crackers</strong> was founded in 1994 by master pyrotechnicians with a singular passion: creating fireworks that burst with unmatched color vibrancy, crystal-clear acoustic timing, and zero duds.
             </p>
             <p className="text-sm text-slate-600 leading-relaxed">
               Today, we have digitized the traditional crackers buying experience. Instead of dealing with seasonal middlemen and inflated retail prices, families across India can purchase directly from our manufacturing warehouses with absolute quality and safety assurance.

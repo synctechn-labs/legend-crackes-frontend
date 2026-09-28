@@ -121,7 +121,7 @@ export const Home = () => {
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold font-heading tracking-tight leading-[1.15] text-white drop-shadow-sm">
                 Light Up Your Skies With{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-amber-200">
-                  Sivakasi Sparkles
+                  Classic Legend Crackers
                 </span>
               </h1>
 
@@ -355,7 +355,7 @@ export const Home = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <span className="text-xs font-bold text-red-600 uppercase tracking-widest">
-            The Sivakasi Sparkles Advantage
+            The Classic Legend Advantage
           </span>
           <h2 className="text-3xl font-black font-heading text-slate-900 mt-1">
             Why Buy Directly From Sivakasi?

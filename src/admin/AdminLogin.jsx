@@ -70,7 +70,7 @@ export const AdminLogin = () => {
             <Sparkles className="w-6 h-6 text-amber-300" />
           </div>
           <span className="text-2xl font-black font-heading text-white tracking-tight">
-            SIVAKASI<span className="text-red-500">OPS</span>
+            CLASSIC<span className="text-red-500">LEGEND</span>
           </span>
         </Link>
         <h2 className="text-xl sm:text-2xl font-extrabold text-white font-heading">

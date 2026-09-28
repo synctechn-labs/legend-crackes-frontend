@@ -49,10 +49,10 @@ export const Navbar = () => {
               </div>
               <div className="flex flex-col min-w-0">
                 <span className="text-base sm:text-2xl font-bold font-heading tracking-tight text-slate-900 group-hover:text-rose-600 transition-colors leading-none">
-                  SIVAKASI<span className="text-rose-600 font-bold">SPARKLES</span>
+                  CLASSIC<span className="text-rose-600 font-bold">LEGEND</span>
                 </span>
                 <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium tracking-wider uppercase mt-0.5 sm:mt-1 truncate">
-                  100% Genuine Fireworks Direct
+                  Classic Legend Crackers Direct
                 </span>
               </div>
             </Link>

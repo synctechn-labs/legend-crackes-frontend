@@ -8,7 +8,9 @@ import {
   Sparkles,
   ArrowUpDown,
   CheckCircle2,
-  RefreshCw
+  RefreshCw,
+  LayoutGrid,
+  List
 } from 'lucide-react';
 import { productService } from '../services/productService';
 import { categoryService } from '../services/categoryService';
@@ -33,6 +35,7 @@ export const Shop = () => {
   const [page, setPage] = useState(initialPage);
   const [priceRange, setPriceRange] = useState('all'); // all | under150 | 150-500 | 500-1500 | 1500+
   const [inStockOnly, setInStockOnly] = useState(false);
+  const [viewMode, setViewMode] = useState('list'); // 'list' | 'grid'
 
   const [productsData, setProductsData] = useState({
     products: [],
@@ -147,19 +150,67 @@ export const Shop = () => {
     (inStockOnly ? 1 : 0);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
       {/* Header Banner */}
       <div className="bg-gradient-to-r from-rose-600 via-rose-500 to-rose-700 rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
         <div className="max-w-2xl relative z-10 space-y-2">
           <span className="text-amber-300 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4" /> 100% Sivakasi Direct Wholesaler
+            <Sparkles className="w-4 h-4" /> 100% Direct Factory Wholesaler
           </span>
           <h1 className="text-2xl sm:text-4xl font-black font-heading leading-tight">
             Complete Crackers Catalog (3,000+ Items)
           </h1>
           <p className="text-xs sm:text-sm text-rose-100">
-            Browse our complete Sivakasi production inventory with real-time stock and instant factory discounts.
+            Browse our complete inventory with real-time stock and instant factory discounts.
           </p>
+        </div>
+      </div>
+
+      {/* Mobile Top Sort & Filter Bar (Matching Reference Image) */}
+      <div className="lg:hidden sticky top-16 z-30 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xs p-2 flex items-center justify-around gap-2 text-xs font-bold text-slate-700">
+        <button
+          type="button"
+          onClick={() => {
+            const nextSort = sortBy === 'price-low' ? 'price-high' : sortBy === 'price-high' ? 'featured' : 'price-low';
+            setSortBy(nextSort);
+            setPage(1);
+          }}
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition-colors"
+        >
+          <ArrowUpDown className="w-4 h-4 text-slate-500" />
+          <span>Sort</span>
+        </button>
+
+        <div className="h-5 w-px bg-slate-200" />
+
+        <button
+          type="button"
+          onClick={() => setIsMobileFilterOpen(true)}
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition-colors"
+        >
+          <SlidersHorizontal className="w-4 h-4 text-red-600" />
+          <span>Filter {activeFiltersCount > 0 && `(${activeFiltersCount})`}</span>
+        </button>
+
+        <div className="h-5 w-px bg-slate-200" />
+
+        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl shrink-0">
+          <button
+            type="button"
+            onClick={() => setViewMode('list')}
+            className={`p-1.5 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-white shadow-xs text-red-600' : 'text-slate-500'}`}
+            title="List View"
+          >
+            <List className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode('grid')}
+            className={`p-1.5 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-white shadow-xs text-red-600' : 'text-slate-500'}`}
+            title="Grid View"
+          >
+            <LayoutGrid className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
@@ -252,7 +303,7 @@ export const Shop = () => {
 
         {/* Product Catalog Content */}
         <div className="lg:col-span-9 space-y-6">
-          {/* Controls Bar: Search, Mobile Filter Toggle, Sort Dropdown */}
+          {/* Controls Bar: Search, Sort Dropdown & View Switcher */}
           <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
             {/* Search Input with Debounce */}
             <div className="relative w-full sm:w-72">
@@ -279,16 +330,6 @@ export const Shop = () => {
             </div>
 
             <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-              {/* Mobile Filter Button */}
-              <button
-                type="button"
-                onClick={() => setIsMobileFilterOpen(true)}
-                className="lg:hidden flex items-center gap-2 px-3.5 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-semibold text-slate-700 transition-colors"
-              >
-                <SlidersHorizontal className="w-4 h-4 text-red-600" />
-                <span>Filters {activeFiltersCount > 0 && `(${activeFiltersCount})`}</span>
-              </button>
-
               {/* Sorting Selector */}
               <div className="flex items-center gap-2">
                 <ArrowUpDown className="w-4 h-4 text-slate-400 shrink-0" />
@@ -307,6 +348,26 @@ export const Shop = () => {
                   <option value="rating">Top Customer Ratings</option>
                   <option value="new">New 2026 Arrivals</option>
                 </select>
+              </div>
+
+              {/* View Mode Switcher (Grid vs List) */}
+              <div className="hidden sm:flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
+                <button
+                  type="button"
+                  onClick={() => setViewMode('list')}
+                  className={`p-1.5 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-white shadow-xs text-red-600 font-bold' : 'text-slate-500'}`}
+                  title="List View (Flipkart Style)"
+                >
+                  <List className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode('grid')}
+                  className={`p-1.5 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-white shadow-xs text-red-600 font-bold' : 'text-slate-500'}`}
+                  title="Grid View"
+                >
+                  <LayoutGrid className="w-4 h-4" />
+                </button>
               </div>
             </div>
           </div>
@@ -332,13 +393,13 @@ export const Shop = () => {
             })}
           </div>
 
-          {/* Product Grid */}
+          {/* Product Catalog Display (Grid or List Mode) */}
           {loading ? (
             <ProductGridSkeleton count={8} />
           ) : productsData.products.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className={viewMode === 'list' ? "flex flex-col gap-4" : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"}>
               {productsData.products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product.id} product={product} viewMode={viewMode} />
               ))}
             </div>
           ) : (

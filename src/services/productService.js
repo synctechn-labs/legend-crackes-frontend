@@ -16,10 +16,20 @@ export const productService = {
     if (inStockOnly) {
       params.in_stock = true;
     }
-    return executeApi(
+    const res = await executeApi(
       () => apiClient.get('/products', { params }),
       () => queryMockProducts({ page, limit, category, search, sortBy, priceMin, priceMax, inStockOnly })
     );
+
+    const total = res?.total || 0;
+    const computedTotalPages = res?.totalPages || res?.total_pages || Math.ceil(total / limit) || 1;
+
+    return {
+      ...res,
+      total,
+      totalPages: computedTotalPages,
+      total_pages: computedTotalPages
+    };
   },
 
   // Fetch single product by ID

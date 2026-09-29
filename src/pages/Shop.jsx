@@ -430,9 +430,14 @@ export const Shop = () => {
           {/* Server-Side Pagination */}
           <Pagination
             currentPage={page}
-            totalPages={productsData.totalPages}
-            totalItems={productsData.total}
-            itemsPerPage={productsData.limit}
+            totalPages={
+              productsData.totalPages ||
+              productsData.total_pages ||
+              Math.ceil((productsData.total || 0) / (productsData.limit || itemsPerPage || 1)) ||
+              1
+            }
+            totalItems={productsData.total || 0}
+            itemsPerPage={productsData.limit || itemsPerPage}
             onPageChange={(newPage) => {
               setPage(newPage);
               window.scrollTo({ top: 200, behavior: 'smooth' });

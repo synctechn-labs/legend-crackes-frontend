@@ -6,7 +6,6 @@ import {
   SlidersHorizontal,
   X,
   Sparkles,
-  ArrowUpDown,
   CheckCircle2,
   RefreshCw,
   LayoutGrid,
@@ -166,22 +165,9 @@ export const Shop = () => {
         </div>
       </div>
 
-      {/* Mobile Top Sort Bar (Matching Reference Image) */}
+      {/* Mobile Top Controls Bar */}
       <div className="lg:hidden sticky top-16 z-30 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xs p-2 flex items-center justify-between gap-2 text-xs font-bold text-slate-700">
-        <button
-          type="button"
-          onClick={() => {
-            const nextSort = sortBy === 'price-low' ? 'price-high' : sortBy === 'price-high' ? 'featured' : 'price-low';
-            setSortBy(nextSort);
-            setPage(1);
-          }}
-          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition-colors"
-        >
-          <ArrowUpDown className="w-4 h-4 text-slate-500" />
-          <span>Sort</span>
-        </button>
-
-        <div className="h-5 w-px bg-slate-200" />
+        <span className="text-xs font-bold text-slate-500 px-2 uppercase tracking-wider">Catalog</span>
 
         <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl shrink-0">
           <button
@@ -292,10 +278,10 @@ export const Shop = () => {
 
         {/* Product Catalog Content */}
         <div className="lg:col-span-9 space-y-6">
-          {/* Controls Bar: Search, Sort Dropdown & View Switcher */}
+          {/* Controls Bar: Search & View Switcher */}
           <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
             {/* Search Input with Debounce */}
-            <div className="relative w-full sm:w-72">
+            <div className="relative w-full sm:w-80">
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
@@ -318,34 +304,14 @@ export const Shop = () => {
               )}
             </div>
 
-            <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-              {/* Sorting Selector */}
-              <div className="flex items-center gap-2">
-                <ArrowUpDown className="w-4 h-4 text-slate-400 shrink-0" />
-                <select
-                  value={sortBy}
-                  onChange={(e) => {
-                    setSortBy(e.target.value);
-                    setPage(1);
-                  }}
-                  className="bg-slate-50 border border-slate-200 text-slate-800 text-xs font-semibold rounded-xl px-3 py-2 focus:outline-none focus:border-red-500"
-                >
-                  <option value="featured">Featured / Recommended</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="discount">Highest Discount %</option>
-                  <option value="rating">Top Customer Ratings</option>
-                  <option value="new">New 2026 Arrivals</option>
-                </select>
-              </div>
-
+            <div className="flex items-center gap-3 shrink-0">
               {/* View Mode Switcher (Grid vs List) */}
-              <div className="hidden sm:flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
+              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
                 <button
                   type="button"
                   onClick={() => setViewMode('list')}
                   className={`p-1.5 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-white shadow-xs text-red-600 font-bold' : 'text-slate-500'}`}
-                  title="List View (Flipkart Style)"
+                  title="List View"
                 >
                   <List className="w-4 h-4" />
                 </button>

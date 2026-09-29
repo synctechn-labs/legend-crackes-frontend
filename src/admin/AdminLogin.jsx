@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useToast } from '../hooks/useToast';
+import { BRAND_LOGO_URL } from '../utils/constants';
 
 export const AdminLogin = () => {
   const navigate = useNavigate();
@@ -65,13 +66,22 @@ export const AdminLogin = () => {
       <div className="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#dc2626_1px,transparent_1px)] [background-size:24px_24px]" />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 text-center space-y-3">
-        <Link to="/" className="inline-flex items-center gap-2.5">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center text-white shadow-xl shadow-red-600/30">
-            <Sparkles className="w-6 h-6 text-amber-300" />
+        <Link to="/" className="inline-flex items-center gap-3 group">
+          <div className="w-14 h-14 rounded-full border-2 border-red-500/40 bg-white p-1 flex items-center justify-center shrink-0 shadow-xl overflow-hidden group-hover:scale-105 transition-transform">
+            <img
+              src={BRAND_LOGO_URL}
+              alt="Classic Legend Crackers Logo"
+              className="w-full h-full object-contain rounded-full"
+            />
           </div>
-          <span className="text-2xl font-black font-heading text-white tracking-tight">
-            CLASSIC<span className="text-red-500">LEGEND</span>
-          </span>
+          <div className="flex flex-col text-left">
+            <span className="text-2xl font-black font-heading text-white tracking-tight leading-none">
+              CLASSIC<span className="text-red-500 font-extrabold">LEGEND</span>
+            </span>
+            <span className="text-[10px] text-slate-400 font-bold tracking-wider uppercase mt-1">
+              Store Admin Portal
+            </span>
+          </div>
         </Link>
         <h2 className="text-xl sm:text-2xl font-extrabold text-white font-heading">
           Store Administrator Login

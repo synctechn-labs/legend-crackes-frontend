@@ -55,7 +55,7 @@ export const Footer = () => {
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
-              India's trusted direct-from-factory crackers e-commerce store. Providing premium eco-green sparklers, sky shots, flower pots, and family gift boxes directly to your doorstep since 1994.
+              India's trusted direct-from-factory crackers e-commerce store. Providing premium eco-green sparklers, sky shots, flower pots, and family gift boxes directly to your doorstep since 2023.
             </p>
 
             {/* WhatsApp Contact CTA */}
@@ -153,12 +153,12 @@ export const Footer = () => {
             <div className="space-y-2.5 text-xs text-slate-400">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                <span>Factory Outlet & Sales Depot, Sivakasi to Vembakottai Main Road, Near Vembakottai Junction, Sivakasi, Virudhunagar District, Tamil Nadu - 626131</span>
+                <span> Sivakasi to Vembakottai Main Road, Near Vembakottai Junction, Sivakasi, Virudhunagar District, Tamil Nadu - 626131</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-red-500 shrink-0" />
                 <a href="tel:+919840123456" className="hover:text-white transition-colors">
-                  +91 98401 23456 / +91 94431 88990
+                  +91 70108 49600 / +9186680 88481
                 </a>
               </div>
               <div className="flex items-center gap-2.5">

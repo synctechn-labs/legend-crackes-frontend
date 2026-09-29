@@ -323,47 +323,7 @@ export const Home = () => {
         )}
       </section>
 
-      {/* Special Festive Offers / Combo Hamper Callout */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-red-600 via-red-700 to-red-800 rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-            <div className="lg:col-span-8 space-y-4">
-              <span className="bg-amber-400 text-slate-950 font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">
-                Special Family Hamper Box
-              </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight text-white">
-                Diwali VIP Mega Hamper (45 Varieties)
-              </h2>
-              <p className="text-sm sm:text-base text-red-100 max-w-xl leading-relaxed">
-                Contains flower pots, 1000-wala garland, sparklers, rockets, ground chakkars and multi-sky shots. Complete festival entertainment for the entire family in one elegant wooden-finish box!
-              </p>
-              <div className="flex flex-wrap items-center gap-6 pt-2">
-                <div>
-                  <span className="text-xs text-red-200 block">Factory Offer Price</span>
-                  <span className="text-3xl font-black text-amber-300 font-heading">₹2,299</span>
-                  <span className="ml-2 text-sm text-red-200 line-through">₹4,999</span>
-                </div>
-                <Link
-                  to="/product/17"
-                  className="px-6 py-3 bg-white hover:bg-slate-100 text-red-600 font-bold rounded-2xl shadow-lg transition-transform active:scale-95 flex items-center gap-2 text-sm"
-                >
-                  <PackageCheck className="w-4 h-4" />
-                  <span>Order VIP Gift Hamper</span>
-                </Link>
-              </div>
-            </div>
-            <div className="lg:col-span-4 flex justify-center">
-              <div className="w-64 h-64 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 bg-slate-900/50">
-                <img
-                  src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=600&q=80"
-                  alt="Sivakasi Gift Hamper"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Why Choose Us */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

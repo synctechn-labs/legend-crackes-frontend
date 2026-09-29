@@ -161,87 +161,110 @@ export const Cart = () => {
         <div className="lg:col-span-8 space-y-4">
           <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xs divide-y divide-slate-100">
             {cartItems.map((item) => (
-              <div key={item.id} className="p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-                {/* Thumbnail */}
-                <Link to={`/product/${item.id}`} className="shrink-0 w-24 h-24 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
+              <div key={item.id} className="p-3.5 sm:p-5 flex flex-row items-center gap-3.5 sm:gap-5 relative">
+                {/* Thumbnail Image */}
+                <Link to={`/product/${item.id}`} className="shrink-0 w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200/80 flex items-center justify-center">
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform"
+                    loading="lazy"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80';
+                    }}
                   />
                 </Link>
 
-                {/* Details */}
-                <div className="flex-1 text-center sm:text-left min-w-0">
-                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs">
-                    <span className="text-red-600 font-bold uppercase">{item.categoryName}</span>
-                    <span className="text-slate-300">•</span>
-                    <span className="font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded text-[11px]">
-                      {item.code}
-                    </span>
-                  </div>
-                  <Link
-                    to={`/product/${item.id}`}
-                    className="block font-heading font-bold text-slate-900 text-base hover:text-red-600 transition-colors mt-1"
-                  >
-                    {item.name}
-                  </Link>
-                  <p className="text-xs text-slate-400 mt-0.5">{item.piecesPerBox}</p>
+                {/* Info & Controls Body */}
+                <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5 space-y-1.5">
+                  {/* Top Header Row: Category, Code & Delete button */}
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                      <span className="text-red-600 font-extrabold text-[10px] sm:text-xs uppercase tracking-wider truncate">
+                        {item.categoryName}
+                      </span>
+                      <span className="text-slate-300 text-[10px]">•</span>
+                      <span className="font-mono text-[10px] text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
+                        {item.code}
+                      </span>
+                    </div>
 
-                  <div className="mt-2 flex items-baseline justify-center sm:justify-start gap-2">
-                    <span className="font-black text-slate-900 text-sm">
-                      {formatCurrency(item.sellingPrice)}
-                    </span>
-                    {item.originalPrice > item.sellingPrice && (
-                      <span className="text-xs text-slate-400 line-through">
-                        {formatCurrency(item.originalPrice)}
+                    <button
+                      type="button"
+                      onClick={() => setModalState({ isOpen: true, type: 'remove', targetId: item.id })}
+                      className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors shrink-0 -mr-1 -mt-1"
+                      title="Remove item"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  {/* Title & Specs */}
+                  <div>
+                    <Link
+                      to={`/product/${item.id}`}
+                      className="font-heading font-bold text-slate-900 text-sm sm:text-base leading-snug hover:text-red-600 transition-colors line-clamp-2"
+                    >
+                      {item.name}
+                    </Link>
+                    {item.piecesPerBox && (
+                      <span className="text-[11px] text-slate-400 font-medium block mt-0.5">
+                        {item.piecesPerBox}
                       </span>
                     )}
-                    <span className="text-[11px] font-bold text-emerald-600">
-                      ({item.discount}% Off)
-                    </span>
-                  </div>
-                </div>
-
-                {/* Quantity Controls & Total */}
-                <div className="flex items-center gap-4 sm:gap-6 shrink-0">
-                  {/* Quantity selector */}
-                  <div className="flex items-center border border-slate-200 rounded-xl bg-slate-50 p-0.5">
-                    <button
-                      type="button"
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="w-8 h-8 flex items-center justify-center font-bold text-slate-600 hover:text-slate-900 rounded-lg hover:bg-white transition-colors"
-                    >
-                      -
-                    </button>
-                    <span className="w-8 text-center font-bold text-xs text-slate-900">{item.quantity}</span>
-                    <button
-                      type="button"
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      disabled={item.quantity >= (item.stock || 99)}
-                      className="w-8 h-8 flex items-center justify-center font-bold text-slate-600 hover:text-slate-900 rounded-lg hover:bg-white transition-colors disabled:opacity-30"
-                    >
-                      +
-                    </button>
                   </div>
 
-                  {/* Line Total */}
-                  <div className="text-right min-w-20">
-                    <span className="font-extrabold text-base text-red-600 font-heading block">
-                      {formatCurrency(item.sellingPrice * item.quantity)}
-                    </span>
-                    <span className="text-[10px] text-slate-400">Total</span>
-                  </div>
+                  {/* Pricing Row & Quantity Stepper */}
+                  <div className="pt-1 flex flex-wrap items-center justify-between gap-2">
+                    {/* Price Breakdown */}
+                    <div className="flex items-baseline gap-1.5 flex-wrap">
+                      <span className="font-extrabold text-slate-900 text-sm sm:text-base">
+                        {formatCurrency(item.sellingPrice)}
+                      </span>
+                      {item.originalPrice > item.sellingPrice && (
+                        <span className="text-xs text-slate-400 line-through">
+                          {formatCurrency(item.originalPrice)}
+                        </span>
+                      )}
+                      {item.discount > 0 && (
+                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
+                          {item.discount}% OFF
+                        </span>
+                      )}
+                    </div>
 
-                  {/* Remove Button */}
-                  <button
-                    type="button"
-                    onClick={() => setModalState({ isOpen: true, type: 'remove', targetId: item.id })}
-                    className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
-                    title="Remove item"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                    {/* Quantity Stepper & Line Total */}
+                    <div className="flex items-center gap-3">
+                      {/* Stepper */}
+                      <div className="flex items-center border border-slate-200 rounded-xl bg-slate-50 p-0.5 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          className="w-7 h-7 flex items-center justify-center font-bold text-slate-600 hover:text-slate-900 rounded-lg hover:bg-white transition-colors text-xs"
+                        >
+                          -
+                        </button>
+                        <span className="w-7 text-center font-extrabold text-xs text-slate-900">{item.quantity}</span>
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          disabled={item.quantity >= (item.stock || 99)}
+                          className="w-7 h-7 flex items-center justify-center font-bold text-slate-600 hover:text-slate-900 rounded-lg hover:bg-white transition-colors text-xs disabled:opacity-30"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      {/* Line Total */}
+                      <div className="text-right shrink-0">
+                        <span className="font-extrabold text-sm sm:text-base text-red-600 font-heading block leading-none">
+                          {formatCurrency(item.sellingPrice * item.quantity)}
+                        </span>
+                        <span className="text-[9px] text-slate-400 uppercase font-medium">Total</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}

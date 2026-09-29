@@ -105,7 +105,7 @@ export const Contact = () => {
                 </div>
                 <div>
                   <span className="font-bold text-slate-900 block">Phone Support</span>
-                  <a href="tel:+919840123456" className="text-slate-600 hover:text-red-600 block mt-0.5">
+                  <a href="tel:+917010849600" className="text-slate-700 font-bold hover:text-red-600 block mt-0.5">
                     +91 70108 49600
                   </a>
                   <span className="text-[11px] text-slate-400">Lines open 8:00 AM - 10:00 PM (Mon-Sun)</span>
@@ -118,11 +118,11 @@ export const Contact = () => {
                 </div>
                 <div>
                   <span className="font-bold text-slate-900 block">Email Inquiries</span>
-                  <a href="mailto:orders@classiclegendcrackers.com" className="text-slate-600 hover:text-red-600 block mt-0.5">
-                    orders@classiclegendcrackers.com
+                  <a href="mailto:crackersclassiclegend@gmail.com" className="text-slate-600 hover:text-red-600 block mt-0.5">
+                    crackersclassiclegend@gmail.com
                   </a>
-                  <a href="mailto:support@classiclegendcrackers.com" className="text-slate-600 hover:text-red-600 block">
-                    support@classiclegendcrackers.com
+                  <a href="mailto:crackersclassiclegend@gmail.com" className="text-slate-600 hover:text-red-600 block">
+                    crackersclassiclegend@gmail.com
                   </a>
                 </div>
               </div>

@@ -71,7 +71,7 @@ export const Footer = () => {
             {/* WhatsApp Contact CTA */}
             <div className="pt-2">
               <a
-                href="https://wa.me/919840123456?text=Hi,%20I%20want%20to%20order%20Diwali%20crackers%20directly%20from%20Classic%20Legend%20Crackers"
+                href="https://wa.me/917010849600?text=Hi,%20I%20want%20to%20order%20Diwali%20crackers%20directly%20from%20Classic%20Legend%20Crackers"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-emerald-900/30"
@@ -147,11 +147,7 @@ export const Footer = () => {
                   View Shopping Bag
                 </Link>
               </li>
-              <li>
-                <Link to="/admin/login" className="hover:text-red-400 transition-colors">
-                  Store Admin Portal
-                </Link>
-              </li>
+
             </ul>
           </div>
 
@@ -167,14 +163,14 @@ export const Footer = () => {
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-red-500 shrink-0" />
-                <a href="tel:+919840123456" className="hover:text-white transition-colors">
-                  +91 70108 49600 / +9186680 88481
+                <a href="tel:+917010849600" className="hover:text-white transition-colors font-semibold text-slate-200">
+                  +91 70108 49600
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-red-500 shrink-0" />
-                <a href="mailto:orders@classiclegendcrackers.com" className="hover:text-white transition-colors">
-                  orders@classiclegendcrackers.com
+                <a href="mailto:crackersclassiclegend@gmail.com" className="hover:text-white transition-colors">
+                  crackersclassiclegend@gmail.com
                 </a>
               </div>
             </div>

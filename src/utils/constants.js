@@ -1,4 +1,5 @@
 export const MIN_ORDER_AMOUNT = 3000;
+export const BRAND_LOGO_URL = 'https://res.cloudinary.com/yez0xdym/image/upload/v1790708530/1000240064.png';
 
 export const CATEGORIES = [
   { id: 'all', name: 'All Crackers', icon: 'Sparkles', count: 3250 },

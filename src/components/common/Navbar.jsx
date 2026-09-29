@@ -13,7 +13,7 @@ import {
   PhoneCall
 } from 'lucide-react';
 import { useCart } from '../../hooks/useCart';
-import { CATEGORIES } from '../../utils/constants';
+import { CATEGORIES, BRAND_LOGO_URL } from '../../utils/constants';
 import { categoryService } from '../../services/categoryService';
 import { GlobalSearchModal } from './GlobalSearchModal';
 
@@ -43,18 +43,12 @@ export const Navbar = () => {
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 sm:gap-2.5 shrink-0 group min-w-0">
-              <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center text-white shadow-md shadow-rose-500/20 group-hover:scale-105 transition-transform shrink-0">
-                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-amber-300 animate-pulse" />
-              </div>
-              <div className="flex flex-col min-w-0">
-                <span className="text-base sm:text-2xl font-bold font-heading tracking-tight text-slate-900 group-hover:text-rose-600 transition-colors leading-none">
-                  CLASSIC<span className="text-rose-600 font-bold">LEGEND</span>
-                </span>
-                <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium tracking-wider uppercase mt-0.5 sm:mt-1 truncate">
-                  Classic Legend Crackers Direct
-                </span>
-              </div>
+            <Link to="/" className="flex items-center gap-2 sm:gap-3 shrink-0 group min-w-0">
+              <img
+                src={BRAND_LOGO_URL}
+                alt="Classic Legend Crackers Logo"
+                className="h-10 sm:h-14 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-xs"
+              />
             </Link>
 
             {/* Global Search Bar (Desktop Trigger) */}

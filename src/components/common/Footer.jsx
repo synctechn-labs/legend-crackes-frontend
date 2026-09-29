@@ -14,6 +14,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { useToast } from '../../hooks/useToast';
+import { BRAND_LOGO_URL } from '../../utils/constants';
 
 export const Footer = () => {
   const { addToast } = useToast();
@@ -46,13 +47,12 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center text-white">
-                <Sparkles className="w-5 h-5 text-amber-300" />
-              </div>
-              <span className="text-2xl font-black font-heading text-white tracking-tight">
-                CLASSIC<span className="text-red-500">LEGEND</span>
-              </span>
+            <Link to="/" className="flex items-center gap-3">
+              <img
+                src={BRAND_LOGO_URL}
+                alt="Classic Legend Crackers Logo"
+                className="h-12 sm:h-14 w-auto object-contain brightness-110 drop-shadow-md"
+              />
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
               India's trusted direct-from-factory crackers e-commerce store. Providing premium eco-green sparklers, sky shots, flower pots, and family gift boxes directly to your doorstep since 2023.

@@ -94,7 +94,7 @@ export const AdminLogin = () => {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0 relative z-10">
         <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
           {/* Quick Demo Credentials Info Tag */}
-          <div className="p-3 bg-red-950/50 border border-red-800/40 rounded-2xl text-xs text-red-200 space-y-1">
+          {/* <div className="p-3 bg-red-950/50 border border-red-800/40 rounded-2xl text-xs text-red-200 space-y-1">
             <div className="flex items-center gap-1.5 font-bold text-red-300">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>FastAPI Backend Ready Credentials:</span>
@@ -102,7 +102,7 @@ export const AdminLogin = () => {
             <p className="text-[11px] text-slate-300 font-mono">
               Username: <strong className="text-white">admin</strong> | Password: <strong className="text-white">admin123</strong>
             </p>
-          </div>
+          </div> */}
 
           {/* Error Alert */}
           {error && (

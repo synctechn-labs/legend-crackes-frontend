@@ -31,18 +31,32 @@ export const Home = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Festive Countdown Timer to Diwali
-  const [timeLeft, setTimeLeft] = useState({ days: 34, hours: 14, minutes: 22, seconds: 48 });
+  // Real-Time Festive Countdown Timer to Diwali (Nov 8th)
+  const calculateDiwaliTimeLeft = () => {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    let diwaliTarget = new Date(currentYear, 10, 8, 0, 0, 0); // November 8th (Month 10 is Nov)
+
+    if (now.getTime() > diwaliTarget.getTime()) {
+      diwaliTarget = new Date(currentYear + 1, 10, 8, 0, 0, 0);
+    }
+
+    const diff = diwaliTarget.getTime() - now.getTime();
+    if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
+    return {
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((diff / (1000 * 60)) % 60),
+      seconds: Math.floor((diff / 1000) % 60)
+    };
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateDiwaliTimeLeft);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
-        if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        if (prev.days > 0) return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
-        return prev;
-      });
+      setTimeLeft(calculateDiwaliTimeLeft());
     }, 1000);
     return () => clearInterval(timer);
   }, []);
@@ -188,19 +202,19 @@ export const Home = () => {
                 {/* Countdown Box */}
                 <div className="grid grid-cols-4 gap-2 text-center">
                   <div className="bg-black/35 rounded-xl p-2 sm:p-2.5 border border-white/10">
-                    <span className="text-xl sm:text-2xl font-bold font-mono text-amber-400">{timeLeft.days}</span>
+                    <span className="text-xl sm:text-2xl font-bold font-mono text-amber-400">{String(timeLeft.days).padStart(2, '0')}</span>
                     <span className="block text-[10px] text-slate-300 uppercase font-medium">Days</span>
                   </div>
                   <div className="bg-black/35 rounded-xl p-2 sm:p-2.5 border border-white/10">
-                    <span className="text-xl sm:text-2xl font-bold font-mono text-amber-400">{timeLeft.hours}</span>
+                    <span className="text-xl sm:text-2xl font-bold font-mono text-amber-400">{String(timeLeft.hours).padStart(2, '0')}</span>
                     <span className="block text-[10px] text-slate-300 uppercase font-medium">Hours</span>
                   </div>
                   <div className="bg-black/35 rounded-xl p-2 sm:p-2.5 border border-white/10">
-                    <span className="text-xl sm:text-2xl font-bold font-mono text-amber-400">{timeLeft.minutes}</span>
+                    <span className="text-xl sm:text-2xl font-bold font-mono text-amber-400">{String(timeLeft.minutes).padStart(2, '0')}</span>
                     <span className="block text-[10px] text-slate-300 uppercase font-medium">Mins</span>
                   </div>
                   <div className="bg-black/35 rounded-xl p-2 sm:p-2.5 border border-white/10">
-                    <span className="text-xl sm:text-2xl font-bold font-mono text-amber-400">{timeLeft.seconds}</span>
+                    <span className="text-xl sm:text-2xl font-bold font-mono text-amber-400">{String(timeLeft.seconds).padStart(2, '0')}</span>
                     <span className="block text-[10px] text-slate-300 uppercase font-medium">Secs</span>
                   </div>
                 </div>

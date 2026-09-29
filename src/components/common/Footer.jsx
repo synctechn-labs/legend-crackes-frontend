@@ -47,8 +47,8 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-12 h-12 rounded-full border-2 border-red-500/40 bg-white p-1 flex items-center justify-center shrink-0 shadow-md overflow-hidden">
+            <Link to="/" className="flex items-center gap-3.5 group">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-red-500/40 bg-white p-1 sm:p-1.5 flex items-center justify-center shrink-0 shadow-md overflow-hidden">
                 <img
                   src={BRAND_LOGO_URL}
                   alt="Classic Legend Crackers Logo"

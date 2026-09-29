@@ -43,8 +43,8 @@ export const Navbar = () => {
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0 group min-w-0">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-rose-500/30 bg-white shadow-xs p-1 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:border-rose-600 transition-all overflow-hidden">
+            <Link to="/" className="flex items-center gap-2.5 sm:gap-3.5 shrink-0 group min-w-0">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-rose-500/30 bg-white shadow-xs p-1 sm:p-1.5 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:border-rose-600 transition-all overflow-hidden">
                 <img
                   src={BRAND_LOGO_URL}
                   alt="Classic Legend Crackers Logo"

@@ -38,7 +38,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-slate-900 text-slate-300 pt-16 pb-8 border-t-4 border-red-600">
+    <footer className="bg-slate-900 text-slate-300 pt-16 pb-28 lg:pb-8 border-t-4 border-red-600">
 
 
       {/* Main Footer Links */}

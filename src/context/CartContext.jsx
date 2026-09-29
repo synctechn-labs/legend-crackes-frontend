@@ -193,10 +193,10 @@ export const CartProvider = ({ children }) => {
     return 0;
   }, [appliedCoupon, subtotal]);
 
-  // Free shipping over ₹2000, otherwise safe hazardous material transport fee of ₹150
+  // Free shipping over ₹3000, otherwise safe hazardous material transport fee of ₹500
   const shippingFee = useMemo(() => {
     if (subtotal === 0) return 0;
-    return subtotal >= 2000 ? 0 : 150;
+    return subtotal >= 3000 ? 0 : 500;
   }, [subtotal]);
 
   const grandTotal = useMemo(() => {

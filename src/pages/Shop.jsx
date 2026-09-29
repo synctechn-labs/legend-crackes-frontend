@@ -38,10 +38,11 @@ export const Shop = () => {
   const [inStockOnly, setInStockOnly] = useState(false);
   const [viewMode, setViewMode] = useState('list'); // 'list' | 'grid'
 
+  const [itemsPerPage, setItemsPerPage] = useState(4);
   const [productsData, setProductsData] = useState({
     products: [],
     page: 1,
-    limit: 6,
+    limit: 4,
     total: 0,
     totalPages: 1
   });
@@ -122,7 +123,7 @@ export const Shop = () => {
 
         const data = await productService.getProducts({
           page,
-          limit: 6,
+          limit: itemsPerPage,
           category: selectedCategory,
           search: debouncedSearch,
           sortBy,
@@ -140,7 +141,7 @@ export const Shop = () => {
     };
 
     fetchProducts();
-  }, [page, selectedCategory, debouncedSearch, sortBy, priceRange, inStockOnly]);
+  }, [page, itemsPerPage, selectedCategory, debouncedSearch, sortBy, priceRange, inStockOnly]);
 
   const handleCategorySelect = (catId) => {
     setSelectedCategory(catId);
@@ -448,6 +449,10 @@ export const Shop = () => {
             onPageChange={(newPage) => {
               setPage(newPage);
               window.scrollTo({ top: 200, behavior: 'smooth' });
+            }}
+            onItemsPerPageChange={(newLimit) => {
+              setItemsPerPage(newLimit);
+              setPage(1);
             }}
           />
         </div>

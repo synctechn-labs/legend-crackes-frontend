@@ -26,7 +26,7 @@ export const About = () => {
             The Classic Legend Heritage
           </h1>
           <p className="text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Crafting the finest festive memories for Indian homes since 1994 with 100% legal CSIR-NEERI green fireworks and direct-from-factory wholesale value.
+            Crafting the finest festive memories for Indian homes since 2023 with 100% legal CSIR-NEERI green fireworks and direct-from-factory wholesale value.
           </p>
         </div>
       </section>
@@ -42,7 +42,7 @@ export const About = () => {
               From Sivakasi's Traditional Artisans to Your Family Celebration
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Nestled in the sun-drenched industrial heartland of Sivakasi, Tamil Nadu, <strong>Classic Legend Crackers</strong> was founded in 1994 by master pyrotechnicians with a singular passion: creating fireworks that burst with unmatched color vibrancy, crystal-clear acoustic timing, and zero duds.
+              Nestled in the sun-drenched industrial heartland of Sivakasi, Tamil Nadu, <strong>Classic Legend Crackers</strong> was founded in 2023   by master pyrotechnicians with a singular passion: creating fireworks that burst with unmatched color vibrancy, crystal-clear acoustic timing, and zero duds.
             </p>
             <p className="text-sm text-slate-600 leading-relaxed">
               Today, we have digitized the traditional crackers buying experience. Instead of dealing with seasonal middlemen and inflated retail prices, families across India can purchase directly from our manufacturing warehouses with absolute quality and safety assurance.
@@ -50,11 +50,11 @@ export const About = () => {
 
             <div className="grid grid-cols-2 gap-4 pt-2">
               <div className="p-4 rounded-2xl bg-red-50/70 border border-red-100">
-                <span className="text-2xl font-black font-heading text-red-600">30+ Years</span>
+                <span className="text-2xl font-black font-heading text-red-600">3+ Years</span>
                 <span className="block text-xs font-semibold text-slate-700 mt-0.5">Continuous Manufacturing</span>
               </div>
               <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-100">
-                <span className="text-2xl font-black font-heading text-amber-600">50,000+</span>
+                <span className="text-2xl font-black font-heading text-amber-600">1000+</span>
                 <span className="block text-xs font-semibold text-slate-700 mt-0.5">Satisfied Families</span>
               </div>
             </div>
@@ -119,7 +119,7 @@ export const About = () => {
               </div>
               <h3 className="font-heading font-bold text-lg text-slate-900">Direct Customer Trust</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Over 50,000 satisfied Indian households rely on us annually. Prompt replacement support if any damaged box occurs during transit.
+                Over 1000 satisfied Indian households rely on us annually. Prompt replacement support if any damaged box occurs during transit.
               </p>
             </div>
           </div>
@@ -166,7 +166,7 @@ export const About = () => {
               to="/shop"
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-white hover:bg-slate-100 text-red-600 font-bold text-xs rounded-2xl shadow-lg transition-transform active:scale-95"
             >
-              <span>Explore 3,000+ Crackers</span>
+              <span>Explore 500+ Crackers</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

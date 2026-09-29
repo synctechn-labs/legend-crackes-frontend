@@ -10,7 +10,8 @@ import {
   RotateCcw,
   CheckCircle,
   Send,
-  MessageCircle
+  MessageCircle,
+  ExternalLink
 } from 'lucide-react';
 import { useToast } from '../../hooks/useToast';
 
@@ -192,15 +193,24 @@ export const Footer = () => {
         </div>
       </div>
 
-      {/* Statutory Disclaimer & Copyright */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-800/80 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-        <p>
+      {/* Statutory Disclaimer, Copyright & Highlighted Developer Credit */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-800/80 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+        <p className="text-center md:text-left leading-relaxed">
           © 2026 Classic Legend Crackers Ltd. All Rights Reserved. As per Supreme Court guidelines, we sell only CSIR-NEERI certified green crackers.
         </p>
-        <div className="flex items-center gap-4">
-          <span>Safe Transport Packaging</span>
-          <span>•</span>
-          <span>Govt of India Reg. Fireworks</span>
+
+        {/* Highlighted Developer & Designer Credit Badge */}
+        <div className="flex items-center gap-2 bg-gradient-to-r from-slate-800 via-slate-800/90 to-slate-800 border border-amber-500/40 px-4 py-2 rounded-2xl shadow-md hover:border-amber-400 transition-all shrink-0">
+          <span className="text-slate-300 font-medium">Developed & Designed by</span>
+          <a
+            href="https://synctechn.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-extrabold text-amber-400 hover:text-amber-300 transition-colors underline underline-offset-4 decoration-amber-500/60 flex items-center gap-1 text-xs"
+          >
+            <span>synctechn.com</span>
+            <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
+          </a>
         </div>
       </div>
     </footer>

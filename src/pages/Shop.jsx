@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   Filter,
@@ -9,7 +9,9 @@ import {
   CheckCircle2,
   RefreshCw,
   LayoutGrid,
-  List
+  List,
+  ChevronDown,
+  Check
 } from 'lucide-react';
 import { productService } from '../services/productService';
 import { categoryService } from '../services/categoryService';
@@ -45,6 +47,19 @@ export const Shop = () => {
   });
   const [loading, setLoading] = useState(true);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const categoryDropdownRef = useRef(null);
+
+  // Close custom category popover on click outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(e.target)) {
+        setIsCategoryOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Debounced search term
   const debouncedSearch = useDebounce(searchQuery, 350);
@@ -165,45 +180,6 @@ export const Shop = () => {
         </div>
       </div>
 
-      {/* Mobile Top Controls Bar */}
-      <div className="lg:hidden sticky top-16 z-30 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xs p-2 flex items-center justify-between gap-2 text-xs font-bold text-slate-700">
-        {/* Mobile Category Filter Dropdown */}
-        <div className="flex-1 flex items-center gap-1.5 bg-slate-50 px-2.5 py-1.5 rounded-xl border border-slate-200 min-w-0">
-          <Filter className="w-4 h-4 text-red-600 shrink-0" />
-          <select
-            value={selectedCategory}
-            onChange={(e) => handleCategorySelect(e.target.value)}
-            className="bg-transparent text-slate-800 text-xs font-bold focus:outline-none w-full truncate"
-          >
-            <option value="all">All Crackers (Catalog)</option>
-            {categories.map((cat) => (
-              <option key={cat.id || cat.slug} value={cat.slug || cat.id}>
-                {cat.name} ({cat.count})
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl shrink-0">
-          <button
-            type="button"
-            onClick={() => setViewMode('list')}
-            className={`p-1.5 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-white shadow-xs text-red-600' : 'text-slate-500'}`}
-            title="List View"
-          >
-            <List className="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            onClick={() => setViewMode('grid')}
-            className={`p-1.5 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-white shadow-xs text-red-600' : 'text-slate-500'}`}
-            title="Grid View"
-          >
-            <LayoutGrid className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
       {/* Main Grid: Sidebar Filters + Products */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Desktop Sidebar Filters */}
@@ -293,10 +269,10 @@ export const Shop = () => {
 
         {/* Product Catalog Content */}
         <div className="lg:col-span-9 space-y-6">
-          {/* Controls Bar: Search, Category Filter Dropdown & View Switcher */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Single Unified Controls Bar: Search, Custom React Category Popover & View Switcher */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-xs flex flex-wrap items-center justify-between gap-3 sticky top-16 z-30 backdrop-blur-md bg-white/95">
             {/* Search Input with Debounce */}
-            <div className="relative w-full sm:w-72">
+            <div className="relative flex-1 min-w-[180px] sm:min-w-[240px]">
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
@@ -319,26 +295,80 @@ export const Shop = () => {
               )}
             </div>
 
-            <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-              {/* Category Filter Dropdown */}
-              <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4 text-red-600 shrink-0" />
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => handleCategorySelect(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 text-slate-800 text-xs font-bold rounded-xl px-3 py-2 focus:outline-none focus:border-red-500 max-w-48 sm:max-w-64 truncate cursor-pointer"
+            <div className="flex items-center gap-2.5 shrink-0">
+              {/* Custom React Category Filter Popover */}
+              <div className="relative" ref={categoryDropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                  className="flex items-center justify-between gap-2 px-3 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 transition-colors shadow-xs max-w-[190px] sm:max-w-[240px]"
                 >
-                  <option value="all">All Crackers (Catalog)</option>
-                  {categories.map((cat) => (
-                    <option key={cat.id || cat.slug} value={cat.slug || cat.id}>
-                      {cat.name} ({cat.count})
-                    </option>
-                  ))}
-                </select>
+                  <div className="flex items-center gap-1.5 truncate">
+                    <Filter className="w-4 h-4 text-red-600 shrink-0" />
+                    <span className="truncate">
+                      {selectedCategory === 'all' ? 'All Crackers (Catalog)' : (categories.find(c => c.slug === selectedCategory || String(c.id) === String(selectedCategory))?.name || selectedCategory)}
+                    </span>
+                  </div>
+                  <ChevronDown className={`w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform duration-200 ${isCategoryOpen ? 'rotate-180 text-red-600' : ''}`} />
+                </button>
+
+                {isCategoryOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-64 sm:w-72 max-h-80 overflow-y-auto bg-white rounded-2xl shadow-xl border border-slate-200/90 z-50 py-2 divide-y divide-slate-100 animate-in fade-in zoom-in-95">
+                    <div className="px-3.5 py-1.5 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
+                      Select Category
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleCategorySelect('all');
+                        setIsCategoryOpen(false);
+                      }}
+                      className={`w-full text-left px-3.5 py-2.5 text-xs font-bold flex items-center justify-between transition-colors ${
+                        selectedCategory === 'all'
+                          ? 'bg-rose-50 text-red-600'
+                          : 'text-slate-700 hover:bg-slate-50 hover:text-red-600'
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        {selectedCategory === 'all' && <Check className="w-3.5 h-3.5 text-red-600 shrink-0" />}
+                        <span>All Crackers (Catalog)</span>
+                      </span>
+                    </button>
+
+                    {categories.map((cat) => {
+                      const catIdentifier = cat.slug || String(cat.id);
+                      const isSelected = selectedCategory === catIdentifier || String(selectedCategory) === String(cat.id) || selectedCategory === cat.slug;
+                      return (
+                        <button
+                          key={cat.id || cat.slug}
+                          type="button"
+                          onClick={() => {
+                            handleCategorySelect(catIdentifier);
+                            setIsCategoryOpen(false);
+                          }}
+                          className={`w-full text-left px-3.5 py-2.5 text-xs font-bold flex items-center justify-between transition-colors ${
+                            isSelected
+                              ? 'bg-rose-50 text-red-600'
+                              : 'text-slate-700 hover:bg-slate-50 hover:text-red-600'
+                          }`}
+                        >
+                          <span className="flex items-center gap-2 truncate pr-2">
+                            {isSelected && <Check className="w-3.5 h-3.5 text-red-600 shrink-0" />}
+                            <span className="truncate">{cat.name}</span>
+                          </span>
+                          <span className={`text-[10px] font-semibold shrink-0 ${isSelected ? 'text-red-600' : 'text-slate-400'}`}>
+                            ({cat.count})
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
               {/* View Mode Switcher (Grid vs List) */}
-              <div className="hidden sm:flex items-center gap-1 bg-slate-100 p-1 rounded-xl shrink-0">
+              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl shrink-0">
                 <button
                   type="button"
                   onClick={() => setViewMode('list')}

@@ -112,33 +112,43 @@ export const Cart = () => {
         </button>
       </div>
 
-      {/* Minimum Order Value Alert & Milestone Progress */}
-      <div className={`rounded-2xl border p-4 shadow-xs transition-colors ${
+      {/* Minimum Order Value Alert Banner */}
+      <div className={`rounded-3xl border-2 p-5 sm:p-6 shadow-md transition-all ${
         subtotal < MIN_ORDER_AMOUNT
-          ? 'bg-amber-50/80 border-amber-200/80 text-amber-900'
-          : 'bg-emerald-50/80 border-emerald-200/80 text-emerald-900'
+          ? 'bg-gradient-to-r from-red-500/10 via-amber-500/10 to-rose-500/10 border-red-500/40 text-slate-900'
+          : 'bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-emerald-500/10 border-emerald-500/40 text-slate-900'
       }`}>
-        <div className="flex items-center justify-between text-xs mb-2">
-          <div className="flex items-center gap-2 font-bold">
-            <Sparkles className={`w-4 h-4 ${subtotal < MIN_ORDER_AMOUNT ? 'text-amber-600' : 'text-emerald-600'}`} />
-            {subtotal < MIN_ORDER_AMOUNT ? (
-              <span>
-                Minimum Order Amount: <strong>{formatCurrency(MIN_ORDER_AMOUNT)}</strong> • Add <strong className="text-rose-600 font-extrabold">{formatCurrency(remainingForMinOrder)}</strong> more to checkout!
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className={`px-2.5 py-0.5 rounded-full font-black text-[11px] uppercase tracking-wider ${
+                subtotal < MIN_ORDER_AMOUNT
+                  ? 'bg-red-600 text-white shadow-xs'
+                  : 'bg-emerald-600 text-white shadow-xs'
+              }`}>
+                {subtotal < MIN_ORDER_AMOUNT ? 'Mandatory Order Minimum: ₹3,000' : 'Order Minimum Achieved!'}
               </span>
-            ) : (
-              <span className="text-emerald-800 font-bold">
-                🎉 Minimum Order Limit (₹3,000) Unlocked! Free Delivery Included.
-              </span>
-            )}
+            </div>
+            <h3 className="font-heading font-extrabold text-base sm:text-lg text-slate-900">
+              {subtotal < MIN_ORDER_AMOUNT ? (
+                <>Add <span className="text-red-600 underline decoration-red-300 font-black">{formatCurrency(remainingForMinOrder)}</span> more to unlock direct checkout</>
+              ) : (
+                <>🎉 Minimum order of ₹3,000 satisfied! Free shipping unlocked.</>
+              )}
+            </h3>
           </div>
-          <span className="font-extrabold text-slate-600">{minOrderProgress}%</span>
+          <div className="shrink-0 text-right font-mono font-black text-lg text-slate-800 bg-white/80 px-3.5 py-1.5 rounded-2xl border border-slate-200">
+            {minOrderProgress}% Completed
+          </div>
         </div>
-        <div className="w-full h-2.5 bg-slate-200/80 rounded-full overflow-hidden">
+
+        {/* Progress bar */}
+        <div className="w-full h-3 bg-slate-200/80 rounded-full overflow-hidden p-0.5 border border-slate-200">
           <div
-            className={`h-full transition-all duration-500 ${
+            className={`h-full rounded-full transition-all duration-500 ${
               subtotal < MIN_ORDER_AMOUNT
-                ? 'bg-gradient-to-r from-rose-500 to-amber-500'
-                : 'bg-gradient-to-r from-emerald-500 to-teal-500'
+                ? 'bg-gradient-to-r from-rose-500 via-amber-500 to-red-600 shadow-xs'
+                : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-xs'
             }`}
             style={{ width: `${minOrderProgress}%` }}
           />

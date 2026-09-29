@@ -38,50 +38,7 @@ export const Footer = () => {
 
   return (
     <footer className="bg-slate-900 text-slate-300 pt-16 pb-8 border-t-4 border-red-600">
-      {/* Value Proposition Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 border-b border-slate-800">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-800/60 border border-slate-700/50">
-            <div className="w-12 h-12 rounded-xl bg-red-600/20 text-red-500 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="font-heading font-bold text-white text-sm">PESO & CSIR Certified</h4>
-              <p className="text-xs text-slate-400 mt-0.5">100% Legal & Approved Green Fireworks</p>
-            </div>
-          </div>
 
-          <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-800/60 border border-slate-700/50">
-            <div className="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
-              <Truck className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="font-heading font-bold text-white text-sm">Direct Sivakasi Dispatch</h4>
-              <p className="text-xs text-slate-400 mt-0.5">Pan-India safely packaged transport</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-800/60 border border-slate-700/50">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-              <CheckCircle className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="font-heading font-bold text-white text-sm">Direct Factory Rates</h4>
-              <p className="text-xs text-slate-400 mt-0.5">Save 50% to 65% vs city retail shops</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-800/60 border border-slate-700/50">
-            <div className="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
-              <RotateCcw className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="font-heading font-bold text-white text-sm">100% Tested Zero-Duds</h4>
-              <p className="text-xs text-slate-400 mt-0.5">Guaranteed sound, burst & sparkle</p>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Main Footer Links */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

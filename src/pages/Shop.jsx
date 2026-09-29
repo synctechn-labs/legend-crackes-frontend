@@ -155,19 +155,19 @@ export const Shop = () => {
       <div className="bg-gradient-to-r from-rose-600 via-rose-500 to-rose-700 rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
         <div className="max-w-2xl relative z-10 space-y-2">
           <span className="text-amber-300 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4" /> 100% Direct Factory Wholesaler
+            <Sparkles className="w-4 h-4" /> Direct Sivakasi Wholesaler Notice
           </span>
           <h1 className="text-2xl sm:text-4xl font-black font-heading leading-tight">
-            Complete Crackers Catalog (3,000+ Items)
+            Minimum Order Value: ₹3,000
           </h1>
-          <p className="text-xs sm:text-sm text-rose-100">
-            Browse our complete inventory with real-time stock and instant factory discounts.
+          <p className="text-xs sm:text-sm text-rose-100 font-medium">
+            <strong>Important:</strong> Wholesale factory discounts are applicable with a minimum order total of <strong>₹3,000</strong>.
           </p>
         </div>
       </div>
 
-      {/* Mobile Top Sort & Filter Bar (Matching Reference Image) */}
-      <div className="lg:hidden sticky top-16 z-30 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xs p-2 flex items-center justify-around gap-2 text-xs font-bold text-slate-700">
+      {/* Mobile Top Sort Bar (Matching Reference Image) */}
+      <div className="lg:hidden sticky top-16 z-30 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xs p-2 flex items-center justify-between gap-2 text-xs font-bold text-slate-700">
         <button
           type="button"
           onClick={() => {
@@ -179,17 +179,6 @@ export const Shop = () => {
         >
           <ArrowUpDown className="w-4 h-4 text-slate-500" />
           <span>Sort</span>
-        </button>
-
-        <div className="h-5 w-px bg-slate-200" />
-
-        <button
-          type="button"
-          onClick={() => setIsMobileFilterOpen(true)}
-          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition-colors"
-        >
-          <SlidersHorizontal className="w-4 h-4 text-red-600" />
-          <span>Filter {activeFiltersCount > 0 && `(${activeFiltersCount})`}</span>
         </button>
 
         <div className="h-5 w-px bg-slate-200" />

@@ -313,9 +313,9 @@ export const Shop = () => {
                 </button>
 
                 {isCategoryOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-64 sm:w-72 max-h-80 overflow-y-auto bg-white rounded-2xl shadow-xl border border-slate-200/90 z-50 py-2 divide-y divide-slate-100 animate-in fade-in zoom-in-95">
-                    <div className="px-3.5 py-1.5 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
-                      Select Category
+                  <div className="absolute left-0 sm:left-auto sm:right-0 top-full mt-2 w-[calc(100vw-3rem)] sm:w-72 max-h-80 overflow-y-auto bg-white rounded-2xl shadow-2xl border border-slate-300 ring-1 ring-black/5 z-50 py-2 divide-y divide-slate-100 animate-in fade-in zoom-in-95">
+                    <div className="px-4 py-2 text-[10px] font-extrabold text-slate-500 uppercase tracking-wider bg-slate-50/90 sticky top-0 backdrop-blur-md">
+                      Select Product Category
                     </div>
 
                     <button
@@ -324,16 +324,17 @@ export const Shop = () => {
                         handleCategorySelect('all');
                         setIsCategoryOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-2.5 text-xs font-bold flex items-center justify-between transition-colors ${
+                      className={`w-full text-left px-4 py-3 text-xs sm:text-sm font-bold flex items-center justify-between transition-colors ${
                         selectedCategory === 'all'
-                          ? 'bg-rose-50 text-red-600'
-                          : 'text-slate-700 hover:bg-slate-50 hover:text-red-600'
+                          ? 'bg-rose-50 text-red-600 font-black'
+                          : 'text-slate-800 hover:bg-slate-50 hover:text-red-600'
                       }`}
                     >
                       <span className="flex items-center gap-2">
-                        {selectedCategory === 'all' && <Check className="w-3.5 h-3.5 text-red-600 shrink-0" />}
+                        {selectedCategory === 'all' && <Check className="w-4 h-4 text-red-600 shrink-0" />}
                         <span>All Crackers (Catalog)</span>
                       </span>
+                      <span className="text-[10px] text-slate-400 font-mono font-normal">All</span>
                     </button>
 
                     {categories.map((cat) => {
@@ -347,18 +348,18 @@ export const Shop = () => {
                             handleCategorySelect(catIdentifier);
                             setIsCategoryOpen(false);
                           }}
-                          className={`w-full text-left px-3.5 py-2.5 text-xs font-bold flex items-center justify-between transition-colors ${
+                          className={`w-full text-left px-4 py-3 text-xs sm:text-sm font-bold flex items-center justify-between transition-colors ${
                             isSelected
-                              ? 'bg-rose-50 text-red-600'
-                              : 'text-slate-700 hover:bg-slate-50 hover:text-red-600'
+                              ? 'bg-rose-50 text-red-600 font-black'
+                              : 'text-slate-800 hover:bg-slate-50 hover:text-red-600'
                           }`}
                         >
                           <span className="flex items-center gap-2 truncate pr-2">
-                            {isSelected && <Check className="w-3.5 h-3.5 text-red-600 shrink-0" />}
+                            {isSelected && <Check className="w-4 h-4 text-red-600 shrink-0" />}
                             <span className="truncate">{cat.name}</span>
                           </span>
-                          <span className={`text-[10px] font-semibold shrink-0 ${isSelected ? 'text-red-600' : 'text-slate-400'}`}>
-                            ({cat.count})
+                          <span className={`text-[11px] font-mono px-2 py-0.5 rounded-full shrink-0 ${isSelected ? 'bg-red-100 text-red-700 font-bold' : 'bg-slate-100 text-slate-500'}`}>
+                            {cat.count}
                           </span>
                         </button>
                       );

@@ -59,10 +59,14 @@ export const Pagination = ({
           type="button"
           onClick={() => onPageChange(1)}
           disabled={currentPage <= 1}
-          className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-red-600 hover:bg-slate-50 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+          className={`p-2 rounded-xl border transition-all ${
+            currentPage <= 1
+              ? 'border-slate-200 text-slate-300 bg-slate-50/80 cursor-not-allowed'
+              : 'border-slate-200 text-slate-700 hover:text-red-600 hover:bg-red-50 hover:border-red-200 shadow-xs'
+          }`}
           title="First Page"
         >
-          <ChevronsLeft className="w-4 h-4" />
+          <ChevronsLeft className="w-4 h-4 stroke-[2.5]" />
         </button>
 
         {/* Previous */}
@@ -70,10 +74,14 @@ export const Pagination = ({
           type="button"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage <= 1}
-          className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-red-600 hover:bg-slate-50 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+          className={`p-2 rounded-xl border transition-all ${
+            currentPage <= 1
+              ? 'border-slate-200 text-slate-300 bg-slate-50/80 cursor-not-allowed'
+              : 'border-slate-200 text-slate-700 hover:text-red-600 hover:bg-red-50 hover:border-red-200 shadow-xs'
+          }`}
           title="Previous Page"
         >
-          <ChevronLeft className="w-4 h-4" />
+          <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
         </button>
 
         {/* Number Buttons */}
@@ -81,7 +89,7 @@ export const Pagination = ({
           {pages.map((p, idx) => {
             if (p === 'ellipsis-left' || p === 'ellipsis-right') {
               return (
-                <span key={`ellipsis-${idx}`} className="px-1 text-slate-400 text-xs select-none">
+                <span key={`ellipsis-${idx}`} className="px-1 text-slate-400 text-xs font-bold select-none">
                   …
                 </span>
               );
@@ -93,10 +101,10 @@ export const Pagination = ({
                 key={p}
                 type="button"
                 onClick={() => onPageChange(p)}
-                className={`w-8 h-8 sm:w-9 sm:h-9 text-xs sm:text-sm font-extrabold rounded-xl transition-all ${
+                className={`w-8 h-8 sm:w-9 sm:h-9 text-xs sm:text-sm font-black rounded-xl transition-all ${
                   isActive
-                    ? 'bg-red-600 text-white shadow-xs shadow-red-200'
-                    : 'text-slate-700 hover:bg-slate-100 border border-slate-200'
+                    ? 'bg-red-600 text-white shadow-md shadow-red-500/20 ring-2 ring-red-600 ring-offset-1'
+                    : 'text-slate-700 hover:bg-slate-100 hover:text-red-600 border border-slate-200'
                 }`}
               >
                 {p}
@@ -110,10 +118,14 @@ export const Pagination = ({
           type="button"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage >= safeTotalPages}
-          className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-red-600 hover:bg-slate-50 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+          className={`p-2 rounded-xl border transition-all ${
+            currentPage >= safeTotalPages
+              ? 'border-slate-200 text-slate-300 bg-slate-50/80 cursor-not-allowed'
+              : 'border-slate-200 text-slate-700 hover:text-red-600 hover:bg-red-50 hover:border-red-200 shadow-xs'
+          }`}
           title="Next Page"
         >
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-4 h-4 stroke-[2.5]" />
         </button>
 
         {/* Last Page */}
@@ -121,10 +133,14 @@ export const Pagination = ({
           type="button"
           onClick={() => onPageChange(safeTotalPages)}
           disabled={currentPage >= safeTotalPages}
-          className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-red-600 hover:bg-slate-50 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+          className={`p-2 rounded-xl border transition-all ${
+            currentPage >= safeTotalPages
+              ? 'border-slate-200 text-slate-300 bg-slate-50/80 cursor-not-allowed'
+              : 'border-slate-200 text-slate-700 hover:text-red-600 hover:bg-red-50 hover:border-red-200 shadow-xs'
+          }`}
           title="Last Page"
         >
-          <ChevronsRight className="w-4 h-4" />
+          <ChevronsRight className="w-4 h-4 stroke-[2.5]" />
         </button>
       </div>
     </div>

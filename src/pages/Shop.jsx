@@ -41,7 +41,7 @@ export const Shop = () => {
   const [productsData, setProductsData] = useState({
     products: [],
     page: 1,
-    limit: 12,
+    limit: 6,
     total: 0,
     totalPages: 1
   });
@@ -122,7 +122,7 @@ export const Shop = () => {
 
         const data = await productService.getProducts({
           page,
-          limit: 12,
+          limit: 6,
           category: selectedCategory,
           search: debouncedSearch,
           sortBy,

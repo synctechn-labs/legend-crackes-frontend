@@ -77,20 +77,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
               </h3>
             </Link>
 
-            {/* Ratings & Trust Badges */}
-            <div className="flex items-center gap-1.5 text-xs text-amber-500 pt-0.5">
-              <div className="flex items-center">
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                <Star className="w-3.5 h-3.5 fill-amber-400/30 text-amber-400" />
-              </div>
-              <span className="text-[11px] font-bold text-slate-700">4.8</span>
-              <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 ml-1">
-                ✔ Assured Green
-              </span>
-            </div>
+
           </div>
 
           {/* Pricing & Offer */}

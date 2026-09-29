@@ -13,10 +13,18 @@ export const Pagination = ({
   const startItem = totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
-  // Generate page numbers with smart ellipsis
+  // Generate page numbers cleanly: show all pages up to 10 without ellipsis
   const getPageNumbers = () => {
+    if (safeTotalPages <= 10) {
+      const pages = [];
+      for (let i = 1; i <= safeTotalPages; i++) {
+        pages.push(i);
+      }
+      return pages;
+    }
+
     const pages = [];
-    const delta = 1; // pages around current
+    const delta = 2; // Show 2 pages before and after current
 
     const left = Math.max(1, currentPage - delta);
     const right = Math.min(safeTotalPages, currentPage + delta);
@@ -112,11 +120,30 @@ export const Pagination = ({
         {/* Number Buttons */}
         <div className="flex items-center gap-1.5">
           {pages.map((p, idx) => {
-            if (p === 'ellipsis-left' || p === 'ellipsis-right') {
+            if (p === 'ellipsis-left') {
               return (
-                <span key={`ellipsis-${idx}`} className="px-1 text-slate-500 font-black text-xs select-none">
+                <button
+                  key={`ellipsis-left-${idx}`}
+                  type="button"
+                  onClick={() => onPageChange(Math.max(1, currentPage - 3))}
+                  className="px-2 text-slate-500 hover:text-red-600 font-black text-xs transition-colors"
+                  title="Jump 3 pages back"
+                >
                   …
-                </span>
+                </button>
+              );
+            }
+            if (p === 'ellipsis-right') {
+              return (
+                <button
+                  key={`ellipsis-right-${idx}`}
+                  type="button"
+                  onClick={() => onPageChange(Math.min(safeTotalPages, currentPage + 3))}
+                  className="px-2 text-slate-500 hover:text-red-600 font-black text-xs transition-colors"
+                  title="Jump 3 pages forward"
+                >
+                  …
+                </button>
               );
             }
 

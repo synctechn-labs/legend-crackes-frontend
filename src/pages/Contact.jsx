@@ -106,7 +106,7 @@ export const Contact = () => {
                 <div>
                   <span className="font-bold text-slate-900 block">Phone Support</span>
                   <a href="tel:+919840123456" className="text-slate-600 hover:text-red-600 block mt-0.5">
-                    +91 98401 23456 / +91 94431 88990
+                    +91 70108 49600
                   </a>
                   <span className="text-[11px] text-slate-400">Lines open 8:00 AM - 10:00 PM (Mon-Sun)</span>
                 </div>
@@ -243,7 +243,7 @@ export const Contact = () => {
           </div>
 
           {/* Interactive Sivakasi Map Visual Placeholder */}
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-xs space-y-3">
+          {/* <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-xs space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-red-600" />
@@ -254,10 +254,10 @@ export const Contact = () => {
               <span className="text-[11px] text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
                 Direct Dispatch Warehouse
               </span>
-            </div>
+            </div> */}
 
-            {/* Stylized Map View */}
-            <div className="w-full h-48 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 border border-slate-300 relative overflow-hidden flex items-center justify-center text-center p-4">
+          {/* Stylized Map View */}
+          {/* <div className="w-full h-48 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 border border-slate-300 relative overflow-hidden flex items-center justify-center text-center p-4">
               <div className="space-y-1">
                 <div className="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center mx-auto shadow-lg animate-bounce">
                   <MapPin className="w-5 h-5" />
@@ -274,7 +274,7 @@ export const Contact = () => {
                 </a>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

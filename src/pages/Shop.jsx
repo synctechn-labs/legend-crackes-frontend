@@ -88,19 +88,6 @@ export const Shop = () => {
     setSearchParams(params, { replace: true });
   }, [selectedCategory, debouncedSearch, sortBy, page, setSearchParams]);
 
-  // Sync state if URL query params change (e.g. Back/Forward button)
-  useEffect(() => {
-    const cat = searchParams.get('category') || 'all';
-    const q = searchParams.get('search') || '';
-    const s = searchParams.get('sortBy') || 'featured';
-    const p = parseInt(searchParams.get('page') || '1', 10);
-
-    if (cat !== selectedCategory) setSelectedCategory(cat);
-    if (q !== searchQuery) setSearchQuery(q);
-    if (s !== sortBy) setSortBy(s);
-    if (p !== page) setPage(p);
-  }, [searchParams]);
-
   // Fetch paginated products from API
   useEffect(() => {
     const fetchProducts = async () => {
@@ -442,7 +429,7 @@ export const Shop = () => {
 
           {/* Server-Side Pagination */}
           <Pagination
-            currentPage={productsData.page}
+            currentPage={page}
             totalPages={productsData.totalPages}
             totalItems={productsData.total}
             itemsPerPage={productsData.limit}

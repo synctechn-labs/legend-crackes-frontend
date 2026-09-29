@@ -132,9 +132,9 @@ export const Contact = () => {
                   <MapPin className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="font-bold text-slate-900 block">Factory & Warehouse Depot</span>
+                  <span className="font-bold text-slate-900 block">Factory Outlet & Sales Depot</span>
                   <p className="text-slate-600 mt-0.5 leading-relaxed">
-                    Classic Legend Fireworks Complex, 42/B, Sattur Main Road, Industrial Estate, Sivakasi, Tamil Nadu - 626123, India.
+                    Sivakasi to Vembakottai Main Road, Near Vembakottai Junction, Sivakasi, Virudhunagar District, Tamil Nadu - 626131.
                   </p>
                 </div>
               </div>
@@ -262,10 +262,10 @@ export const Contact = () => {
                 <div className="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center mx-auto shadow-lg animate-bounce">
                   <MapPin className="w-5 h-5" />
                 </div>
-                <h5 className="font-bold text-slate-800 text-xs">Classic Legend Fireworks Complex</h5>
-                <p className="text-[11px] text-slate-500">Sattur Road, Sivakasi (Virudhunagar Dist, TN - 626123)</p>
+                <h5 className="font-bold text-slate-800 text-xs">Factory Outlet & Sales Depot</h5>
+                <p className="text-[11px] text-slate-500">Sivakasi to Vembakottai Main Road, Near Vembakottai Junction, Sivakasi (TN - 626131)</p>
                 <a
-                  href="https://maps.google.com/?q=Sivakasi+Fireworks+Industrial+Estate"
+                  href="https://maps.google.com/?q=Vembakottai+Junction+Sivakasi"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block text-[11px] font-bold text-red-600 hover:underline mt-1"

@@ -57,7 +57,7 @@ export const Footer = () => {
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
               India's trusted direct-from-factory crackers e-commerce store. Providing premium eco-green sparklers, sky shots, flower pots, and family gift boxes directly to your doorstep since 1994.
             </p>
-            
+
             {/* WhatsApp Contact CTA */}
             <div className="pt-2">
               <a
@@ -153,7 +153,7 @@ export const Footer = () => {
             <div className="space-y-2.5 text-xs text-slate-400">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                <span>42/B, Sattur Road, Fireworks Industrial Estate, Sivakasi, Tamil Nadu - 626123</span>
+                <span>Factory Outlet & Sales Depot, Sivakasi to Vembakottai Main Road, Near Vembakottai Junction, Sivakasi, Virudhunagar District, Tamil Nadu - 626131</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-red-500 shrink-0" />
@@ -206,7 +206,7 @@ export const Footer = () => {
             href="https://synctechn.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-extrabold text-amber-400 hover:text-amber-300 transition-colors underline underline-offset-4 decoration-amber-500/60 flex items-center gap-1 text-xs"
+            className="font-semibold text-amber-400 hover:text-amber-300 transition-colors underline underline-offset-4 decoration-amber-500/60 flex items-center gap-1 text-xs"
           >
             <span>synctechn.com</span>
             <ExternalLink className="w-3.5 h-3.5 text-amber-400" />

@@ -3,7 +3,6 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   ShoppingBag,
   Zap,
-  Star,
   ShieldCheck,
   Truck,
   RotateCcw,
@@ -186,16 +185,7 @@ export const ProductDetails = () => {
               {product.name}
             </h1>
 
-            {/* Rating Stars */}
-            <div className="flex items-center gap-2 pt-1">
-              <div className="flex items-center text-amber-400">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-amber-400" />
-                ))}
-              </div>
-              <span className="text-sm font-bold text-slate-800">{product.rating || '4.8'}</span>
-              <span className="text-xs text-slate-400">({product.reviewsCount || 84} verified reviews)</span>
-            </div>
+
           </div>
 
           {/* Pricing Box (Public customer view) */}

@@ -167,7 +167,22 @@ export const Shop = () => {
 
       {/* Mobile Top Controls Bar */}
       <div className="lg:hidden sticky top-16 z-30 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xs p-2 flex items-center justify-between gap-2 text-xs font-bold text-slate-700">
-        <span className="text-xs font-bold text-slate-500 px-2 uppercase tracking-wider">Catalog</span>
+        {/* Mobile Category Filter Dropdown */}
+        <div className="flex-1 flex items-center gap-1.5 bg-slate-50 px-2.5 py-1.5 rounded-xl border border-slate-200 min-w-0">
+          <Filter className="w-4 h-4 text-red-600 shrink-0" />
+          <select
+            value={selectedCategory}
+            onChange={(e) => handleCategorySelect(e.target.value)}
+            className="bg-transparent text-slate-800 text-xs font-bold focus:outline-none w-full truncate"
+          >
+            <option value="all">All Crackers (Catalog)</option>
+            {categories.map((cat) => (
+              <option key={cat.id || cat.slug} value={cat.slug || cat.id}>
+                {cat.name} ({cat.count})
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl shrink-0">
           <button
@@ -278,10 +293,10 @@ export const Shop = () => {
 
         {/* Product Catalog Content */}
         <div className="lg:col-span-9 space-y-6">
-          {/* Controls Bar: Search & View Switcher */}
+          {/* Controls Bar: Search, Category Filter Dropdown & View Switcher */}
           <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
             {/* Search Input with Debounce */}
-            <div className="relative w-full sm:w-80">
+            <div className="relative w-full sm:w-72">
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
@@ -304,9 +319,26 @@ export const Shop = () => {
               )}
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+              {/* Category Filter Dropdown */}
+              <div className="flex items-center gap-2">
+                <Filter className="w-4 h-4 text-red-600 shrink-0" />
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => handleCategorySelect(e.target.value)}
+                  className="bg-slate-50 border border-slate-200 text-slate-800 text-xs font-bold rounded-xl px-3 py-2 focus:outline-none focus:border-red-500 max-w-48 sm:max-w-64 truncate cursor-pointer"
+                >
+                  <option value="all">All Crackers (Catalog)</option>
+                  {categories.map((cat) => (
+                    <option key={cat.id || cat.slug} value={cat.slug || cat.id}>
+                      {cat.name} ({cat.count})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               {/* View Mode Switcher (Grid vs List) */}
-              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
+              <div className="hidden sm:flex items-center gap-1 bg-slate-100 p-1 rounded-xl shrink-0">
                 <button
                   type="button"
                   onClick={() => setViewMode('list')}

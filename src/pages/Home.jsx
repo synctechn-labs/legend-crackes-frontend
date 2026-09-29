@@ -107,29 +107,9 @@ export const Home = () => {
             <div className="lg:col-span-7 space-y-5 text-center lg:text-left">
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/20 border border-rose-400/30 text-amber-300 text-xs sm:text-sm font-medium shadow-xs">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-spin" />
                   <span>Diwali 2026 Factory Wholesale Bookings Open!</span>
                 </div>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    const section = e.currentTarget.closest('section');
-                    if (section) {
-                      const rect = section.getBoundingClientRect();
-                      const clickEvent = new MouseEvent('click', {
-                        clientX: rect.left + rect.width * (0.25 + Math.random() * 0.5),
-                        clientY: rect.top + rect.height * 0.25,
-                        bubbles: true,
-                      });
-                      section.dispatchEvent(clickEvent);
-                    }
-                  }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/15 hover:bg-amber-400/25 border border-amber-400/40 text-amber-300 text-[11px] font-medium backdrop-blur-xs transition-transform hover:scale-105 active:scale-95 shadow-xs cursor-pointer"
-                >
-                  <Flame className="w-3 h-3 text-amber-400" />
-                  <span>✨ Tap to Burst Crackers</span>
-                </button>
+
               </div>
 
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold font-heading tracking-tight leading-[1.15] text-white drop-shadow-sm">
@@ -140,7 +120,7 @@ export const Home = () => {
               </h1>
 
               <p className="text-sm sm:text-base lg:text-lg text-slate-200/90 max-w-2xl leading-relaxed font-normal">
-                Experience authentic Sivakasi fireworks directly from certified manufacturers. Save up to <span className="font-semibold text-amber-300">65% direct factory discount</span> on over 3,000+ green crackers, aerial multi-shots, and curated family gift hampers.
+                Experience authentic Sivakasi fireworks directly from certified manufacturers. Save up to <span className="font-semibold text-amber-300">50% direct factory discount</span> on over 500+ green crackers, aerial multi-shots, and curated family gift hampers.
               </p>
 
               {/* Action Buttons */}
@@ -150,7 +130,7 @@ export const Home = () => {
                   className="w-full sm:w-auto px-7 py-3.5 bg-gradient-to-r from-rose-500 via-rose-600 to-red-500 hover:from-rose-600 hover:to-rose-700 text-white font-semibold text-sm sm:text-base rounded-2xl shadow-lg shadow-rose-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group"
                 >
                   <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-amber-300 group-hover:scale-110 transition-transform" />
-                  <span>Explore 3,000+ Catalog</span>
+                  <span>Explore 500+ Catalog</span>
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-1" />
                 </Link>
 
@@ -159,14 +139,14 @@ export const Home = () => {
                   className="w-full sm:w-auto px-6 py-3.5 bg-white/10 hover:bg-white/15 border border-white/20 backdrop-blur-md text-white font-medium text-sm sm:text-base rounded-2xl transition-all flex items-center justify-center gap-2"
                 >
                   <Gift className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
-                  <span>Family VIP Gift Boxes</span>
+                  <span>Family Gift Boxes</span>
                 </Link>
               </div>
 
               {/* Trust Badges */}
               <div className="pt-5 grid grid-cols-3 gap-2 sm:gap-4 border-t border-white/10 text-left">
                 <div className="bg-white/5 sm:bg-transparent rounded-xl p-2.5 sm:p-0">
-                  <p className="text-lg sm:text-2xl font-bold text-amber-400 font-heading">50,000+</p>
+                  <p className="text-lg sm:text-2xl font-bold text-amber-400 font-heading">1000+</p>
                   <p className="text-[11px] sm:text-xs text-slate-300 font-normal">Families Celebrated</p>
                 </div>
                 <div className="bg-white/5 sm:bg-transparent rounded-xl p-2.5 sm:p-0">
@@ -220,7 +200,7 @@ export const Home = () => {
                 </div>
 
                 {/* Promo Code Highlight */}
-                <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-amber-500/20 to-red-500/20 border border-amber-400/40 flex items-center justify-between gap-2">
+                {/* <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-amber-500/20 to-red-500/20 border border-amber-400/40 flex items-center justify-between gap-2">
                   <div>
                     <span className="text-[10px] sm:text-[11px] font-semibold text-amber-300 uppercase tracking-wider">Extra 10% Coupon</span>
                     <p className="text-sm sm:text-base font-bold font-mono text-white tracking-widest">DIWALI2026</p>
@@ -231,14 +211,14 @@ export const Home = () => {
                   >
                     Apply Now
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Categories Grid */}
+      {/* Featured Categories Grid (Top 8 Categories) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
@@ -250,24 +230,24 @@ export const Home = () => {
               Popular Cracker Categories
             </h2>
             <p className="text-sm text-slate-500 mt-1">
-              Select from over 17 specialized fireworks departments.
+              Select from our 8 popular fireworks departments.
             </p>
           </div>
           <Link
             to="/shop"
             className="inline-flex items-center gap-1.5 text-sm font-bold text-red-600 hover:text-red-700 transition-colors"
           >
-            <span>View All 17 Categories</span>
+            <span>View All Categories</span>
             <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {(categories.length > 0 ? categories.filter(c => c.id !== 'all') : CATEGORIES.slice(1, 13)).map((category) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5">
+          {(categories.length > 0 ? categories.filter(c => c.id !== 'all' && c.slug !== 'all') : CATEGORIES.slice(1)).slice(0, 8).map((category) => (
             <Link
-              key={category.id}
-              to={`/shop?category=${category.id}`}
-              className="group p-4 bg-white rounded-2xl border border-slate-200/80 hover:border-red-300 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden"
+              key={category.id || category.slug}
+              to={`/shop?category=${category.slug || category.id}`}
+              className="group p-4 sm:p-5 bg-white rounded-2xl border border-slate-200/80 hover:border-red-300 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden"
             >
               {category.isNew && (
                 <span className="absolute top-2 right-2 text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-amber-500 text-white shadow-2xs">
@@ -277,7 +257,7 @@ export const Home = () => {
               <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors flex items-center justify-center mb-3">
                 <Flame className="w-6 h-6" />
               </div>
-              <h3 className="font-heading font-bold text-slate-900 text-sm group-hover:text-red-600 transition-colors leading-tight truncate w-full">
+              <h3 className="font-heading font-bold text-slate-900 text-sm sm:text-base group-hover:text-red-600 transition-colors leading-tight truncate w-full">
                 {category.name}
               </h3>
               <span className="text-[11px] text-slate-400 font-medium mt-1">

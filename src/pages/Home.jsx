@@ -277,7 +277,7 @@ export const Home = () => {
               <span>Customer Favorites</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black font-heading text-slate-900 mt-1">
-              Best-Selling Sivakasi Crackers
+              Best-Selling Crackers
             </h2>
             <p className="text-sm text-slate-500 mt-1">
               Top-rated sparklers, aerial shots, and flower pots chosen by 50,000+ families.
@@ -387,7 +387,7 @@ export const Home = () => {
               Ready to Sparkle this Festive Season?
             </h2>
             <p className="text-sm sm:text-base text-slate-300">
-              Browse our complete catalog of 3,000+ Sivakasi crackers and place your order in under 2 minutes without needing an account.
+              Browse our complete catalog of 500+ Classic legend crackers and place your order in under{" "} 2 minutes without needing an account.
             </p>
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
@@ -395,7 +395,7 @@ export const Home = () => {
                 className="w-full sm:w-auto px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-bold rounded-2xl shadow-xl shadow-red-600/30 transition-all flex items-center justify-center gap-2"
               >
                 <Sparkles className="w-5 h-5 text-amber-300" />
-                <span>Shop All Crackers (3000+)</span>
+                <span>Shop All Crackers</span>
               </Link>
               <Link
                 to="/contact"

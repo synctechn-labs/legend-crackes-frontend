@@ -8,18 +8,17 @@ export const Pagination = ({
   itemsPerPage = 12,
   onPageChange,
 }) => {
-  if (totalPages <= 1) return null;
-
-  const startItem = (currentPage - 1) * itemsPerPage + 1;
+  const safeTotalPages = Math.max(1, totalPages);
+  const startItem = totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   // Generate page numbers with smart ellipsis
   const getPageNumbers = () => {
     const pages = [];
-    const delta = 2; // how many pages around current
+    const delta = 1; // pages around current
 
     const left = Math.max(1, currentPage - delta);
-    const right = Math.min(totalPages, currentPage + delta);
+    const right = Math.min(safeTotalPages, currentPage + delta);
 
     for (let i = left; i <= right; i++) {
       pages.push(i);
@@ -32,11 +31,11 @@ export const Pagination = ({
       pages.unshift(1);
     }
 
-    if (right < totalPages - 1) {
+    if (right < safeTotalPages - 1) {
       pages.push('ellipsis-right');
-      pages.push(totalPages);
-    } else if (right === totalPages - 1) {
-      pages.push(totalPages);
+      pages.push(safeTotalPages);
+    } else if (right === safeTotalPages - 1) {
+      pages.push(safeTotalPages);
     }
 
     return pages;
@@ -45,19 +44,22 @@ export const Pagination = ({
   const pages = getPageNumbers();
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-6 px-2">
-      <div className="text-sm text-slate-500">
-        Showing <span className="font-semibold text-slate-800">{startItem}</span> to{' '}
-        <span className="font-semibold text-slate-800">{endItem}</span> of{' '}
-        <span className="font-semibold text-slate-800">{totalItems.toLocaleString()}</span> products
+    <div className="bg-white rounded-2xl border border-slate-200/90 p-3.5 sm:p-4 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3 my-6">
+      {/* Items Count Summary */}
+      <div className="text-xs font-semibold text-slate-600 text-center sm:text-left">
+        Showing <span className="font-extrabold text-slate-900">{startItem}</span> -{' '}
+        <span className="font-extrabold text-slate-900">{endItem}</span> of{' '}
+        <span className="font-extrabold text-red-600">{totalItems.toLocaleString()}</span> products
       </div>
 
-      <div className="flex items-center gap-1.5">
+      {/* Pagination Controls */}
+      <div className="flex items-center gap-1.5 shrink-0">
         {/* First Page */}
         <button
+          type="button"
           onClick={() => onPageChange(1)}
-          disabled={currentPage === 1}
-          className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+          disabled={currentPage <= 1}
+          className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-red-600 hover:bg-slate-50 disabled:opacity-30 disabled:pointer-events-none transition-colors"
           title="First Page"
         >
           <ChevronsLeft className="w-4 h-4" />
@@ -65,9 +67,10 @@ export const Pagination = ({
 
         {/* Previous */}
         <button
+          type="button"
           onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+          disabled={currentPage <= 1}
+          className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-red-600 hover:bg-slate-50 disabled:opacity-30 disabled:pointer-events-none transition-colors"
           title="Previous Page"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -78,7 +81,7 @@ export const Pagination = ({
           {pages.map((p, idx) => {
             if (p === 'ellipsis-left' || p === 'ellipsis-right') {
               return (
-                <span key={`ellipsis-${idx}`} className="px-2 text-slate-400 select-none">
+                <span key={`ellipsis-${idx}`} className="px-1 text-slate-400 text-xs select-none">
                   …
                 </span>
               );
@@ -88,10 +91,11 @@ export const Pagination = ({
             return (
               <button
                 key={p}
+                type="button"
                 onClick={() => onPageChange(p)}
-                className={`min-w-9 h-9 px-2 text-sm font-semibold rounded-lg transition-all ${
+                className={`w-8 h-8 sm:w-9 sm:h-9 text-xs sm:text-sm font-extrabold rounded-xl transition-all ${
                   isActive
-                    ? 'bg-red-600 text-white shadow-sm shadow-red-200'
+                    ? 'bg-red-600 text-white shadow-xs shadow-red-200'
                     : 'text-slate-700 hover:bg-slate-100 border border-slate-200'
                 }`}
               >
@@ -103,9 +107,10 @@ export const Pagination = ({
 
         {/* Next */}
         <button
+          type="button"
           onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+          disabled={currentPage >= safeTotalPages}
+          className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-red-600 hover:bg-slate-50 disabled:opacity-30 disabled:pointer-events-none transition-colors"
           title="Next Page"
         >
           <ChevronRight className="w-4 h-4" />
@@ -113,9 +118,10 @@ export const Pagination = ({
 
         {/* Last Page */}
         <button
-          onClick={() => onPageChange(totalPages)}
-          disabled={currentPage === totalPages}
-          className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+          type="button"
+          onClick={() => onPageChange(safeTotalPages)}
+          disabled={currentPage >= safeTotalPages}
+          className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-red-600 hover:bg-slate-50 disabled:opacity-30 disabled:pointer-events-none transition-colors"
           title="Last Page"
         >
           <ChevronsRight className="w-4 h-4" />

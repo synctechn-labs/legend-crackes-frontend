@@ -74,7 +74,7 @@ export const Cart = () => {
         <div className="space-y-2">
           <h2 className="text-3xl font-black font-heading text-slate-900">Your Festive Bag is Empty</h2>
           <p className="text-sm text-slate-500 max-w-md mx-auto">
-            You haven't added any crackers or gift hampers yet. Explore our 3,000+ authentic Sivakasi catalog!
+            You haven't added any crackers or gift hampers yet. Explore our 500+ authentic Sivakasi catalog!
           </p>
         </div>
         <div className="pt-2">
@@ -113,19 +113,17 @@ export const Cart = () => {
       </div>
 
       {/* Minimum Order Value Alert Banner */}
-      <div className={`rounded-3xl border-2 p-5 sm:p-6 shadow-md transition-all ${
-        subtotal < MIN_ORDER_AMOUNT
+      <div className={`rounded-3xl border-2 p-5 sm:p-6 shadow-md transition-all ${subtotal < MIN_ORDER_AMOUNT
           ? 'bg-gradient-to-r from-red-500/10 via-amber-500/10 to-rose-500/10 border-red-500/40 text-slate-900'
           : 'bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-emerald-500/10 border-emerald-500/40 text-slate-900'
-      }`}>
+        }`}>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className={`px-2.5 py-0.5 rounded-full font-black text-[11px] uppercase tracking-wider ${
-                subtotal < MIN_ORDER_AMOUNT
+              <span className={`px-2.5 py-0.5 rounded-full font-black text-[11px] uppercase tracking-wider ${subtotal < MIN_ORDER_AMOUNT
                   ? 'bg-red-600 text-white shadow-xs'
                   : 'bg-emerald-600 text-white shadow-xs'
-              }`}>
+                }`}>
                 {subtotal < MIN_ORDER_AMOUNT ? 'Mandatory Order Minimum: ₹3,000' : 'Order Minimum Achieved!'}
               </span>
             </div>
@@ -145,11 +143,10 @@ export const Cart = () => {
         {/* Progress bar */}
         <div className="w-full h-3 bg-slate-200/80 rounded-full overflow-hidden p-0.5 border border-slate-200">
           <div
-            className={`h-full rounded-full transition-all duration-500 ${
-              subtotal < MIN_ORDER_AMOUNT
+            className={`h-full rounded-full transition-all duration-500 ${subtotal < MIN_ORDER_AMOUNT
                 ? 'bg-gradient-to-r from-rose-500 via-amber-500 to-red-600 shadow-xs'
                 : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-xs'
-            }`}
+              }`}
             style={{ width: `${minOrderProgress}%` }}
           />
         </div>

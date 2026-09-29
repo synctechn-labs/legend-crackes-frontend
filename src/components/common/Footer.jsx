@@ -47,12 +47,22 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="flex items-center gap-3">
-              <img
-                src={BRAND_LOGO_URL}
-                alt="Classic Legend Crackers Logo"
-                className="h-12 sm:h-14 w-auto object-contain brightness-110 drop-shadow-md"
-              />
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="w-12 h-12 rounded-full border-2 border-red-500/40 bg-white p-1 flex items-center justify-center shrink-0 shadow-md overflow-hidden">
+                <img
+                  src={BRAND_LOGO_URL}
+                  alt="Classic Legend Crackers Logo"
+                  className="w-full h-full object-contain rounded-full"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-2xl font-black font-heading text-white tracking-tight leading-none">
+                  CLASSIC<span className="text-red-500 font-extrabold">LEGEND</span>
+                </span>
+                <span className="text-[10px] text-slate-400 font-bold tracking-wider uppercase mt-1">
+                  Classic Legend Crackers Direct
+                </span>
+              </div>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
               India's trusted direct-from-factory crackers e-commerce store. Providing premium eco-green sparklers, sky shots, flower pots, and family gift boxes directly to your doorstep since 2023.

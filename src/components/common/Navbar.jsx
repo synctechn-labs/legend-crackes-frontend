@@ -43,12 +43,22 @@ export const Navbar = () => {
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 sm:gap-3 shrink-0 group min-w-0">
-              <img
-                src={BRAND_LOGO_URL}
-                alt="Classic Legend Crackers Logo"
-                className="h-10 sm:h-14 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-xs"
-              />
+            <Link to="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0 group min-w-0">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-rose-500/30 bg-white shadow-xs p-1 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:border-rose-600 transition-all overflow-hidden">
+                <img
+                  src={BRAND_LOGO_URL}
+                  alt="Classic Legend Crackers Logo"
+                  className="w-full h-full object-contain rounded-full"
+                />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-base sm:text-2xl font-black font-heading tracking-tight text-slate-900 group-hover:text-rose-600 transition-colors leading-none">
+                  CLASSIC<span className="text-rose-600 font-extrabold">LEGEND</span>
+                </span>
+                <span className="text-[9px] sm:text-[10px] text-slate-500 font-bold tracking-wider uppercase mt-0.5 sm:mt-1 truncate">
+                  Classic Legend Crackers
+                </span>
+              </div>
             </Link>
 
             {/* Global Search Bar (Desktop Trigger) */}

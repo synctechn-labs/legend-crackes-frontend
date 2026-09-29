@@ -45,11 +45,16 @@ export const AdminLayout = () => {
       {/* Mobile Admin Header */}
       <div className="lg:hidden bg-slate-900 text-white p-3.5 sm:p-4 flex items-center justify-between border-b border-slate-800 sticky top-0 z-30 shadow-md">
         <div className="flex items-center gap-2.5">
-          <img
-            src={BRAND_LOGO_URL}
-            alt="Classic Legend Logo"
-            className="h-8 w-auto object-contain brightness-110"
-          />
+          <div className="w-9 h-9 rounded-full border-2 border-red-500/40 bg-white p-0.5 flex items-center justify-center shrink-0 overflow-hidden shadow-xs">
+            <img
+              src={BRAND_LOGO_URL}
+              alt="Classic Legend Logo"
+              className="w-full h-full object-contain rounded-full"
+            />
+          </div>
+          <div>
+            <span className="font-heading font-black text-sm tracking-tight text-white block leading-none">CLASSIC LEGEND ADMIN</span>
+          </div>
         </div>
 
         <div className="flex items-center gap-2">
@@ -81,11 +86,21 @@ export const AdminLayout = () => {
         <div className="space-y-6">
           {/* Brand */}
           <div className="flex items-center gap-3 px-2 py-3 border-b border-slate-800">
-            <img
-              src={BRAND_LOGO_URL}
-              alt="Classic Legend Logo"
-              className="h-10 w-auto object-contain brightness-110"
-            />
+            <div className="w-11 h-11 rounded-full border-2 border-red-500/40 bg-white p-1 flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
+              <img
+                src={BRAND_LOGO_URL}
+                alt="Classic Legend Logo"
+                className="w-full h-full object-contain rounded-full"
+              />
+            </div>
+            <div>
+              <h2 className="font-heading font-black text-base tracking-tight leading-none text-white">
+                Classic<span className="text-red-500">Legend</span>
+              </h2>
+              <p className="text-[10px] text-slate-400 font-semibold tracking-wider uppercase mt-1">
+                Admin Central Ops
+              </p>
+            </div>
           </div>
 
           {/* Nav links */}

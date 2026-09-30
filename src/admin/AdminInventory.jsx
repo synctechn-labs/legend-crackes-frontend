@@ -68,6 +68,7 @@ export const AdminInventory = () => {
   // Form State
   const initialForm = {
     name: '',
+    tamilName: '',
     code: '',
     category: 'sparklers',
     categoryName: 'Sparklers',
@@ -140,6 +141,7 @@ export const AdminInventory = () => {
     setEditingProduct(product);
     setFormData({
       name: product.name || '',
+      tamilName: product.tamilName || product.tamil_name || '',
       code: product.code || '',
       category: product.category || 'sparklers',
       categoryName: product.categoryName || 'Sparklers',
@@ -177,6 +179,7 @@ export const AdminInventory = () => {
 
     const payload = {
       ...formData,
+      tamil_name: formData.tamilName,
       originalPrice: origP,
       sellingPrice: sellP,
       myPrice: myP,
@@ -388,6 +391,11 @@ export const AdminInventory = () => {
                               {product.code || `SKF-${product.id}`}
                             </span>
                             <h4 className="font-bold text-slate-900 truncate mt-0.5">{product.name}</h4>
+                            {(product.tamilName || product.tamil_name) && (
+                              <span className="text-[11px] font-semibold text-red-600 block truncate leading-tight">
+                                {product.tamilName || product.tamil_name}
+                              </span>
+                            )}
                             <span className="text-[11px] text-slate-400 block">{product.piecesPerBox}</span>
                           </div>
                         </div>
@@ -536,18 +544,34 @@ export const AdminInventory = () => {
 
             <form onSubmit={handleFormSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Product Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g. 15cm Electric Sparklers"
-                    required
-                    className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-red-500"
-                  />
+                <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Product Name (English) <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="e.g. 15cm Electric Sparklers"
+                      required
+                      className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-red-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1 flex items-center justify-between">
+                      <span>Second Name (Tamil)</span>
+                      <span className="text-[10px] text-red-600 font-bold">தமிழ் பெயர்</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.tamilName}
+                      onChange={(e) => setFormData({ ...formData, tamilName: e.target.value })}
+                      placeholder="எ.கா. 15செ.மீ மின்சார மத்தாப்பு"
+                      className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-red-500 font-sans"
+                    />
+                  </div>
                 </div>
 
                 <div>

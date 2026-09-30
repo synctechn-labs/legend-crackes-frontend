@@ -75,6 +75,11 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
               <h3 className="font-heading font-bold text-slate-900 text-sm sm:text-base leading-snug line-clamp-2 group-hover:text-red-600 transition-colors">
                 {product.name}
               </h3>
+              {(product.tamilName || product.tamil_name) && (
+                <span className="text-xs font-semibold text-red-600 block mt-0.5 font-sans">
+                  {product.tamilName || product.tamil_name}
+                </span>
+              )}
             </Link>
 
 
@@ -165,7 +170,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
           onError={(e) => {
             e.target.onerror = null;
-            e.target.src = 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80';
+            e.target.src = 'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=600&q=80';
           }}
         />
         {/* Subtle overlay gradient */}
@@ -190,10 +195,15 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
         </div>
 
         {/* Product Title */}
-        <Link to={`/product/${product.id}`} className="group-hover:text-red-600 transition-colors">
-          <h3 className="font-heading font-bold text-slate-900 text-base leading-snug line-clamp-2 min-h-11">
+        <Link to={`/product/${product.id}`} className="group-hover:text-red-600 transition-colors block">
+          <h3 className="font-heading font-bold text-slate-900 text-base leading-snug line-clamp-2">
             {product.name}
           </h3>
+          {(product.tamilName || product.tamil_name) && (
+            <span className="text-xs font-bold text-red-600 block mt-0.5 font-sans leading-tight">
+              {product.tamilName || product.tamil_name}
+            </span>
+          )}
         </Link>
 
         {/* Secondary Specs: Pieces & Sound */}

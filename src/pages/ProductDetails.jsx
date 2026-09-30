@@ -184,6 +184,11 @@ export const ProductDetails = () => {
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black font-heading text-slate-900 leading-tight">
               {product.name}
             </h1>
+            {(product.tamilName || product.tamil_name) && (
+              <h2 className="text-lg sm:text-xl font-bold text-red-600 font-sans mt-1">
+                {product.tamilName || product.tamil_name}
+              </h2>
+            )}
 
 
           </div>

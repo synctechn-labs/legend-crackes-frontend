@@ -136,6 +136,11 @@ export const GlobalSearchModal = ({ isOpen, onClose }) => {
                     <h4 className="text-sm font-semibold text-slate-900 group-hover:text-red-600 transition-colors truncate">
                       {product.name}
                     </h4>
+                    {(product.tamilName || product.tamil_name) && (
+                      <span className="text-xs font-semibold text-red-600 block truncate leading-tight">
+                        {product.tamilName || product.tamil_name}
+                      </span>
+                    )}
                   </div>
                   <div className="text-right shrink-0">
                     <div className="text-sm font-bold text-slate-900">{formatCurrency(product.sellingPrice)}</div>

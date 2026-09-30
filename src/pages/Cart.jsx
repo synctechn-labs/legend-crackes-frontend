@@ -205,6 +205,11 @@ export const Cart = () => {
                     >
                       {item.name}
                     </Link>
+                    {(item.tamilName || item.tamil_name) && (
+                      <span className="text-xs font-semibold text-red-600 block mt-0.5 font-sans">
+                        {item.tamilName || item.tamil_name}
+                      </span>
+                    )}
                     {item.piecesPerBox && (
                       <span className="text-[11px] text-slate-400 font-medium block mt-0.5">
                         {item.piecesPerBox}

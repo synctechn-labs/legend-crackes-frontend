@@ -68,6 +68,8 @@ export const CartProvider = ({ children }) => {
             id: product.id,
             code: product.code,
             name: product.name,
+            tamilName: product.tamilName || product.tamil_name,
+            tamil_name: product.tamilName || product.tamil_name,
             category: product.category,
             categoryName: product.categoryName,
             originalPrice: product.originalPrice,

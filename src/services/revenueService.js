@@ -1,7 +1,11 @@
 import apiClient, { executeApi } from './api';
 import { getStoredOrders } from '../utils/mockData';
 
-const revenueCache = {};
+let revenueCache = {};
+
+export const invalidateRevenueCache = () => {
+  revenueCache = {};
+};
 
 export const revenueService = {
   getRevenueAnalytics: async (timeRange = 'monthly', forceRefresh = false) => {
@@ -15,8 +19,9 @@ export const revenueService = {
       () => apiClient.get('/admin/revenue', { params: { range: timeRange } }),
       () => {
         const orders = getStoredOrders();
-        const totalRevenue = orders.reduce((acc, curr) => acc + (curr.total || 0), 0);
-        const orderCount = orders.length;
+        const activeOrders = orders.filter(o => (o.status || '').toLowerCase() !== 'cancelled');
+        const totalRevenue = activeOrders.reduce((acc, curr) => acc + (curr.total || 0), 0);
+        const orderCount = activeOrders.length;
         const averageOrderValue = orderCount > 0 ? Math.round(totalRevenue / orderCount) : 0;
 
         return {

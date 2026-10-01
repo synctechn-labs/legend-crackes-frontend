@@ -18,6 +18,8 @@ import {
   Download
 } from 'lucide-react';
 import { orderService } from '../services/orderService';
+import { invalidateDashboardCache } from '../services/dashboardService';
+import { invalidateRevenueCache } from '../services/revenueService';
 import { useToast } from '../hooks/useToast';
 import { formatCurrency, formatDate } from '../utils/formatters';
 import { ORDER_STATUSES, ORDER_STATUS_COLORS } from '../utils/constants';
@@ -64,6 +66,8 @@ export const AdminOrders = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       await orderService.updateOrderStatus(orderId, newStatus);
+      invalidateDashboardCache();
+      invalidateRevenueCache();
       addToast({
         title: 'Status Updated',
         message: `Order #${orderId} marked as ${newStatus}.`,

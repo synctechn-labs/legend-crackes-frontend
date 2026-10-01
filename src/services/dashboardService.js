@@ -3,6 +3,10 @@ import { getStoredOrders, getOrInitCatalog } from '../utils/mockData';
 
 let dashboardCache = { timestamp: 0, data: null };
 
+export const invalidateDashboardCache = () => {
+  dashboardCache = { timestamp: 0, data: null };
+};
+
 export const dashboardService = {
   getDashboardStats: async (forceRefresh = false) => {
     const now = Date.now();
@@ -14,13 +18,14 @@ export const dashboardService = {
       () => apiClient.get('/admin/dashboard/stats'),
       () => {
         const orders = getStoredOrders();
+        const activeOrders = orders.filter(o => (o.status || '').toLowerCase() !== 'cancelled');
         const products = getOrInitCatalog();
 
-        const totalRevenue = orders.reduce((acc, curr) => acc + (curr.total || 0), 0);
+        const totalRevenue = activeOrders.reduce((acc, curr) => acc + (curr.total || 0), 0);
         const todayRevenue = 0;
-        const totalOrders = orders.length;
-        const pendingOrders = orders.filter(o => o.status === 'Pending').length;
-        const completedOrders = orders.filter(o => o.status === 'Delivered').length;
+        const totalOrders = activeOrders.length;
+        const pendingOrders = activeOrders.filter(o => o.status === 'Pending').length;
+        const completedOrders = activeOrders.filter(o => o.status === 'Delivered').length;
 
         return {
           totalProducts: products.length,
@@ -34,7 +39,7 @@ export const dashboardService = {
           totalCost: 0,
           lowStockCount: 0,
           lowStockProducts: [],
-          recentOrders: orders.slice(0, 5),
+          recentOrders: activeOrders.slice(0, 5),
           revenueOverTime: [],
           categoryWiseSales: []
         };

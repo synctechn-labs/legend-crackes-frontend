@@ -1,9 +1,16 @@
 import apiClient, { executeApi } from './api';
 import { getStoredOrders, getOrInitCatalog } from '../utils/mockData';
 
+let dashboardCache = { timestamp: 0, data: null };
+
 export const dashboardService = {
-  getDashboardStats: async () => {
-    return executeApi(
+  getDashboardStats: async (forceRefresh = false) => {
+    const now = Date.now();
+    if (!forceRefresh && dashboardCache.data && (now - dashboardCache.timestamp) < 30000) {
+      return dashboardCache.data;
+    }
+
+    const res = await executeApi(
       () => apiClient.get('/admin/dashboard/stats'),
       () => {
         const orders = getStoredOrders();
@@ -33,5 +40,10 @@ export const dashboardService = {
         };
       }
     );
+
+    if (res) {
+      dashboardCache = { timestamp: now, data: res };
+    }
+    return res;
   }
 };

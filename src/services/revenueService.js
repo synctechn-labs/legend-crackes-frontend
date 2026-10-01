@@ -1,9 +1,17 @@
 import apiClient, { executeApi } from './api';
 import { getStoredOrders } from '../utils/mockData';
 
+const revenueCache = {};
+
 export const revenueService = {
-  getRevenueAnalytics: async (timeRange = 'monthly') => {
-    return executeApi(
+  getRevenueAnalytics: async (timeRange = 'monthly', forceRefresh = false) => {
+    const now = Date.now();
+    const entry = revenueCache[timeRange];
+    if (!forceRefresh && entry && (now - entry.timestamp) < 30000) {
+      return entry.data;
+    }
+
+    const res = await executeApi(
       () => apiClient.get('/admin/revenue', { params: { range: timeRange } }),
       () => {
         const orders = getStoredOrders();
@@ -27,5 +35,10 @@ export const revenueService = {
         };
       }
     );
+
+    if (res) {
+      revenueCache[timeRange] = { timestamp: now, data: res };
+    }
+    return res;
   }
 };

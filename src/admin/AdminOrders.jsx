@@ -25,6 +25,8 @@ import { formatCurrency, formatDate } from '../utils/formatters';
 import { ORDER_STATUSES, ORDER_STATUS_COLORS } from '../utils/constants';
 import { TableRowSkeleton } from '../components/common/SkeletonLoader';
 
+const cleanStr = (val) => String(val || '').replace(/^string:/i, '').trim();
+
 export const AdminOrders = () => {
   const { addToast } = useToast();
 
@@ -131,21 +133,25 @@ export const AdminOrders = () => {
     const printWindow = window.open('', '_blank');
     if (!printWindow) return;
 
+    const clean = (val) => String(val || '').replace(/^string:/i, '').trim();
+
     const itemsHtml = (ord.items || []).map((it, idx) => {
-      const itemName = it.name || it.product_name_snapshot || it.productName || `Cracker Item #${idx + 1}`;
-      const itemCode = it.code || it.product_code || '';
+      const itemName = clean(it.name || it.product_name_snapshot || it.productName || `Cracker Item #${idx + 1}`);
+      const itemCode = clean(it.code || it.product_code || '-');
       const unitPrice = Number(it.price || it.unit_price || 0);
       const qty = Number(it.quantity || 1);
       const lineTotal = Number(it.total || it.total_price || (unitPrice * qty));
+      
       return `
-        <tr>
-          <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">
-            <strong style="color: #0f172a;">${itemName}</strong>
-            ${itemCode ? `<br/><span style="color: #64748b; font-size: 11px; font-family: monospace;">Code: ${itemCode}</span>` : ''}
+        <tr style="background-color: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; border-bottom: 1px solid #e2e8f0;">
+          <td style="padding: 10px 12px; text-align: center; color: #64748b; font-size: 11px; font-weight: 600;">${idx + 1}</td>
+          <td style="padding: 10px 12px; font-family: monospace; font-size: 11px; font-weight: 700; color: #0f172a;">${itemCode}</td>
+          <td style="padding: 10px 12px;">
+            <div style="font-weight: 700; color: #0f172a; font-size: 13px;">${itemName}</div>
           </td>
-          <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: center; font-weight: bold;">${qty}</td>
-          <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right;">₹${unitPrice.toLocaleString('en-IN')}</td>
-          <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #0f172a;">₹${lineTotal.toLocaleString('en-IN')}</td>
+          <td style="padding: 10px 12px; text-align: center; font-weight: 800; color: #0f172a; font-size: 13px;">${qty}</td>
+          <td style="padding: 10px 12px; text-align: right; color: #334155; font-size: 12px;">₹${unitPrice.toLocaleString('en-IN')}</td>
+          <td style="padding: 10px 12px; text-align: right; font-weight: 800; color: #0f172a; font-size: 13px;">₹${lineTotal.toLocaleString('en-IN')}</td>
         </tr>
       `;
     }).join('');
@@ -154,64 +160,113 @@ export const AdminOrders = () => {
     const extraDiscPct = Number(ord.extraDiscountPercentage ?? ord.extra_discount_percentage ?? 0);
     const extraDiscAmt = Number(ord.extraDiscountAmount ?? ord.extra_discount_amount ?? 0);
     const finalTotal = Number(ord.finalTotal ?? ord.final_total_amount ?? (subtotal - extraDiscAmt));
+    const status = clean(ord.status || 'Confirmed');
+
+    const statusBg = status === 'Cancelled' ? '#ffe4e6' : status === 'Delivered' ? '#d1fae5' : '#e0f2fe';
+    const statusColor = status === 'Cancelled' ? '#e11d48' : status === 'Delivered' ? '#059669' : '#0284c7';
+
+    const customerName = clean(ord.customer?.name || 'Valued Customer');
+    const customerPhone = clean(ord.customer?.phone || '');
+    const customerEmail = clean(ord.customer?.email || '');
+    const customerAddress = clean(ord.customer?.address || '');
+    const customerCity = clean(ord.customer?.city || '');
+    const customerState = clean(ord.customer?.state || '');
+    const customerPincode = clean(ord.customer?.pincode || '');
 
     printWindow.document.write(`
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Invoice #${ord.id || ord.order_number}</title>
+          <meta charset="utf-8" />
+          <title>Invoice #${ord.id || ord.order_number} - Classic Legend Crackers</title>
           <style>
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1e293b; padding: 30px; margin: 0; background: #fff; }
-            .invoice-box { max-w-700px; margin: auto; border: 1px solid #cbd5e1; padding: 25px; border-radius: 16px; }
-            .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #dc2626; padding-bottom: 15px; margin-bottom: 20px; }
-            .brand { font-size: 24px; font-weight: 900; color: #dc2626; font-family: sans-serif; }
-            .inv-no { font-size: 14px; font-weight: 700; color: #475569; }
-            .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; font-size: 12px; }
-            .info-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 12px; }
+            @media print {
+              body { padding: 0 !important; background: #fff !important; }
+              .no-print { display: none !important; }
+              .invoice-card { border: none !important; box-shadow: none !important; width: 100% !important; max-width: none !important; padding: 0 !important; }
+            }
+            body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1e293b; background: #f1f5f9; margin: 0; padding: 24px; }
+            .invoice-card { max-width: 820px; margin: 0 auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 16px; padding: 32px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); }
+            .brand-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #dc2626; padding-bottom: 20px; margin-bottom: 24px; }
+            .brand-logo-title { display: flex; align-items: center; gap: 14px; }
+            .brand-logo { width: 56px; height: 56px; object-fit: contain; }
+            .brand-name { font-size: 22px; font-weight: 900; color: #dc2626; letter-spacing: -0.5px; text-transform: uppercase; }
+            .brand-sub { font-size: 11px; color: #64748b; margin-top: 2px; font-weight: 600; }
+            .invoice-title-block { text-align: right; }
+            .invoice-tag { font-size: 20px; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; }
+            .inv-id { font-size: 13px; font-weight: 800; color: #dc2626; margin-top: 2px; }
+            .inv-date { font-size: 11px; color: #64748b; margin-top: 2px; }
+            
+            .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+            .info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; }
+            .box-heading { font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+            .cust-name { font-size: 15px; font-weight: 800; color: #0f172a; }
+            .cust-detail { font-size: 12px; color: #475569; margin-top: 3px; line-height: 1.4; }
+            
+            .status-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase; background: ${statusBg}; color: ${statusColor}; margin-top: 6px; }
+            
             table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
-            th { background: #f1f5f9; padding: 10px; text-align: left; text-transform: uppercase; font-size: 11px; color: #475569; letter-spacing: 0.5px; }
-            .total-section { width: 320px; margin-left: auto; margin-top: 20px; font-size: 13px; }
-            .total-row { display: flex; justify-content: space-between; padding: 4px 0; }
-            .grand-total { border-top: 2px solid #e2e8f0; padding-top: 8px; margin-top: 6px; font-size: 18px; font-weight: 900; color: #dc2626; }
-            .footer { margin-top: 30px; text-align: center; font-size: 11px; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 15px; }
+            th { background: #0f172a; color: #ffffff; padding: 10px 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; border: none; }
+            th:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+            th:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+            
+            .summary-section { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 24px; }
+            .terms-box { max-width: 380px; font-size: 11px; color: #64748b; line-height: 1.5; }
+            .totals-table { width: 280px; font-size: 12px; }
+            .total-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f1f5f9; }
+            .grand-payable { border-top: 2px dashed #dc2626; border-bottom: 2px solid #dc2626; padding: 10px 0; font-size: 18px; font-weight: 900; color: #dc2626; margin-top: 6px; }
+            
+            .footer-notes { text-align: center; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 20px; margin-top: 30px; font-weight: 500; }
           </style>
         </head>
         <body>
-          <div class="invoice-box">
-            <div class="header">
-              <div>
-                <div class="brand">SIVAKASI FESTIVE CRACKERS</div>
-                <div style="font-size: 11px; color: #64748b;">Direct Sivakasi Factory Wholesale Booking</div>
+          <div class="invoice-card">
+            <div class="brand-bar">
+              <div class="brand-logo-title">
+                <img src="https://res.cloudinary.com/yez0xdym/image/upload/v1790708530/1000240064.png" class="brand-logo" alt="Classic Legend Crackers Logo" />
+                <div>
+                  <div class="brand-name">Classic Legend Crackers</div>
+                  <div class="brand-sub">Sivakasi Direct Factory Wholesale | Ph: +91 70108 49600</div>
+                </div>
               </div>
-              <div style="text-align: right;">
-                <div class="inv-no">INVOICE #${ord.id || ord.order_number}</div>
-                <div style="font-size: 11px; color: #64748b;">${formatDate(ord.createdAt)}</div>
+              <div class="invoice-title-block">
+                <div class="invoice-tag">TAX INVOICE</div>
+                <div class="inv-id">INVOICE #${ord.id || ord.order_number}</div>
+                <div class="inv-date">Date: ${formatDate(ord.createdAt)}</div>
               </div>
             </div>
 
-            <div class="grid">
-              <div class="info-card">
-                <strong style="color: #0f172a; text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px;">Customer Details</strong><br/>
-                <div style="font-weight: 700; font-size: 14px; margin-top: 4px; color: #0f172a;">${ord.customer?.name || 'Customer'}</div>
-                <div style="color: #475569; margin-top: 2px;">Phone: +91 ${ord.customer?.phone || 'N/A'}</div>
-                ${ord.customer?.email ? `<div style="color: #64748b;">Email: ${ord.customer.email}</div>` : ''}
+            <div class="meta-grid">
+              <div class="info-box">
+                <div class="box-heading">Billed To (Customer)</div>
+                <div class="cust-name">${customerName}</div>
+                <div class="cust-detail">
+                  ${customerPhone ? `Phone: <strong>+91 ${customerPhone}</strong><br/>` : ''}
+                  ${customerEmail ? `Email: ${customerEmail}` : ''}
+                </div>
               </div>
 
-              <div class="info-card">
-                <strong style="color: #0f172a; text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px;">Delivery Coordinates</strong><br/>
-                <div style="color: #334155; margin-top: 4px;">${ord.customer?.address || ''}</div>
-                <div style="font-weight: 700; color: #0f172a;">${ord.customer?.city || ''}, ${ord.customer?.state || ''} - ${ord.customer?.pincode || ''}</div>
-                <div style="color: #059669; font-weight: 600; font-size: 11px; margin-top: 4px;">Status: ${ord.status || 'Confirmed'}</div>
+              <div class="info-box">
+                <div class="box-heading">Delivery Address & Status</div>
+                <div class="cust-detail" style="font-weight: 600; color: #0f172a;">
+                  ${customerAddress ? `${customerAddress}<br/>` : ''}
+                  ${customerCity ? `${customerCity}, ` : ''}${customerState ? `${customerState} ` : ''}${customerPincode ? `- ${customerPincode}` : ''}
+                </div>
+                <div>
+                  <span class="status-badge">Status: ${status}</span>
+                </div>
               </div>
             </div>
 
             <table>
               <thead>
                 <tr>
-                  <th>Item Name</th>
-                  <th style="text-align: center;">Qty</th>
-                  <th style="text-align: right;">Unit Price</th>
-                  <th style="text-align: right;">Total</th>
+                  <th style="width: 40px; text-align: center;">S.No</th>
+                  <th style="width: 80px;">Code</th>
+                  <th>Product Variety</th>
+                  <th style="width: 60px; text-align: center;">Qty</th>
+                  <th style="width: 100px; text-align: right;">Unit Price</th>
+                  <th style="width: 110px; text-align: right;">Amount</th>
                 </tr>
               </thead>
               <tbody>
@@ -219,25 +274,34 @@ export const AdminOrders = () => {
               </tbody>
             </table>
 
-            <div class="total-section">
-              <div class="total-row">
-                <span>Order Subtotal:</span>
-                <span style="font-weight: 700;">₹${subtotal.toLocaleString('en-IN')}</span>
+            <div class="summary-section">
+              <div class="terms-box">
+                <strong style="color: #0f172a;">Terms & Guarantee:</strong><br/>
+                • All items are direct Sivakasi factory packed.<br/>
+                • Safe & legal non-hazardous transport guaranteed.<br/>
+                • Helpline: +91 70108 49600 (Mon - Sun)
               </div>
-              ${extraDiscPct > 0 ? `
-                <div class="total-row" style="color: #059669; font-weight: 600;">
-                  <span>Extra Discount:</span>
-                  <span>- ₹${extraDiscAmt.toLocaleString('en-IN')}</span>
+
+              <div class="totals-table">
+                <div class="total-row">
+                  <span style="color: #64748b;">Subtotal:</span>
+                  <span style="font-weight: 700; color: #0f172a;">₹${subtotal.toLocaleString('en-IN')}</span>
                 </div>
-              ` : ''}
-              <div class="total-row grand-total">
-                <span>Total Payable:</span>
-                <span>₹${finalTotal.toLocaleString('en-IN')}</span>
+                ${extraDiscPct > 0 ? `
+                  <div class="total-row" style="color: #059669;">
+                    <span>Extra Discount (${extraDiscPct}%):</span>
+                    <span style="font-weight: 700;">- ₹${extraDiscAmt.toLocaleString('en-IN')}</span>
+                  </div>
+                ` : ''}
+                <div class="total-row grand-payable">
+                  <span>Total Payable:</span>
+                  <span>₹${finalTotal.toLocaleString('en-IN')}</span>
+                </div>
               </div>
             </div>
 
-            <div class="footer">
-              Thank you for ordering authentic Sivakasi Crackers. Legal non-hazardous transport guaranteed.
+            <div class="footer-notes">
+              Thank you for choosing <strong>Classic Legend Crackers</strong>! Wish you a bright & happy celebration.
             </div>
           </div>
         </body>
@@ -353,13 +417,13 @@ export const AdminOrders = () => {
                       {/* Customer Info */}
                       <td className="py-3.5 px-4">
                         <div className="space-y-0.5">
-                          <span className="font-bold text-slate-900 block">{ord.customer?.name}</span>
+                          <span className="font-bold text-slate-900 block">{cleanStr(ord.customer?.name)}</span>
                           <span className="text-slate-500 flex items-center gap-1">
                             <Phone className="w-3 h-3 text-slate-400" />
-                            {ord.customer?.phone}
+                            {cleanStr(ord.customer?.phone)}
                           </span>
                           <span className="text-[11px] text-slate-400 block truncate max-w-xs">
-                            {ord.customer?.city}, {ord.customer?.state}
+                            {[cleanStr(ord.customer?.city), cleanStr(ord.customer?.state)].filter(Boolean).join(', ')}
                           </span>
                         </div>
                       </td>
@@ -470,22 +534,23 @@ export const AdminOrders = () => {
             {/* Customer & Address Details */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs">
               <div className="space-y-1">
-                <span className="font-bold text-slate-400 uppercase text-[10px] block">Customer</span>
-                <p className="font-bold text-sm text-slate-900">{activeOrder.customer?.name}</p>
-                <p className="text-slate-600">Phone: +91 {activeOrder.customer?.phone}</p>
+                <span className="font-bold text-slate-400 uppercase text-[10px] block">Customer Details</span>
+                <p className="font-bold text-sm text-slate-900">{cleanStr(activeOrder.customer?.name)}</p>
+                <p className="text-slate-600">Phone: +91 {cleanStr(activeOrder.customer?.phone)}</p>
                 {activeOrder.customer?.email && (
-                  <p className="text-slate-600">Email: {activeOrder.customer.email}</p>
+                  <p className="text-slate-600">Email: {cleanStr(activeOrder.customer.email)}</p>
                 )}
               </div>
 
               <div className="space-y-1">
                 <span className="font-bold text-slate-400 uppercase text-[10px] block">Delivery Coordinates</span>
-                <p className="text-slate-700">{activeOrder.customer?.address}</p>
+                <p className="text-slate-700">{cleanStr(activeOrder.customer?.address)}</p>
                 <p className="font-medium text-slate-900">
-                  {activeOrder.customer?.city}, {activeOrder.customer?.state} - {activeOrder.customer?.pincode}
+                  {[cleanStr(activeOrder.customer?.city), cleanStr(activeOrder.customer?.state)].filter(Boolean).join(', ')}
+                  {activeOrder.customer?.pincode ? ` - ${cleanStr(activeOrder.customer?.pincode)}` : ''}
                 </p>
                 {activeOrder.customer?.deliveryNotes && (
-                  <p className="text-slate-500 italic mt-1">Note: {activeOrder.customer.deliveryNotes}</p>
+                  <p className="text-slate-500 italic mt-1">Note: {cleanStr(activeOrder.customer.deliveryNotes)}</p>
                 )}
               </div>
             </div>

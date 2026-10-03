@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBag, Zap } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { formatCurrency } from '../../utils/formatters';
 import { useCart } from '../../hooks/useCart';
 
@@ -24,13 +24,6 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
     setIsAdding(true);
     addToCart(product, qty);
     setTimeout(() => setIsAdding(false), 500);
-  };
-
-  const handleBuyNow = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    addToCart(product, qty, true);
-    navigate('/checkout');
   };
 
   // Horizontal List View Mode (Matching Flipkart style screenshot)
@@ -127,15 +120,6 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
             >
               <ShoppingBag className="w-3.5 h-3.5" />
               <span>{isAdding ? 'Added!' : 'Add to Bag'}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleBuyNow}
-              className="hidden sm:inline-flex py-1.5 px-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-xl transition-all items-center gap-1"
-            >
-              <Zap className="w-3.5 h-3.5 text-amber-400" />
-              <span>Buy Now</span>
             </button>
           </div>
         </div>
@@ -279,16 +263,6 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
               {isAdding ? 'Added!' : 'Add to Bag'}
             </button>
           </div>
-
-          {/* Direct Buy Now Button */}
-          <button
-            type="button"
-            onClick={handleBuyNow}
-            className="w-full py-2 px-3 bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white text-xs font-semibold rounded-xl transition-all flex items-center justify-center gap-1.5"
-          >
-            <Zap className="w-3.5 h-3.5 text-amber-400" />
-            Buy Now Direct
-          </button>
         </div>
       </div>
     </div>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   ShoppingBag,
-  Zap,
   ShieldCheck,
   Truck,
   RotateCcw,
@@ -100,11 +99,6 @@ export const ProductDetails = () => {
     setIsAdding(true);
     addToCart(product, qty);
     setTimeout(() => setIsAdding(false), 500);
-  };
-
-  const handleBuyNow = () => {
-    addToCart(product, qty, true);
-    navigate('/checkout');
   };
 
   return (
@@ -282,16 +276,6 @@ export const ProductDetails = () => {
                 <span>{isAdding ? 'Adding to Bag...' : 'Add to Festive Bag'}</span>
               </button>
             </div>
-
-            {/* Direct Buy Now Button */}
-            <button
-              type="button"
-              onClick={handleBuyNow}
-              className="w-full py-3.5 px-6 bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white font-bold rounded-2xl shadow-md transition-all flex items-center justify-center gap-2 text-sm"
-            >
-              <Zap className="w-4 h-4 text-amber-400" />
-              <span>Instant Buy Now (Direct Checkout)</span>
-            </button>
           </div>
 
           {/* Safety Advice Box */}

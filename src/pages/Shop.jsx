@@ -163,7 +163,7 @@ export const Shop = () => {
             Minimum Order Value: ₹3000
           </h1>
           <p className="text-xs sm:text-sm text-rose-100 font-medium">
-            <strong>Important:</strong> Wholesale factory discounts are applicable with a minimum order total of <strong>₹500</strong>.
+            <strong>Important:</strong> Wholesale factory discounts are applicable with a minimum order total of <strong>₹3000</strong>.
           </p>
         </div>
       </div>

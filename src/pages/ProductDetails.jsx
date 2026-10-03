@@ -8,8 +8,6 @@ import {
   RotateCcw,
   Sparkles,
   Flame,
-  Volume2,
-  Clock,
   Package,
   AlertTriangle,
   ChevronRight,
@@ -230,26 +228,12 @@ export const ProductDetails = () => {
           </div>
 
           {/* Specifications Pills */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <div className="p-3 bg-white rounded-xl border border-slate-200">
+          <div>
+            <div className="p-3 bg-white rounded-xl border border-slate-200 inline-block min-w-[200px]">
               <span className="text-[10px] text-slate-400 font-bold uppercase block">Packing</span>
               <span className="text-xs font-bold text-slate-800 flex items-center gap-1 mt-0.5">
                 <Package className="w-3.5 h-3.5 text-red-500" />
                 {packingVal}
-              </span>
-            </div>
-            <div className="p-3 bg-white rounded-xl border border-slate-200">
-              <span className="text-[10px] text-slate-400 font-bold uppercase block">Sound / Light</span>
-              <span className="text-xs font-bold text-slate-800 flex items-center gap-1 mt-0.5 truncate">
-                <Volume2 className="w-3.5 h-3.5 text-amber-500" />
-                {product.soundLevel || 'Loud Crackle'}
-              </span>
-            </div>
-            <div className="p-3 bg-white rounded-xl border border-slate-200">
-              <span className="text-[10px] text-slate-400 font-bold uppercase block">Burn Duration</span>
-              <span className="text-xs font-bold text-slate-800 flex items-center gap-1 mt-0.5">
-                <Clock className="w-3.5 h-3.5 text-blue-500" />
-                {product.duration || '45 Seconds'}
               </span>
             </div>
           </div>

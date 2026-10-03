@@ -131,7 +131,7 @@ export const Cart = () => {
               {subtotal < MIN_ORDER_AMOUNT ? (
                 <>Add <span className="text-red-600 underline decoration-red-300 font-black">{formatCurrency(remainingForMinOrder)}</span> more to unlock direct checkout</>
               ) : (
-                <>🎉 Minimum order of ₹500 satisfied! Free shipping unlocked.</>
+                <>🎉 Minimum order of ₹500 satisfied!</>
               )}
             </h3>
           </div>

@@ -65,7 +65,7 @@ export const Checkout = () => {
           <AlertCircle className="w-10 h-10" />
         </div>
         <div className="space-y-2">
-          <h2 className="text-2xl font-black font-heading text-slate-900">Wholesale Minimum Order Value: ₹500</h2>
+          <h2 className="text-2xl font-black font-heading text-slate-900">Wholesale Minimum Order Value: ₹3000</h2>
           <p className="text-sm text-slate-600 max-w-md mx-auto">
             Your current order subtotal is <strong className="text-slate-900">{formatCurrency(subtotal)}</strong>. Please add <strong className="text-rose-600">{formatCurrency(remaining)}</strong> more crackers to fulfill the ₹500 minimum wholesale order requirement.
           </p>

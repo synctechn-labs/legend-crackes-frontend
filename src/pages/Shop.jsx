@@ -160,7 +160,7 @@ export const Shop = () => {
             <Sparkles className="w-4 h-4" /> Direct Sivakasi Wholesaler Notice
           </span>
           <h1 className="text-2xl sm:text-4xl font-black font-heading leading-tight">
-            Minimum Order Value: ₹500
+            Minimum Order Value: ₹3000
           </h1>
           <p className="text-xs sm:text-sm text-rose-100 font-medium">
             <strong>Important:</strong> Wholesale factory discounts are applicable with a minimum order total of <strong>₹500</strong>.

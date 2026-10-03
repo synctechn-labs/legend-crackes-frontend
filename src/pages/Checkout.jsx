@@ -27,6 +27,7 @@ export const Checkout = () => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    alternatePhone: '',
     email: '',
     address: '',
     city: '',
@@ -135,6 +136,7 @@ export const Checkout = () => {
         customer: {
           name: formData.name.trim(),
           phone: formData.phone.trim(),
+          alternatePhone: formData.alternatePhone.trim(),
           email: formData.email.trim(),
           address: formData.address.trim(),
           city: formData.city.trim(),
@@ -246,7 +248,22 @@ export const Checkout = () => {
                 {errors.phone && <p className="text-[11px] text-red-500 mt-1">{errors.phone}</p>}
               </div>
 
-              <div className="sm:col-span-2">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Alternate Mobile Number <span className="text-slate-400 font-normal">(Optional)</span>
+                </label>
+                <input
+                  type="tel"
+                  name="alternatePhone"
+                  value={formData.alternatePhone}
+                  onChange={handleChange}
+                  placeholder="10-digit number e.g. 9840987654"
+                  maxLength={10}
+                  className="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-red-500"
+                />
+              </div>
+
+              <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
                   Email Address <span className="text-slate-400 font-normal">(Optional for invoice copy)</span>
                 </label>

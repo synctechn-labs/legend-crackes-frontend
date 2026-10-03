@@ -320,6 +320,7 @@ export const AdminOrders = () => {
 
     const customerName = clean(ord.customer?.name || 'Valued Customer');
     const customerPhone = clean(ord.customer?.phone || '');
+    const customerAltPhone = clean(ord.customer?.alternatePhone || ord.customer?.alternate_phone || ord.customer_alternate_phone || '');
     const customerEmail = clean(ord.customer?.email || '');
     const customerAddress = clean(ord.customer?.address || '');
     const customerCity = clean(ord.customer?.city || '');
@@ -395,6 +396,7 @@ export const AdminOrders = () => {
                 <div class="cust-name">${customerName}</div>
                 <div class="cust-detail">
                   ${customerPhone ? `Phone: <strong>+91 ${customerPhone}</strong><br/>` : ''}
+                  ${customerAltPhone ? `Alt Phone: <strong>+91 ${customerAltPhone}</strong><br/>` : ''}
                   ${customerEmail ? `Email: ${customerEmail}` : ''}
                 </div>
               </div>
@@ -603,9 +605,12 @@ export const AdminOrders = () => {
                       <td className="py-3.5 px-4">
                         <div className="space-y-0.5">
                           <span className="font-bold text-slate-900 block">{cleanStr(ord.customer?.name)}</span>
-                          <span className="text-slate-500 flex items-center gap-1">
+                          <span className="text-slate-500 flex items-center gap-1 flex-wrap">
                             <Phone className="w-3 h-3 text-slate-400" />
-                            {cleanStr(ord.customer?.phone)}
+                            <span>{cleanStr(ord.customer?.phone)}</span>
+                            {(ord.customer?.alternatePhone || ord.customer?.alternate_phone || ord.customer_alternate_phone) && (
+                              <span className="text-[10px] text-slate-400 font-normal"> (Alt: {cleanStr(ord.customer?.alternatePhone || ord.customer?.alternate_phone || ord.customer_alternate_phone)})</span>
+                            )}
                           </span>
                           <span className="text-[11px] text-slate-400 block truncate max-w-xs">
                             {[cleanStr(ord.customer?.city), cleanStr(ord.customer?.state)].filter(Boolean).join(', ')}
@@ -740,6 +745,9 @@ export const AdminOrders = () => {
                 <span className="font-bold text-slate-400 uppercase text-[10px] block">Customer Details</span>
                 <p className="font-bold text-sm text-slate-900">{cleanStr(activeOrder.customer?.name)}</p>
                 <p className="text-slate-600">Phone: +91 {cleanStr(activeOrder.customer?.phone)}</p>
+                {(activeOrder.customer?.alternatePhone || activeOrder.customer?.alternate_phone || activeOrder.customer_alternate_phone) && (
+                  <p className="text-slate-600">Alt Phone: +91 {cleanStr(activeOrder.customer?.alternatePhone || activeOrder.customer?.alternate_phone || activeOrder.customer_alternate_phone)}</p>
+                )}
                 {activeOrder.customer?.email && (
                   <p className="text-slate-600">Email: {cleanStr(activeOrder.customer.email)}</p>
                 )}

@@ -96,5 +96,18 @@ export const orderService = {
         return { success: true };
       }
     );
+  },
+
+  // Admin route: delete order permanently
+  deleteOrder: async (orderId) => {
+    return executeApi(
+      () => apiClient.delete(`/admin/orders/${orderId}`),
+      () => {
+        const orders = getStoredOrders();
+        const filtered = orders.filter(o => String(o.id) !== String(orderId));
+        localStorage.setItem('sivakasi_crackers_orders_v1', JSON.stringify(filtered));
+        return { success: true, message: `Order #${orderId} deleted` };
+      }
+    );
   }
 };

@@ -23,7 +23,8 @@ import {
   FileText,
   Volume2,
   VolumeX,
-  Bell
+  Bell,
+  Trash2
 } from 'lucide-react';
 import { orderService } from '../services/orderService';
 import { invalidateDashboardCache } from '../services/dashboardService';
@@ -58,6 +59,7 @@ export const AdminOrders = () => {
   const [activeOrder, setActiveOrder] = useState(null); // for details modal
   const [extraDiscountInput, setExtraDiscountInput] = useState('');
   const [updatingDiscount, setUpdatingDiscount] = useState(false);
+  const [deletingOrderId, setDeletingOrderId] = useState(null);
 
   const [companySettings, setCompanySettings] = useState(() => {
     try {
@@ -247,6 +249,35 @@ export const AdminOrders = () => {
       });
     } finally {
       setUpdatingDiscount(false);
+    }
+  };
+
+  const handleDeleteOrder = async (orderId) => {
+    if (!window.confirm(`Are you sure you want to permanently delete Order #${orderId}? This action cannot be undone.`)) {
+      return;
+    }
+    setDeletingOrderId(orderId);
+    try {
+      await orderService.deleteOrder(orderId);
+      invalidateDashboardCache();
+      invalidateRevenueCache();
+      addToast({
+        title: 'Order Deleted',
+        message: `Order #${orderId} was permanently deleted.`,
+        type: 'success'
+      });
+      setOrders((prev) => prev.filter((o) => String(o.id) !== String(orderId)));
+      if (activeOrder && String(activeOrder.id) === String(orderId)) {
+        setActiveOrder(null);
+      }
+    } catch (err) {
+      addToast({
+        title: 'Delete Failed',
+        message: err.message || 'Could not delete order.',
+        type: 'error'
+      });
+    } finally {
+      setDeletingOrderId(null);
     }
   };
 
@@ -471,11 +502,10 @@ export const AdminOrders = () => {
                 playOrderNotificationSound();
               }
             }}
-            className={`px-3 py-2 border rounded-xl shadow-xs text-xs font-bold transition-all flex items-center gap-1.5 ${
-              soundEnabled
+            className={`px-3 py-2 border rounded-xl shadow-xs text-xs font-bold transition-all flex items-center gap-1.5 ${soundEnabled
                 ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
                 : 'bg-slate-100 border-slate-200 text-slate-500'
-            }`}
+              }`}
             title="Toggle Order Sound Alerts"
           >
             {soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-600 animate-pulse" /> : <VolumeX className="w-4 h-4 text-slate-400" />}
@@ -525,8 +555,8 @@ export const AdminOrders = () => {
               key={status}
               onClick={() => setSelectedStatus(status)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${selectedStatus === status
-                  ? 'bg-red-600 text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                ? 'bg-red-600 text-white shadow-xs'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
             >
               {status === 'all' ? 'All Orders' : status}
@@ -621,7 +651,7 @@ export const AdminOrders = () => {
                         </select>
                       </td>
 
-                      {/* Actions: Inspect + Print Invoice */}
+                      {/* Actions: Inspect + Print Invoice + Delete */}
                       <td className="py-3.5 px-4 text-right">
                         <div className="flex items-center justify-end gap-1.5">
                           <button
@@ -639,6 +669,15 @@ export const AdminOrders = () => {
                           >
                             <Eye className="w-3.5 h-3.5" />
                             <span>Inspect</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteOrder(ord.id)}
+                            disabled={deletingOrderId === ord.id}
+                            className="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 hover:text-rose-700 rounded-xl font-bold text-xs transition-colors border border-rose-200/60 disabled:opacity-50"
+                            title="Delete Order"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </td>
@@ -676,6 +715,15 @@ export const AdminOrders = () => {
                 >
                   <Printer className="w-3.5 h-3.5 text-amber-400" />
                   <span>Download Invoice</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteOrder(activeOrder.id)}
+                  disabled={deletingOrderId === activeOrder.id}
+                  className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5 disabled:opacity-50"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Delete</span>
                 </button>
                 <button
                   onClick={() => setActiveOrder(null)}
@@ -885,16 +933,6 @@ export const AdminOrders = () => {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">GSTIN / Tax ID</label>
-                  <input
-                    type="text"
-                    value={settingsForm.gstin}
-                    onChange={(e) => setSettingsForm({ ...settingsForm, gstin: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-red-500"
-                    placeholder="e.g. 33AAAAA0000A1Z5"
-                  />
-                </div>
                 <div>
                   <label className="font-bold text-slate-700 block mb-1">Contact Phone</label>
                   <input

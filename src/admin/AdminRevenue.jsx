@@ -83,7 +83,7 @@ export const AdminRevenue = () => {
         </div>
 
         <div className="bg-white rounded-2xl border border-emerald-200 bg-emerald-50/40 p-5 shadow-xs">
-          <span className="text-xs font-extrabold text-emerald-800 uppercase tracking-wider block">
+          <span className="text-xs font-semiblod text-emerald-800 uppercase tracking-wider block">
             Net Profit (My Price Margin)
           </span>
           <span className="text-2xl font-black text-emerald-700 font-heading mt-1 block">

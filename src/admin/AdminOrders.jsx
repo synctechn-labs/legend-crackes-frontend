@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ShoppingBag,
   Search,
@@ -15,7 +15,15 @@ import {
   Tag,
   Percent,
   Check,
-  Download
+  Download,
+  Settings,
+  Edit3,
+  Building,
+  Save,
+  FileText,
+  Volume2,
+  VolumeX,
+  Bell
 } from 'lucide-react';
 import { orderService } from '../services/orderService';
 import { invalidateDashboardCache } from '../services/dashboardService';
@@ -24,6 +32,19 @@ import { useToast } from '../hooks/useToast';
 import { formatCurrency, formatDate } from '../utils/formatters';
 import { ORDER_STATUSES, ORDER_STATUS_COLORS } from '../utils/constants';
 import { TableRowSkeleton } from '../components/common/SkeletonLoader';
+
+const DEFAULT_COMPANY_SETTINGS = {
+  companyName: 'Classic Legend Crackers',
+  tagline: 'Sivakasi Direct Factory Wholesale Crackers',
+  address: '142/B, Factory Main Road, Sivakasi, Tamil Nadu - 626123',
+  gstin: '33AABCC1234D1Z5',
+  phone: '+91 70108 49600',
+  email: 'classiclegendcrackers@gmail.com',
+  terms: `1. All items are direct Sivakasi factory packed and quality verified.\n2. Goods once sold will not be returned or exchanged.\n3. Transported via authorized legal non-hazardous cargo carriers.\n4. All disputes subject to Sivakasi Jurisdiction only.`,
+  signatoryTitle: 'For Classic Legend Crackers',
+  signatureName: 'Gugan SR',
+  signatureImg: ''
+};
 
 const cleanStr = (val) => String(val || '').replace(/^string:/i, '').trim();
 
@@ -37,6 +58,107 @@ export const AdminOrders = () => {
   const [activeOrder, setActiveOrder] = useState(null); // for details modal
   const [extraDiscountInput, setExtraDiscountInput] = useState('');
   const [updatingDiscount, setUpdatingDiscount] = useState(false);
+
+  const [companySettings, setCompanySettings] = useState(() => {
+    try {
+      const saved = localStorage.getItem('invoice_company_settings');
+      return saved ? { ...DEFAULT_COMPANY_SETTINGS, ...JSON.parse(saved) } : DEFAULT_COMPANY_SETTINGS;
+    } catch (e) {
+      return DEFAULT_COMPANY_SETTINGS;
+    }
+  });
+
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [settingsForm, setSettingsForm] = useState(companySettings);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const knownOrderIdsRef = useRef(null);
+
+  const playOrderNotificationSound = () => {
+    if (!soundEnabled) return;
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const playNote = (freq, startTime, duration) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, startTime);
+        gain.gain.setValueAtTime(0.3, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      };
+      const now = ctx.currentTime;
+      playNote(587.33, now, 0.35);      // D5 note
+      playNote(880, now + 0.15, 0.55);  // A5 note
+    } catch (e) {
+      console.warn('Audio play error:', e);
+    }
+  };
+
+  const handleSaveSettings = (e) => {
+    e?.preventDefault();
+    setCompanySettings(settingsForm);
+    localStorage.setItem('invoice_company_settings', JSON.stringify(settingsForm));
+    setShowSettingsModal(false);
+    addToast({
+      title: 'Invoice Settings Saved',
+      message: 'Company details, terms, and signature updated successfully.',
+      type: 'success'
+    });
+  };
+
+  const checkForNewOrders = async () => {
+    try {
+      const data = await orderService.getOrders({ limit: 50 });
+      const fetchedOrders = data.orders || [];
+      const fetchedIds = new Set(fetchedOrders.map((o) => String(o.id)));
+
+      if (knownOrderIdsRef.current !== null) {
+        const newOrders = fetchedOrders.filter((o) => !knownOrderIdsRef.current.has(String(o.id)));
+        if (newOrders.length > 0) {
+          playOrderNotificationSound();
+          newOrders.forEach((newOrd) => {
+            const custName = cleanStr(newOrd.customer?.name || 'Customer');
+            const amt = formatCurrency(newOrd.finalTotal || newOrd.total || 0);
+            addToast({
+              title: '🚨 NEW ORDER RECEIVED!',
+              message: `Order #${newOrd.id} by ${custName} for ${amt}`,
+              type: 'success'
+            });
+
+            if (window.Notification && Notification.permission === 'granted') {
+              new Notification(`🚨 New Order #${newOrd.id}`, {
+                body: `Customer: ${custName} | Total: ${amt}`,
+                icon: 'https://res.cloudinary.com/yez0xdym/image/upload/v1790708530/1000240064.png'
+              });
+            }
+          });
+          setOrders(fetchedOrders);
+        }
+      } else {
+        knownOrderIdsRef.current = fetchedIds;
+      }
+    } catch (err) {
+      console.error('Failed checking new orders:', err);
+    }
+  };
+
+  useEffect(() => {
+    if (window.Notification && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkForNewOrders();
+    }, 12000);
+    return () => clearInterval(interval);
+  }, [soundEnabled]);
 
   const loadOrders = async () => {
     setLoading(true);
@@ -96,7 +218,7 @@ export const AdminOrders = () => {
     try {
       const pct = parseFloat(extraDiscountInput) || 0;
       const updatedOrder = await orderService.updateExtraDiscount(activeOrder.id, pct);
-      
+
       const orderSubtotal = Number(updatedOrder.total || updatedOrder.subtotal || 0);
       const extraDiscAmt = Number(updatedOrder.extraDiscountAmount ?? updatedOrder.extra_discount_amount ?? 0);
       const finalVal = updatedOrder.finalTotal ?? updatedOrder.final_total_amount ?? (orderSubtotal - extraDiscAmt);
@@ -141,7 +263,7 @@ export const AdminOrders = () => {
       const unitPrice = Number(it.price || it.unit_price || 0);
       const qty = Number(it.quantity || 1);
       const lineTotal = Number(it.total || it.total_price || (unitPrice * qty));
-      
+
       return `
         <tr style="background-color: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; border-bottom: 1px solid #e2e8f0;">
           <td style="padding: 10px 12px; text-align: center; color: #64748b; font-size: 11px; font-weight: 600;">${idx + 1}</td>
@@ -317,7 +439,7 @@ export const AdminOrders = () => {
   // Helper calculations for activeOrder inspection modal
   const orderSubtotal = Number(activeOrder?.total || activeOrder?.subtotal || 0);
   const extraDiscPct = Number(activeOrder?.extraDiscountPercentage ?? activeOrder?.extra_discount_percentage ?? 0);
-  
+
   const orderProfitBeforeExtra = activeOrder?.items?.reduce((acc, item) => {
     const sellP = Number(item.price || item.unit_price || 0);
     const myP = Number(item.myPrice || item.my_price || sellP * 0.5);
@@ -340,14 +462,48 @@ export const AdminOrders = () => {
             Dispatch queue, customer contact details, profit control, and order invoices.
           </p>
         </div>
-        <button
-          onClick={loadOrders}
-          className="p-2 text-slate-600 hover:text-slate-900 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 shadow-xs w-fit flex items-center gap-1.5 text-xs font-bold"
-          title="Refresh Orders"
-        >
-          <RefreshCw className="w-4 h-4" />
-          <span>Refresh</span>
-        </button>
+        <div className="flex items-center gap-2 flex-wrap">
+          <button
+            type="button"
+            onClick={() => {
+              setSoundEnabled((prev) => !prev);
+              if (!soundEnabled) {
+                playOrderNotificationSound();
+              }
+            }}
+            className={`px-3 py-2 border rounded-xl shadow-xs text-xs font-bold transition-all flex items-center gap-1.5 ${
+              soundEnabled
+                ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
+                : 'bg-slate-100 border-slate-200 text-slate-500'
+            }`}
+            title="Toggle Order Sound Alerts"
+          >
+            {soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-600 animate-pulse" /> : <VolumeX className="w-4 h-4 text-slate-400" />}
+            <span>Sound Alerts: {soundEnabled ? 'ON' : 'OFF'}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setSettingsForm(companySettings);
+              setShowSettingsModal(true);
+            }}
+            className="px-3.5 py-2 text-slate-700 hover:text-slate-900 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 shadow-xs flex items-center gap-1.5 text-xs font-bold transition-colors"
+          >
+            <Settings className="w-4 h-4 text-red-600" />
+            <span>Invoice Settings</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={loadOrders}
+            className="p-2 text-slate-600 hover:text-slate-900 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 shadow-xs flex items-center gap-1.5 text-xs font-bold"
+            title="Refresh Orders"
+          >
+            <RefreshCw className="w-4 h-4" />
+            <span>Refresh</span>
+          </button>
+        </div>
       </div>
 
       {/* Filter and Search Bar */}
@@ -368,11 +524,10 @@ export const AdminOrders = () => {
             <button
               key={status}
               onClick={() => setSelectedStatus(status)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${
-                selectedStatus === status
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${selectedStatus === status
                   ? 'bg-red-600 text-white shadow-xs'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-              }`}
+                }`}
             >
               {status === 'all' ? 'All Orders' : status}
             </button>
@@ -682,6 +837,156 @@ export const AdminOrders = () => {
                 )}
               </div>
             </div>
+          </div>
+        </div>
+      )}
+      {/* Invoice & Company Settings Modal */}
+      {showSettingsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-xs animate-fade-in">
+          <div className="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-5 sm:p-7 shadow-2xl border border-slate-200 space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2.5 bg-red-100 text-red-600 rounded-2xl">
+                  <Building className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-heading font-black text-lg text-slate-900">
+                    Invoice & Company Settings
+                  </h3>
+                  <p className="text-xs text-slate-500">Edit company details, tax ID, terms, and signature for invoices.</p>
+                </div>
+              </div>
+              <button onClick={() => setShowSettingsModal(false)} className="text-slate-400 hover:text-slate-600 p-1">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveSettings} className="space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Company Name</label>
+                  <input
+                    type="text"
+                    value={settingsForm.companyName}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, companyName: e.target.value })}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-red-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Tagline / Subtitle</label>
+                  <input
+                    type="text"
+                    value={settingsForm.tagline}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, tagline: e.target.value })}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-red-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">GSTIN / Tax ID</label>
+                  <input
+                    type="text"
+                    value={settingsForm.gstin}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, gstin: e.target.value })}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-red-500"
+                    placeholder="e.g. 33AAAAA0000A1Z5"
+                  />
+                </div>
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Contact Phone</label>
+                  <input
+                    type="text"
+                    value={settingsForm.phone}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, phone: e.target.value })}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-red-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Contact Email</label>
+                  <input
+                    type="email"
+                    value={settingsForm.email}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, email: e.target.value })}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-red-500"
+                  />
+                </div>
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Factory / Company Address</label>
+                  <input
+                    type="text"
+                    value={settingsForm.address}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, address: e.target.value })}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-red-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="font-bold text-slate-700 block mb-1">Terms & Conditions (One per line)</label>
+                <textarea
+                  rows={4}
+                  value={settingsForm.terms}
+                  onChange={(e) => setSettingsForm({ ...settingsForm, terms: e.target.value })}
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs focus:outline-none focus:border-red-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-slate-50 border border-slate-200 rounded-2xl">
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Signatory Title</label>
+                  <input
+                    type="text"
+                    value={settingsForm.signatoryTitle}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, signatoryTitle: e.target.value })}
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-red-500"
+                    placeholder="For Classic Legend Crackers"
+                  />
+                </div>
+                <div>
+                  <label className="font-bold text-slate-700 block mb-1">Signatory Label / Name</label>
+                  <input
+                    type="text"
+                    value={settingsForm.signatureName}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, signatureName: e.target.value })}
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-red-500"
+                    placeholder="Authorized Signatory"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="font-bold text-slate-700 block mb-1">Signature Image URL (Optional)</label>
+                  <input
+                    type="text"
+                    value={settingsForm.signatureImg}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, signatureImg: e.target.value })}
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl font-mono text-xs focus:outline-none focus:border-red-500"
+                    placeholder="https://... image link or leave empty for script signature"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setShowSettingsModal(false)}
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow-xs flex items-center gap-1.5"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>Save Invoice Settings</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

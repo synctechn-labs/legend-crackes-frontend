@@ -160,10 +160,10 @@ export const Shop = () => {
             <Sparkles className="w-4 h-4" /> Direct Sivakasi Wholesaler Notice
           </span>
           <h1 className="text-2xl sm:text-4xl font-black font-heading leading-tight">
-            Minimum Order Value: ₹3,000
+            Minimum Order Value: ₹500
           </h1>
           <p className="text-xs sm:text-sm text-rose-100 font-medium">
-            <strong>Important:</strong> Wholesale factory discounts are applicable with a minimum order total of <strong>₹3,000</strong>.
+            <strong>Important:</strong> Wholesale factory discounts are applicable with a minimum order total of <strong>₹500</strong>.
           </p>
         </div>
       </div>
@@ -205,11 +205,10 @@ export const Shop = () => {
                     key={cat.id || cat.slug}
                     type="button"
                     onClick={() => handleCategorySelect(catIdentifier)}
-                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-medium transition-all flex items-center justify-between ${
-                      isSelected
-                        ? 'bg-rose-500 text-white font-bold shadow-xs shadow-rose-200'
-                        : 'text-slate-700 hover:bg-slate-100'
-                    }`}
+                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-medium transition-all flex items-center justify-between ${isSelected
+                      ? 'bg-rose-500 text-white font-bold shadow-xs shadow-rose-200'
+                      : 'text-slate-700 hover:bg-slate-100'
+                      }`}
                   >
                     <span className="truncate">{cat.name}</span>
                     <span className={`text-[10px] ${isSelected ? 'text-rose-100' : 'text-slate-400'}`}>
@@ -302,7 +301,7 @@ export const Shop = () => {
 
                 {isCategoryOpen && (
                   <div className="absolute left-0 sm:left-auto sm:right-0 top-full mt-2 w-[calc(100vw-3rem)] sm:w-72 max-h-80 overflow-y-auto bg-white rounded-2xl shadow-2xl border border-slate-300 ring-1 ring-black/5 z-50 py-2 divide-y divide-slate-100 animate-in fade-in zoom-in-95">
-                    <div className="px-4 py-2 text-[10px] font-extrabold text-slate-500 uppercase tracking-wider bg-slate-50/90 sticky top-0 backdrop-blur-md">
+                    <div className="px-4 py-2 text-[10px] font-semiblod text-slate-500 uppercase tracking-wider bg-slate-50/90 sticky top-0 backdrop-blur-md">
                       Select Product Category
                     </div>
 
@@ -312,11 +311,10 @@ export const Shop = () => {
                         handleCategorySelect('all');
                         setIsCategoryOpen(false);
                       }}
-                      className={`w-full text-left px-4 py-3 text-xs sm:text-sm font-bold flex items-center justify-between transition-colors ${
-                        selectedCategory === 'all'
-                          ? 'bg-rose-50 text-red-600 font-black'
-                          : 'text-slate-800 hover:bg-slate-50 hover:text-red-600'
-                      }`}
+                      className={`w-full text-left px-4 py-3 text-xs sm:text-sm font-bold flex items-center justify-between transition-colors ${selectedCategory === 'all'
+                        ? 'bg-rose-50 text-red-600 font-black'
+                        : 'text-slate-800 hover:bg-slate-50 hover:text-red-600'
+                        }`}
                     >
                       <span className="flex items-center gap-2">
                         {selectedCategory === 'all' && <Check className="w-4 h-4 text-red-600 shrink-0" />}
@@ -336,11 +334,10 @@ export const Shop = () => {
                             handleCategorySelect(catIdentifier);
                             setIsCategoryOpen(false);
                           }}
-                          className={`w-full text-left px-4 py-3 text-xs sm:text-sm font-bold flex items-center justify-between transition-colors ${
-                            isSelected
-                              ? 'bg-rose-50 text-red-600 font-black'
-                              : 'text-slate-800 hover:bg-slate-50 hover:text-red-600'
-                          }`}
+                          className={`w-full text-left px-4 py-3 text-xs sm:text-sm font-bold flex items-center justify-between transition-colors ${isSelected
+                            ? 'bg-rose-50 text-red-600 font-black'
+                            : 'text-slate-800 hover:bg-slate-50 hover:text-red-600'
+                            }`}
                         >
                           <span className="flex items-center gap-2 truncate pr-2">
                             {isSelected && <Check className="w-4 h-4 text-red-600 shrink-0" />}
@@ -387,11 +384,10 @@ export const Shop = () => {
                 <button
                   key={cat.id || cat.slug}
                   onClick={() => handleCategorySelect(catIdentifier)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors shrink-0 ${
-                    isSelected
-                      ? 'bg-rose-500 text-white shadow-xs'
-                      : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
-                  }`}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors shrink-0 ${isSelected
+                    ? 'bg-rose-500 text-white shadow-xs'
+                    : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                    }`}
                 >
                   {cat.name}
                 </button>
@@ -469,9 +465,8 @@ export const Shop = () => {
                   <button
                     key={cat.id}
                     onClick={() => handleCategorySelect(cat.id)}
-                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-medium ${
-                      selectedCategory === cat.id ? 'bg-red-600 text-white font-bold' : 'text-slate-700'
-                    }`}
+                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-medium ${selectedCategory === cat.id ? 'bg-red-600 text-white font-bold' : 'text-slate-700'
+                      }`}
                   >
                     {cat.name} ({cat.count})
                   </button>

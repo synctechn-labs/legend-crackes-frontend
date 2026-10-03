@@ -241,7 +241,7 @@ export const CategoryManagementModal = ({
                       <div className="flex items-center gap-2">
                         <p className="text-xs sm:text-sm font-bold text-slate-900 truncate">{cat.name}</p>
                         {cat.isNew && (
-                          <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-200">
+                          <span className="text-[9px] font-semiblod uppercase px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-200">
                             New
                           </span>
                         )}

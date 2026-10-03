@@ -53,7 +53,7 @@ export const Navbar = () => {
               </div>
               <div className="flex flex-col min-w-0">
                 <span className="text-base sm:text-2xl font-black font-heading tracking-tight text-slate-900 group-hover:text-rose-600 transition-colors leading-none">
-                  CLASSIC<span className="text-rose-600 font-extrabold">LEGEND</span>
+                  CLASSIC<span className="text-rose-600 font-semiblod">LEGEND</span>
                 </span>
                 <span className="text-[9px] sm:text-[10px] text-slate-500 font-bold tracking-wider uppercase mt-0.5 sm:mt-1 truncate">
                   Classic Legend Crackers
@@ -70,7 +70,7 @@ export const Navbar = () => {
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <Search className="w-4 h-4 text-red-600 group-hover:scale-110 transition-transform shrink-0" />
-                  <span className="text-slate-500 truncate">Search 3,000+ crackers, sparklers...</span>
+                  <span className="text-slate-500 truncate">Search 500+ crackers, sparklers...</span>
                 </div>
                 <kbd className="hidden 2xl:inline-block px-1.5 py-0.5 text-[10px] font-mono font-semibold text-slate-400 bg-white rounded-md border border-slate-200 shrink-0">
                   Ctrl K
@@ -133,8 +133,7 @@ export const Navbar = () => {
               <NavLink
                 to="/shop"
                 className={({ isActive }) =>
-                  `hover:text-red-600 transition-colors flex items-center gap-1.5 ${
-                    isActive ? 'text-red-600 font-bold' : ''
+                  `hover:text-red-600 transition-colors flex items-center gap-1.5 ${isActive ? 'text-red-600 font-bold' : ''
                   }`
                 }
               >
@@ -145,8 +144,7 @@ export const Navbar = () => {
               <NavLink
                 to="/shop?category=gift-boxes"
                 className={({ isActive }) =>
-                  `hover:text-red-600 transition-colors flex items-center gap-1 ${
-                    isActive ? 'text-red-600 font-bold' : ''
+                  `hover:text-red-600 transition-colors flex items-center gap-1 ${isActive ? 'text-red-600 font-bold' : ''
                   }`
                 }
               >
@@ -218,8 +216,7 @@ export const Navbar = () => {
             to="/"
             end
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center py-1 px-1 text-[11px] font-semibold transition-all ${
-                isActive ? 'text-red-600 font-bold scale-105' : 'text-slate-500 hover:text-slate-900'
+              `flex flex-col items-center justify-center py-1 px-1 text-[11px] font-semibold transition-all ${isActive ? 'text-red-600 font-bold scale-105' : 'text-slate-500 hover:text-slate-900'
               }`
             }
           >
@@ -230,8 +227,7 @@ export const Navbar = () => {
           <NavLink
             to="/shop"
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center py-1 px-1 text-[11px] font-semibold transition-all ${
-                isActive ? 'text-red-600 font-bold scale-105' : 'text-slate-500 hover:text-slate-900'
+              `flex flex-col items-center justify-center py-1 px-1 text-[11px] font-semibold transition-all ${isActive ? 'text-red-600 font-bold scale-105' : 'text-slate-500 hover:text-slate-900'
               }`
             }
           >
@@ -242,8 +238,7 @@ export const Navbar = () => {
           <NavLink
             to="/about"
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center py-1 px-1 text-[11px] font-semibold transition-all ${
-                isActive ? 'text-red-600 font-bold scale-105' : 'text-slate-500 hover:text-slate-900'
+              `flex flex-col items-center justify-center py-1 px-1 text-[11px] font-semibold transition-all ${isActive ? 'text-red-600 font-bold scale-105' : 'text-slate-500 hover:text-slate-900'
               }`
             }
           >
@@ -254,8 +249,7 @@ export const Navbar = () => {
           <NavLink
             to="/contact"
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center py-1 px-1 text-[11px] font-semibold transition-all ${
-                isActive ? 'text-red-600 font-bold scale-105' : 'text-slate-500 hover:text-slate-900'
+              `flex flex-col items-center justify-center py-1 px-1 text-[11px] font-semibold transition-all ${isActive ? 'text-red-600 font-bold scale-105' : 'text-slate-500 hover:text-slate-900'
               }`
             }
           >

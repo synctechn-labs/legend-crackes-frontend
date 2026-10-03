@@ -55,7 +55,7 @@ export const Checkout = () => {
     );
   }
 
-  // Minimum Order Value Guard (₹3,000)
+  // Minimum Order Value Guard (₹500)
   if (subtotal < MIN_ORDER_AMOUNT) {
     const remaining = MIN_ORDER_AMOUNT - subtotal;
     return (
@@ -64,9 +64,9 @@ export const Checkout = () => {
           <AlertCircle className="w-10 h-10" />
         </div>
         <div className="space-y-2">
-          <h2 className="text-2xl font-black font-heading text-slate-900">Wholesale Minimum Order Value: ₹3,000</h2>
+          <h2 className="text-2xl font-black font-heading text-slate-900">Wholesale Minimum Order Value: ₹500</h2>
           <p className="text-sm text-slate-600 max-w-md mx-auto">
-            Your current order subtotal is <strong className="text-slate-900">{formatCurrency(subtotal)}</strong>. Please add <strong className="text-rose-600">{formatCurrency(remaining)}</strong> more crackers to fulfill the ₹3,000 minimum wholesale order requirement.
+            Your current order subtotal is <strong className="text-slate-900">{formatCurrency(subtotal)}</strong>. Please add <strong className="text-rose-600">{formatCurrency(remaining)}</strong> more crackers to fulfill the ₹500 minimum wholesale order requirement.
           </p>
         </div>
         <div className="pt-2 flex justify-center gap-3">
@@ -223,9 +223,8 @@ export const Checkout = () => {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="e.g. Ramesh Sundaram"
-                  className={`w-full px-3.5 py-2.5 text-xs bg-slate-50 border rounded-xl focus:outline-none focus:border-red-500 ${
-                    errors.name ? 'border-red-500 bg-red-50/50' : 'border-slate-200'
-                  }`}
+                  className={`w-full px-3.5 py-2.5 text-xs bg-slate-50 border rounded-xl focus:outline-none focus:border-red-500 ${errors.name ? 'border-red-500 bg-red-50/50' : 'border-slate-200'
+                    }`}
                 />
                 {errors.name && <p className="text-[11px] text-red-500 mt-1">{errors.name}</p>}
               </div>
@@ -241,9 +240,8 @@ export const Checkout = () => {
                   onChange={handleChange}
                   placeholder="10-digit number e.g. 9840123456"
                   maxLength={10}
-                  className={`w-full px-3.5 py-2.5 text-xs bg-slate-50 border rounded-xl focus:outline-none focus:border-red-500 ${
-                    errors.phone ? 'border-red-500 bg-red-50/50' : 'border-slate-200'
-                  }`}
+                  className={`w-full px-3.5 py-2.5 text-xs bg-slate-50 border rounded-xl focus:outline-none focus:border-red-500 ${errors.phone ? 'border-red-500 bg-red-50/50' : 'border-slate-200'
+                    }`}
                 />
                 {errors.phone && <p className="text-[11px] text-red-500 mt-1">{errors.phone}</p>}
               </div>
@@ -284,9 +282,8 @@ export const Checkout = () => {
                   value={formData.address}
                   onChange={handleChange}
                   placeholder="e.g. Plot No. 42, 3rd Main Road, Anna Nagar West"
-                  className={`w-full px-3.5 py-2.5 text-xs bg-slate-50 border rounded-xl focus:outline-none focus:border-red-500 ${
-                    errors.address ? 'border-red-500 bg-red-50/50' : 'border-slate-200'
-                  }`}
+                  className={`w-full px-3.5 py-2.5 text-xs bg-slate-50 border rounded-xl focus:outline-none focus:border-red-500 ${errors.address ? 'border-red-500 bg-red-50/50' : 'border-slate-200'
+                    }`}
                 />
                 {errors.address && <p className="text-[11px] text-red-500 mt-1">{errors.address}</p>}
               </div>
@@ -302,9 +299,8 @@ export const Checkout = () => {
                     value={formData.city}
                     onChange={handleChange}
                     placeholder="e.g. Chennai"
-                    className={`w-full px-3.5 py-2.5 text-xs bg-slate-50 border rounded-xl focus:outline-none focus:border-red-500 ${
-                      errors.city ? 'border-red-500 bg-red-50/50' : 'border-slate-200'
-                    }`}
+                    className={`w-full px-3.5 py-2.5 text-xs bg-slate-50 border rounded-xl focus:outline-none focus:border-red-500 ${errors.city ? 'border-red-500 bg-red-50/50' : 'border-slate-200'
+                      }`}
                   />
                   {errors.city && <p className="text-[11px] text-red-500 mt-1">{errors.city}</p>}
                 </div>
@@ -340,9 +336,8 @@ export const Checkout = () => {
                     onChange={handleChange}
                     placeholder="6 Digits e.g. 600040"
                     maxLength={6}
-                    className={`w-full px-3.5 py-2.5 text-xs bg-slate-50 border rounded-xl focus:outline-none focus:border-red-500 ${
-                      errors.pincode ? 'border-red-500 bg-red-50/50' : 'border-slate-200'
-                    }`}
+                    className={`w-full px-3.5 py-2.5 text-xs bg-slate-50 border rounded-xl focus:outline-none focus:border-red-500 ${errors.pincode ? 'border-red-500 bg-red-50/50' : 'border-slate-200'
+                      }`}
                   />
                   {errors.pincode && <p className="text-[11px] text-red-500 mt-1">{errors.pincode}</p>}
                 </div>
@@ -436,7 +431,7 @@ export const Checkout = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-4 bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white font-extrabold text-sm rounded-2xl shadow-xl shadow-red-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-4 bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white font-semiblod text-sm rounded-2xl shadow-xl shadow-red-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>

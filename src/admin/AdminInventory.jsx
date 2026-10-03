@@ -78,7 +78,7 @@ export const AdminInventory = () => {
     piecesPerBox: '10 Pieces per Pack',
     soundLevel: 'Zero Sound / Light',
     duration: '45 Seconds',
-    image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80',
+    image: 'https://res.cloudinary.com/yez0xdym/image/upload/v1790708530/1000240064.png',
     description: '',
     isFeatured: false,
     isActive: true
@@ -277,7 +277,7 @@ export const AdminInventory = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black font-heading text-slate-900">
-            Sivakasi Inventory (3,000+ Products)
+            Sivakasi Inventory (500+ Products)
           </h1>
           <p className="text-xs text-slate-500 mt-1">
             Server-side paginated inventory controller with instant stock & pricing overrides.
@@ -422,7 +422,7 @@ export const AdminInventory = () => {
                           </div>
                           <div className="flex items-baseline gap-1.5">
                             <span className="text-[10px] uppercase font-bold text-slate-400">Selling:</span>
-                            <span className="font-extrabold text-red-600 font-heading">
+                            <span className="font-semiblod text-red-600 font-heading">
                               {formatCurrency(sellP)}
                             </span>
                           </div>
@@ -433,7 +433,7 @@ export const AdminInventory = () => {
                             </span>
                           </div>
                           <div className="flex items-baseline gap-1.5 pt-0.5 border-t border-slate-100">
-                            <span className="text-[10px] uppercase font-extrabold text-emerald-700">Profit:</span>
+                            <span className="text-[10px] uppercase font-semiblod text-emerald-700">Profit:</span>
                             <span className={`text-[11px] font-black ${profitVal >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
                               {formatCurrency(profitVal)}
                             </span>
@@ -450,11 +450,10 @@ export const AdminInventory = () => {
                           title="Toggle Bestseller status"
                         >
                           <Star
-                            className={`w-4 h-4 ${
-                              product.isFeatured
-                                ? 'fill-amber-400 text-amber-400'
-                                : 'text-slate-300 hover:text-amber-400'
-                            }`}
+                            className={`w-4 h-4 ${product.isFeatured
+                              ? 'fill-amber-400 text-amber-400'
+                              : 'text-slate-300 hover:text-amber-400'
+                              }`}
                           />
                         </button>
                       </td>
@@ -464,11 +463,10 @@ export const AdminInventory = () => {
                         <button
                           type="button"
                           onClick={() => handleToggleStatus(product)}
-                          className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-colors ${
-                            product.isActive !== false
-                              ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
-                              : 'bg-slate-200 text-slate-600 hover:bg-slate-300'
-                          }`}
+                          className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-colors ${product.isActive !== false
+                            ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
+                            : 'bg-slate-200 text-slate-600 hover:bg-slate-300'
+                            }`}
                         >
                           {product.isActive !== false ? 'Active' : 'Inactive'}
                         </button>
@@ -682,7 +680,7 @@ export const AdminInventory = () => {
                       alt="Preview"
                       className="w-10 h-10 rounded-lg object-cover bg-slate-100 shrink-0 border border-slate-200"
                       onError={(e) => {
-                        e.target.src = 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80';
+                        e.target.src = 'https://res.cloudinary.com/yez0xdym/image/upload/v1790708530/1000240064.png';
                       }}
                     />
                   </div>

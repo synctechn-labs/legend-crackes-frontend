@@ -57,7 +57,7 @@ export const Footer = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-2xl font-black font-heading text-white tracking-tight leading-none">
-                  CLASSIC<span className="text-red-500 font-extrabold">LEGEND</span>
+                  CLASSIC<span className="text-red-500 font-semiblod">LEGEND</span>
                 </span>
                 <span className="text-[10px] text-slate-400 font-bold tracking-wider uppercase mt-1">
                   Classic Legend Crackers Direct
@@ -90,7 +90,7 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm text-slate-400">
               <li>
                 <Link to="/shop" className="hover:text-red-400 transition-colors">
-                  All 3,000+ Crackers
+                  All 500+ Crackers
                 </Link>
               </li>
               <li>

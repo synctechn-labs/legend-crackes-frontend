@@ -71,7 +71,7 @@ export const GlobalSearchModal = ({ isOpen, onClose }) => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search 3,000+ crackers by name, category, or code (e.g. SPK-101)..."
+            placeholder="Search 500+ crackers by name, category, or code (e.g. SPK-101)..."
             className="w-full px-4 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none text-base font-medium"
           />
           {loading && <Loader2 className="w-5 h-5 text-slate-400 animate-spin shrink-0 mr-2" />}

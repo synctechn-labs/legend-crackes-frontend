@@ -56,7 +56,7 @@ export const Cart = () => {
     setModalState({ isOpen: false, type: null, targetId: null });
   };
 
-  // Minimum Order Amount validation (₹3,000)
+  // Minimum Order Amount validation (₹500)
   const remainingForMinOrder = Math.max(0, MIN_ORDER_AMOUNT - subtotal);
   const minOrderProgress = Math.min(100, Math.round((subtotal / MIN_ORDER_AMOUNT) * 100));
 
@@ -99,7 +99,7 @@ export const Cart = () => {
             Shopping Cart ({totalCount} items)
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Direct Sivakasi factory order • Minimum order amount: <strong>₹3,000</strong>
+            Direct Sivakasi factory order • Minimum order amount: <strong>₹500</strong>
           </p>
         </div>
         <button
@@ -114,24 +114,24 @@ export const Cart = () => {
 
       {/* Minimum Order Value Alert Banner */}
       <div className={`rounded-3xl border-2 p-5 sm:p-6 shadow-md transition-all ${subtotal < MIN_ORDER_AMOUNT
-          ? 'bg-gradient-to-r from-red-500/10 via-amber-500/10 to-rose-500/10 border-red-500/40 text-slate-900'
-          : 'bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-emerald-500/10 border-emerald-500/40 text-slate-900'
+        ? 'bg-gradient-to-r from-red-500/10 via-amber-500/10 to-rose-500/10 border-red-500/40 text-slate-900'
+        : 'bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-emerald-500/10 border-emerald-500/40 text-slate-900'
         }`}>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className={`px-2.5 py-0.5 rounded-full font-black text-[11px] uppercase tracking-wider ${subtotal < MIN_ORDER_AMOUNT
-                  ? 'bg-red-600 text-white shadow-xs'
-                  : 'bg-emerald-600 text-white shadow-xs'
+                ? 'bg-red-600 text-white shadow-xs'
+                : 'bg-emerald-600 text-white shadow-xs'
                 }`}>
-                {subtotal < MIN_ORDER_AMOUNT ? 'Mandatory Order Minimum: ₹3,000' : 'Order Minimum Achieved!'}
+                {subtotal < MIN_ORDER_AMOUNT ? 'Mandatory Order Minimum: ₹500' : 'Order Minimum Achieved!'}
               </span>
             </div>
-            <h3 className="font-heading font-extrabold text-base sm:text-lg text-slate-900">
+            <h3 className="font-heading font-semiblod text-base sm:text-lg text-slate-900">
               {subtotal < MIN_ORDER_AMOUNT ? (
                 <>Add <span className="text-red-600 underline decoration-red-300 font-black">{formatCurrency(remainingForMinOrder)}</span> more to unlock direct checkout</>
               ) : (
-                <>🎉 Minimum order of ₹3,000 satisfied! Free shipping unlocked.</>
+                <>🎉 Minimum order of ₹500 satisfied! Free shipping unlocked.</>
               )}
             </h3>
           </div>
@@ -144,8 +144,8 @@ export const Cart = () => {
         <div className="w-full h-3 bg-slate-200/80 rounded-full overflow-hidden p-0.5 border border-slate-200">
           <div
             className={`h-full rounded-full transition-all duration-500 ${subtotal < MIN_ORDER_AMOUNT
-                ? 'bg-gradient-to-r from-rose-500 via-amber-500 to-red-600 shadow-xs'
-                : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-xs'
+              ? 'bg-gradient-to-r from-rose-500 via-amber-500 to-red-600 shadow-xs'
+              : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-xs'
               }`}
             style={{ width: `${minOrderProgress}%` }}
           />
@@ -178,7 +178,7 @@ export const Cart = () => {
                   {/* Top Header Row: Category, Code & Delete button */}
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-                      <span className="text-red-600 font-extrabold text-[10px] sm:text-xs uppercase tracking-wider truncate">
+                      <span className="text-red-600 font-semiblod text-[10px] sm:text-xs uppercase tracking-wider truncate">
                         {item.categoryName}
                       </span>
                       <span className="text-slate-300 text-[10px]">•</span>
@@ -221,7 +221,7 @@ export const Cart = () => {
                   <div className="pt-1 flex flex-wrap items-center justify-between gap-2">
                     {/* Price Breakdown */}
                     <div className="flex items-baseline gap-1.5 flex-wrap">
-                      <span className="font-extrabold text-slate-900 text-sm sm:text-base">
+                      <span className="font-semiblod text-slate-900 text-sm sm:text-base">
                         {formatCurrency(item.sellingPrice)}
                       </span>
                       {item.originalPrice > item.sellingPrice && (
@@ -247,7 +247,7 @@ export const Cart = () => {
                         >
                           -
                         </button>
-                        <span className="w-7 text-center font-extrabold text-xs text-slate-900">{item.quantity}</span>
+                        <span className="w-7 text-center font-semiblod text-xs text-slate-900">{item.quantity}</span>
                         <button
                           type="button"
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
@@ -260,7 +260,7 @@ export const Cart = () => {
 
                       {/* Line Total */}
                       <div className="text-right shrink-0">
-                        <span className="font-extrabold text-sm sm:text-base text-red-600 font-heading block leading-none">
+                        <span className="font-semiblod text-sm sm:text-base text-red-600 font-heading block leading-none">
                           {formatCurrency(item.sellingPrice * item.quantity)}
                         </span>
                         <span className="text-[9px] text-slate-400 uppercase font-medium">Total</span>
@@ -379,7 +379,7 @@ export const Cart = () => {
               type="button"
               onClick={() => navigate('/checkout')}
               disabled={subtotal < MIN_ORDER_AMOUNT}
-              className="w-full py-4 bg-rose-600 hover:bg-rose-700 active:scale-[0.98] text-white font-extrabold text-sm rounded-2xl shadow-xl shadow-rose-600/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-rose-600"
+              className="w-full py-4 bg-rose-600 hover:bg-rose-700 active:scale-[0.98] text-white font-semiblod text-sm rounded-2xl shadow-xl shadow-rose-600/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-rose-600"
             >
               {subtotal < MIN_ORDER_AMOUNT ? (
                 <span>Add {formatCurrency(remainingForMinOrder)} More to Checkout</span>

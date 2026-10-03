@@ -112,7 +112,7 @@ export const AdminDashboard = () => {
             className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
           >
             <Boxes className="w-4 h-4" />
-            <span>Manage Inventory (3,000+)</span>
+            <span>Manage Inventory (500+)</span>
           </Link>
         </div>
       </div>
@@ -317,7 +317,7 @@ export const AdminDashboard = () => {
           </div>
 
           <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1 text-xs">
-            <span className="text-[10px] font-extrabold uppercase text-slate-400 block">Profit Calculation Standard</span>
+            <span className="text-[10px] font-semiblod uppercase text-slate-400 block">Profit Calculation Standard</span>
             <p className="font-mono text-slate-700 font-bold">
               Profit = Factory Selling Price - My Price
             </p>
@@ -335,7 +335,7 @@ export const AdminDashboard = () => {
             </div>
 
             <div className="p-3.5 rounded-xl border border-emerald-300 bg-emerald-50/60 flex items-center justify-between text-xs">
-              <span className="font-extrabold text-emerald-900">Total Net Profit:</span>
+              <span className="font-semiblod text-emerald-900">Total Net Profit:</span>
               <span className="font-black text-emerald-700 text-base font-heading">{formatCurrency(totalProfitVal)}</span>
             </div>
           </div>

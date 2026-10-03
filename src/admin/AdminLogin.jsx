@@ -76,14 +76,14 @@ export const AdminLogin = () => {
           </div>
           <div className="flex flex-col text-left">
             <span className="text-2xl font-black font-heading text-white tracking-tight leading-none">
-              CLASSIC<span className="text-red-500 font-extrabold">LEGEND</span>
+              CLASSIC<span className="text-red-500 font-semiblod">LEGEND</span>
             </span>
             <span className="text-[10px] text-slate-400 font-bold tracking-wider uppercase mt-1">
               Store Admin Portal
             </span>
           </div>
         </Link>
-        <h2 className="text-xl sm:text-2xl font-extrabold text-white font-heading">
+        <h2 className="text-xl sm:text-2xl font-semiblod text-white font-heading">
           Store Administrator Login
         </h2>
         <p className="text-xs text-slate-400">

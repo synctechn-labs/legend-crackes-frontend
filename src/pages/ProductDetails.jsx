@@ -135,7 +135,7 @@ export const ProductDetails = () => {
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             {discountVal > 0 && (
-              <span className="absolute top-4 left-4 bg-red-600 text-white font-extrabold text-xs px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
+              <span className="absolute top-4 left-4 bg-red-600 text-white font-semiblod text-xs px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5" />
                 {discountVal}% FACTORY DISCOUNT
               </span>

@@ -250,7 +250,7 @@ export const Home = () => {
               className="group p-4 sm:p-5 bg-white rounded-2xl border border-slate-200/80 hover:border-red-300 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden"
             >
               {category.isNew && (
-                <span className="absolute top-2 right-2 text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-amber-500 text-white shadow-2xs">
+                <span className="absolute top-2 right-2 text-[9px] font-semiblod uppercase px-1.5 py-0.5 rounded bg-amber-500 text-white shadow-2xs">
                   NEW
                 </span>
               )}

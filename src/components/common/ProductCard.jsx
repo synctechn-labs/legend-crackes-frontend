@@ -53,7 +53,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
             }}
           />
           {discountVal > 0 && (
-            <span className="absolute top-1.5 left-1.5 bg-red-600 text-white font-extrabold text-[10px] px-1.5 py-0.5 rounded shadow-xs uppercase tracking-wider">
+            <span className="absolute top-1.5 left-1.5 bg-red-600 text-white font-semiblod text-[10px] px-1.5 py-0.5 rounded shadow-xs uppercase tracking-wider">
               {discountVal}% OFF
             </span>
           )}
@@ -87,7 +87,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
 
           {/* Pricing & Offer */}
           <div className="mt-2 flex flex-wrap items-baseline gap-2">
-            <span className="text-lg sm:text-xl font-extrabold text-red-600 font-heading">
+            <span className="text-lg sm:text-xl font-semiblod text-red-600 font-heading">
               {formatCurrency(sellP)}
             </span>
             {origP > sellP && (
@@ -188,7 +188,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
             {product.categoryName || product.category}
           </Link>
           {discountVal > 0 && (
-            <span className="bg-red-600 text-white font-extrabold text-[11px] px-2 py-0.5 rounded-md shadow-xs uppercase tracking-wider shrink-0">
+            <span className="bg-red-600 text-white font-semiblod text-[11px] px-2 py-0.5 rounded-md shadow-xs uppercase tracking-wider shrink-0">
               {discountVal}% OFF
             </span>
           )}
@@ -219,7 +219,7 @@ export const ProductCard = ({ product, viewMode = 'grid' }) => {
         {/* Price Row (Public user sees Factory Selling Price & Original Price MRP) */}
         <div className="mt-auto pt-3 border-t border-slate-100 flex items-baseline justify-between flex-wrap gap-1">
           <div className="flex items-baseline gap-1.5 flex-wrap">
-            <span className="text-xl font-extrabold text-red-600 font-heading">
+            <span className="text-xl font-semiblod text-red-600 font-heading">
               {formatCurrency(sellP)}
             </span>
             {origP > 0 && origP > sellP && (

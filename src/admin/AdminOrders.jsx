@@ -30,7 +30,7 @@ import { orderService } from '../services/orderService';
 import { invalidateDashboardCache } from '../services/dashboardService';
 import { invalidateRevenueCache } from '../services/revenueService';
 import { useToast } from '../hooks/useToast';
-import { formatCurrency, formatDate } from '../utils/formatters';
+import { formatCurrency, formatDate, formatOrderId } from '../utils/formatters';
 import { ORDER_STATUSES, ORDER_STATUS_COLORS } from '../utils/constants';
 import { TableRowSkeleton } from '../components/common/SkeletonLoader';
 
@@ -384,7 +384,7 @@ export const AdminOrders = () => {
               </div>
               <div class="invoice-title-block">
                 <div class="invoice-tag">TAX INVOICE</div>
-                <div class="inv-id">INVOICE #${ord.id || ord.order_number}</div>
+                <div class="inv-id">INVOICE #${formatOrderId(ord.order_number || ord.orderNumber || ord.id)}</div>
                 <div class="inv-date">Date: ${formatDate(ord.createdAt)}</div>
               </div>
             </div>
@@ -593,7 +593,7 @@ export const AdminOrders = () => {
                     <tr key={ord.id} className="hover:bg-slate-50/80 transition-colors">
                       {/* ID and Date */}
                       <td className="py-3.5 px-4">
-                        <span className="font-mono font-bold text-slate-900 block">{ord.id}</span>
+                        <span className="font-mono font-bold text-slate-900 block">{formatOrderId(ord.order_number || ord.orderNumber || ord.id)}</span>
                         <span className="text-[11px] text-slate-400 mt-0.5 block">
                           {formatDate(ord.createdAt)}
                         </span>
@@ -704,7 +704,7 @@ export const AdminOrders = () => {
               <div>
                 <span className="text-xs uppercase font-bold text-slate-400">Order Inspection</span>
                 <h3 className="font-heading font-black text-xl text-slate-900 mt-0.5">
-                  #{activeOrder.id}
+                  {formatOrderId(activeOrder.order_number || activeOrder.orderNumber || activeOrder.id)}
                 </h3>
               </div>
               <div className="flex items-center gap-2">

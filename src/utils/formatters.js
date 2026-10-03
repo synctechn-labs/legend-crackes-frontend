@@ -24,9 +24,22 @@ export const calculateDiscount = (original, selling) => {
   return Math.round(((original - selling) / original) * 100);
 };
 
-export const generateOrderId = () => {
-  const prefix = 'SKF';
-  const timestamp = Date.now().toString().slice(-6);
-  const random = Math.floor(1000 + Math.random() * 9000);
-  return `${prefix}-${timestamp}-${random}`;
+export const formatOrderId = (id) => {
+  if (!id && id !== 0) return 'CLC001';
+  const str = String(id).trim();
+  if (/^CLC\d+/i.test(str)) return str.toUpperCase();
+  if (/^\d+$/.test(str)) {
+    const num = parseInt(str, 10);
+    return `CLC${String(num).padStart(3, '0')}`;
+  }
+  const match = str.match(/\d+/);
+  if (match) {
+    const num = parseInt(match[0], 10);
+    return `CLC${String(num).padStart(3, '0')}`;
+  }
+  return `CLC-${str}`;
+};
+
+export const generateOrderId = (num = 1) => {
+  return `CLC${String(num).padStart(3, '0')}`;
 };

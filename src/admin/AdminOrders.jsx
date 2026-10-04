@@ -473,12 +473,17 @@ export const AdminOrders = () => {
   const orderSubtotal = Number(activeOrder?.total || activeOrder?.subtotal || 0);
   const extraDiscPct = Number(activeOrder?.extraDiscountPercentage ?? activeOrder?.extra_discount_percentage ?? 0);
 
-  const orderProfitBeforeExtra = activeOrder?.items?.reduce((acc, item) => {
-    const sellP = Number(item.price || item.unit_price || 0);
-    const myP_raw = Number(item.myPrice ?? item.my_price ?? 0);
-    const myP = (myP_raw > 0 && myP_raw < sellP) ? myP_raw : Math.round(sellP * 0.4);
-    return acc + (sellP - myP) * (item.quantity || 1);
-  }, 0) || Math.round(orderSubtotal * 0.6);
+  const backendProfit = (activeOrder?.profit !== undefined && activeOrder?.profit !== null)
+    ? Number(activeOrder.profit)
+    : null;
+
+  const orderProfitBeforeExtra = backendProfit !== null
+    ? backendProfit
+    : (activeOrder?.items?.reduce((acc, item) => {
+        const sellP = Number(item.price || item.unit_price || 0);
+        const myP = Number(item.myPrice ?? item.my_price ?? 0);
+        return acc + (sellP - myP) * (item.quantity || 1);
+      }, 0) || 0);
 
   const extraDiscAmt = Number(activeOrder?.extraDiscountAmount ?? activeOrder?.extra_discount_amount ?? (orderProfitBeforeExtra * (extraDiscPct / 100)));
   const finalTotalPayable = orderSubtotal - extraDiscAmt;

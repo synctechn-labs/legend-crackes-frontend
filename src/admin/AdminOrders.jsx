@@ -58,6 +58,7 @@ export const AdminOrders = () => {
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [activeOrder, setActiveOrder] = useState(null); // for details modal
   const [extraDiscountInput, setExtraDiscountInput] = useState('');
+  const [extraDiscountType, setExtraDiscountType] = useState('percent'); // 'percent' | 'amount'
   const [updatingDiscount, setUpdatingDiscount] = useState(false);
   const [deletingOrderId, setDeletingOrderId] = useState(null);
 
@@ -218,23 +219,30 @@ export const AdminOrders = () => {
     if (!activeOrder) return;
     setUpdatingDiscount(true);
     try {
-      const pct = parseFloat(extraDiscountInput) || 0;
-      const updatedOrder = await orderService.updateExtraDiscount(activeOrder.id, pct);
+      const val = parseFloat(extraDiscountInput) || 0;
+      const payload = extraDiscountType === 'amount'
+        ? { extra_discount_amount: val }
+        : { extra_discount_percentage: val };
+
+      const updatedOrder = await orderService.updateExtraDiscount(activeOrder.id, payload);
 
       const orderSubtotal = Number(updatedOrder.total || updatedOrder.subtotal || 0);
       const extraDiscAmt = Number(updatedOrder.extraDiscountAmount ?? updatedOrder.extra_discount_amount ?? 0);
       const finalVal = updatedOrder.finalTotal ?? updatedOrder.final_total_amount ?? (orderSubtotal - extraDiscAmt);
+      const extraPct = Number(updatedOrder.extraDiscountPercentage ?? updatedOrder.extra_discount_percentage ?? 0);
 
       addToast({
         title: 'Extra Discount Applied',
-        message: `Applied ${pct}% extra discount from profit (-${formatCurrency(extraDiscAmt)}). Final Payable: ${formatCurrency(finalVal)}.`,
+        message: extraDiscountType === 'amount'
+          ? `Applied ₹${val} flat extra discount from profit (-${formatCurrency(extraDiscAmt)}). Final Payable: ${formatCurrency(finalVal)}.`
+          : `Applied ${val}% extra discount from profit (-${formatCurrency(extraDiscAmt)}). Final Payable: ${formatCurrency(finalVal)}.`,
         type: 'success'
       });
 
       const fullUpdated = {
         ...activeOrder,
         ...updatedOrder,
-        extraDiscountPercentage: pct,
+        extraDiscountPercentage: extraPct,
         extraDiscountAmount: extraDiscAmt,
         finalTotal: finalVal
       };
@@ -813,11 +821,38 @@ export const AdminOrders = () => {
 
             {/* Admin Extra Discount (Deducted from Profit) Module */}
             <div className="p-4 bg-emerald-50/70 border border-emerald-200/80 rounded-2xl space-y-3 text-xs">
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-emerald-900 flex items-center gap-1.5 uppercase text-[11px]">
-                  <Tag className="w-4 h-4 text-emerald-600" />
-                  Extra Discount
-                </span>
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-3">
+                  <span className="font-bold text-emerald-900 flex items-center gap-1.5 uppercase text-[11px]">
+                    <Tag className="w-4 h-4 text-emerald-600" />
+                    Extra Discount
+                  </span>
+                  {/* Mode Switcher */}
+                  <div className="flex items-center bg-white p-0.5 rounded-lg border border-emerald-300">
+                    <button
+                      type="button"
+                      onClick={() => setExtraDiscountType('percent')}
+                      className={`px-2.5 py-0.5 rounded-md font-bold text-[10px] transition-colors ${
+                        extraDiscountType === 'percent'
+                          ? 'bg-emerald-600 text-white shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      % Percent
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setExtraDiscountType('amount')}
+                      className={`px-2.5 py-0.5 rounded-md font-bold text-[10px] transition-colors ${
+                        extraDiscountType === 'amount'
+                          ? 'bg-emerald-600 text-white shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      ₹ Flat Amount
+                    </button>
+                  </div>
+                </div>
                 <span className="text-[11px] font-semibold text-emerald-700">
                   Est. Order Profit: <strong>{formatCurrency(orderProfitBeforeExtra)}</strong>
                 </span>
@@ -828,14 +863,17 @@ export const AdminOrders = () => {
                   <input
                     type="number"
                     min="0"
-                    max="100"
-                    step="0.5"
+                    step={extraDiscountType === 'percent' ? '0.5' : '1'}
                     value={extraDiscountInput}
                     onChange={(e) => setExtraDiscountInput(e.target.value)}
-                    placeholder="Enter discount % e.g. 5"
+                    placeholder={extraDiscountType === 'percent' ? 'Enter discount % e.g. 5' : 'Enter discount amount e.g. 200'}
                     className="w-full pl-3 pr-8 py-2 text-xs font-bold bg-white border border-emerald-300 rounded-xl focus:outline-none focus:border-emerald-600"
                   />
-                  <Percent className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2" />
+                  {extraDiscountType === 'percent' ? (
+                    <Percent className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2" />
+                  ) : (
+                    <span className="font-bold text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 text-xs">₹</span>
+                  )}
                 </div>
                 <button
                   type="button"

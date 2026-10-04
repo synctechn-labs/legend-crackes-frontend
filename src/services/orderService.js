@@ -81,15 +81,23 @@ export const orderService = {
     );
   },
 
-  // Admin route: update extra discount percentage
-  updateExtraDiscount: async (orderId, extraDiscountPercentage) => {
+  // Admin route: update extra discount percentage or flat amount
+  updateExtraDiscount: async (orderId, discountPayload) => {
+    const payload = typeof discountPayload === 'object'
+      ? discountPayload
+      : { extra_discount_percentage: Number(discountPayload) };
+
     return executeApi(
-      () => apiClient.patch(`/admin/orders/${orderId}/extra-discount`, { extra_discount_percentage: Number(extraDiscountPercentage) }),
+      () => apiClient.patch(`/admin/orders/${orderId}/extra-discount`, payload),
       () => {
         const orders = getStoredOrders();
         const idx = orders.findIndex(o => String(o.id) === String(orderId));
         if (idx !== -1) {
-          orders[idx].extraDiscountPercentage = Number(extraDiscountPercentage);
+          if (payload.extra_discount_amount !== undefined) {
+            orders[idx].extraDiscountAmount = Number(payload.extra_discount_amount);
+          } else {
+            orders[idx].extraDiscountPercentage = Number(payload.extra_discount_percentage);
+          }
           localStorage.setItem('sivakasi_crackers_orders_v1', JSON.stringify(orders));
           return orders[idx];
         }

@@ -24,6 +24,18 @@ import { ProductGridSkeleton } from '../components/common/SkeletonLoader';
 import { formatCurrency } from '../utils/formatters';
 import { CrackerBannerCanvas } from '../components/common/CrackerBannerCanvas';
 
+const BRAND_LOGOS = [
+  { id: 1, name: 'Sivakasi Brand 1', url: 'https://res.cloudinary.com/yez0xdym/image/upload/v1790710146/images_1.jpg' },
+  { id: 2, name: 'Sivakasi Brand 2', url: 'https://res.cloudinary.com/yez0xdym/image/upload/v1790711110/images_3.jpg' },
+  { id: 3, name: 'Sivakasi Brand 3', url: 'https://res.cloudinary.com/yez0xdym/image/upload/v1790711147/unnamed.jpg' },
+  { id: 4, name: 'Sivakasi Brand 4', url: 'https://res.cloudinary.com/yez0xdym/image/upload/v1790711507/1716571710pjsCL.png' },
+  { id: 5, name: 'Sivakasi Brand 5', url: 'https://res.cloudinary.com/yez0xdym/image/upload/v1790711548/logo_2.png' },
+  { id: 6, name: 'Sivakasi Brand 6', url: 'https://res.cloudinary.com/yez0xdym/image/upload/v1790711595/images_5.jpg' },
+  { id: 7, name: 'Sivakasi Brand 7', url: 'https://res.cloudinary.com/yez0xdym/image/upload/v1790711632/images_4.jpg' },
+  { id: 8, name: 'Sivakasi Brand 8', url: 'https://res.cloudinary.com/yez0xdym/image/upload/v1790711678/images_2.jpg' },
+  { id: 9, name: 'RR Crackers', url: 'https://res.cloudinary.com/yez0xdym/image/upload/v1790711719/newrrcrackerslogo.png' }
+];
+
 export const Home = () => {
   const navigate = useNavigate();
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -214,6 +226,44 @@ export const Home = () => {
                 </div> */}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 2: Authorized Brand Partners Logo Scroll Bar (Mobile Friendly Infinite Carousel) */}
+      <section className="bg-gradient-to-r from-slate-900 via-rose-950 to-slate-900 text-white py-7 shadow-inner relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span className="text-[11px] font-bold text-amber-300 uppercase tracking-widest flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" /> Authorized Sivakasi Manufacturers
+            </span>
+          </div>
+          <p className="text-xs text-slate-300 font-normal">
+            100% Genuine, PESO-certified green fireworks directly sourced from India's leading Sivakasi brands.
+          </p>
+        </div>
+
+        {/* Continuous Auto-Marquee with Manual Touch Scroll Fallback */}
+        <div className="relative w-full overflow-x-auto no-scrollbar py-2">
+          <div className="animate-infinite-scroll flex items-center gap-4 sm:gap-6 px-4">
+            {[...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS].map((logo, idx) => (
+              <div
+                key={`${logo.id}-${idx}`}
+                className="shrink-0 bg-white/95 hover:bg-white border border-white/20 rounded-2xl p-2.5 sm:p-3.5 shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center min-w-[120px] sm:min-w-[150px] h-18 sm:h-22 group select-none cursor-pointer"
+              >
+                <img
+                  src={logo.url}
+                  alt={logo.name}
+                  loading="lazy"
+                  className="max-h-12 sm:max-h-16 w-auto max-w-[100px] sm:max-w-[130px] object-contain group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>

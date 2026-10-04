@@ -101,6 +101,35 @@
   background: #94a3b8;
 }
 
+/* Infinite Logo Marquee Scroll Animation */
+@keyframes infiniteLogoScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-infinite-scroll {
+  display: flex;
+  width: max-content;
+  animation: infiniteLogoScroll 28s linear infinite;
+}
+
+.animate-infinite-scroll:hover {
+  animation-play-state: paused;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
 /* Glassmorphism helpers */
 .glass-header {
   background: rgba(255, 255, 255, 0.95);

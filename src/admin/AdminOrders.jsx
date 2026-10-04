@@ -306,18 +306,18 @@ export const AdminOrders = () => {
       const isEven = idx % 2 === 0;
 
       return `
-        <tr style="background-color: ${isEven ? '#ffffff' : '#f3f4f6'};">
-          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb;">
-            <div style="font-weight: 700; color: #111827; font-size: 13px;">${itemName}</div>
-            ${itemCode ? `<div style="font-size: 11px; color: #6b7280; font-family: monospace; margin-top: 2px;">Code: ${itemCode}</div>` : ''}
+        <tr style="background-color: ${isEven ? '#ffffff' : '#f9fafb'};">
+          <td style="padding: 10px 14px; text-align: left; vertical-align: middle; border-bottom: 1px solid #e5e7eb;">
+            <div style="font-weight: 700; color: #111827; font-size: 12.5px; line-height: 1.3;">${itemName}</div>
+            ${itemCode ? `<div style="font-size: 10.5px; color: #6b7280; font-family: monospace; margin-top: 1px;">Code: ${itemCode}</div>` : ''}
           </td>
-          <td style="padding: 12px 16px; text-align: center; color: #111827; font-size: 13px; font-weight: 600; border-bottom: 1px solid #e5e7eb;">
+          <td style="padding: 10px 14px; text-align: center; vertical-align: middle; color: #111827; font-size: 12.5px; font-weight: 600; border-bottom: 1px solid #e5e7eb;">
             ₹${unitPrice.toLocaleString('en-IN')}
           </td>
-          <td style="padding: 12px 16px; text-align: center; color: #111827; font-size: 13px; font-weight: 700; border-bottom: 1px solid #e5e7eb;">
+          <td style="padding: 10px 14px; text-align: center; vertical-align: middle; color: #111827; font-size: 12.5px; font-weight: 700; border-bottom: 1px solid #e5e7eb;">
             ${qty}
           </td>
-          <td style="padding: 12px 16px; text-align: right; color: #111827; font-size: 13px; font-weight: 700; border-bottom: 1px solid #e5e7eb;">
+          <td style="padding: 10px 14px; text-align: right; vertical-align: middle; color: #111827; font-size: 12.5px; font-weight: 700; border-bottom: 1px solid #e5e7eb;">
             ₹${lineTotal.toLocaleString('en-IN')}
           </td>
         </tr>
@@ -332,7 +332,6 @@ export const AdminOrders = () => {
 
     const customerName = clean(ord.customer?.name || ord.customer_name || 'Valued Customer');
     const customerPhone = clean(ord.customer?.phone || ord.customer_phone || '');
-    const customerAltPhone = clean(ord.customer?.alternatePhone || ord.customer?.alternate_phone || ord.customer_alternate_phone || '');
     const customerEmail = clean(ord.customer?.email || ord.customer_email || '');
     const customerAddress = clean(ord.customer?.address || ord.address || '');
     const customerCity = clean(ord.customer?.city || ord.city || '');
@@ -343,88 +342,99 @@ export const AdminOrders = () => {
       ? new Date(ord.createdAt || ord.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
       : new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
+    const invoiceNo = formatOrderId(ord.order_number || ord.orderNumber || ord.id);
+
     printWindow.document.write(`
       <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8" />
-          <title>Invoice #${ord.order_number || ord.id} - ${companySettings.companyName || 'Classic Legend Crackers'}</title>
+          <title>Invoice #${invoiceNo} - ${companySettings.companyName || 'Classic Legend Crackers'}</title>
           <style>
             @media print {
-              @page { size: A4 portrait; margin: 15mm; }
+              @page { size: A4 portrait; margin: 12mm; }
               body { padding: 0 !important; background: #fff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
               .no-print { display: none !important; }
               .invoice-card { border: none !important; box-shadow: none !important; width: 100% !important; max-width: none !important; padding: 0 !important; }
             }
             * { box-sizing: border-box; }
             body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; color: #111827; background: #f8fafc; margin: 0; padding: 24px; }
-            .invoice-card { max-width: 800px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 36px 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+            .invoice-card { max-width: 800px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 36px 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); page-break-inside: avoid; }
             
             /* Top Header Bar */
-            .header-grid { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
-            .brand-left { width: 55%; }
-            .brand-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-            .brand-dot { width: 28px; height: 28px; background: #dc2626; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+            .header-grid { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+            .brand-left { width: 52%; }
+            .brand-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+            .brand-dot { width: 26px; height: 26px; background: #dc2626; border-radius: 50%; display: inline-block; flex-shrink: 0; }
             .brand-logo-img { width: 42px; height: 42px; object-fit: contain; }
-            .brand-title { font-size: 22px; font-weight: 800; color: #dc2626; line-height: 1.1; font-family: inherit; }
+            .brand-title { font-size: 22px; font-weight: 800; color: #dc2626; line-height: 1.1; letter-spacing: -0.3px; }
             .office-section { font-size: 11px; color: #4b5563; line-height: 1.45; }
             .office-heading { font-weight: 700; color: #111827; font-size: 11px; margin-bottom: 2px; }
 
-            .header-right { text-align: right; width: 42%; }
-            .invoice-main-title { font-size: 28px; font-weight: 900; color: #dc2626; letter-spacing: 0.5px; text-transform: uppercase; margin: 0 0 2px 0; }
-            .invoice-date { font-size: 12px; font-weight: 700; color: #111827; margin-bottom: 14px; }
-            .to-section { font-size: 11px; color: #4b5563; line-height: 1.45; }
+            .header-right { text-align: right; width: 44%; }
+            .invoice-main-title { font-size: 26px; font-weight: 900; color: #dc2626; letter-spacing: 0.5px; text-transform: uppercase; margin: 0 0 1px 0; }
+            .invoice-date { font-size: 11.5px; font-weight: 700; color: #374151; margin-bottom: 12px; }
+            .to-section { font-size: 11px; color: #4b5563; line-height: 1.45; text-align: right; }
             .to-heading { font-weight: 700; color: #111827; font-size: 11px; margin-bottom: 2px; }
             .customer-name { font-size: 13px; font-weight: 700; color: #111827; }
 
-            /* Table Header Bar with Slanted Cut */
-            .table-container { margin-top: 10px; margin-bottom: 24px; border-radius: 4px; overflow: hidden; }
-            .custom-table-header { display: flex; width: 100%; height: 38px; }
-            .header-red-part {
+            /* Table Header Bar with 100% Synchronized Columns & Slanted Angle */
+            .table-container { margin-top: 14px; margin-bottom: 24px; border-radius: 4px; overflow: hidden; }
+            table.items-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+
+            /* Column Width Alignment Lock */
+            table.items-table col.c-desc { width: 48%; }
+            table.items-table col.c-price { width: 20%; }
+            table.items-table col.c-qty { width: 14%; }
+            table.items-table col.c-total { width: 18%; }
+
+            table.items-table th {
+              height: 38px;
+              vertical-align: middle;
+              font-size: 12px;
+              font-weight: 700;
+              border: none;
+              padding: 0 14px;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+
+            .th-red-left {
               background: #dc2626;
               color: #ffffff;
-              display: flex;
-              align-items: center;
-              padding: 0 16px;
-              width: 65%;
-              clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%);
-              font-size: 12px;
-              font-weight: 700;
+              text-align: left;
               font-style: italic;
-              -webkit-print-color-adjust: exact;
-              print-color-adjust: exact;
             }
-            .header-red-title { width: 68%; text-align: left; }
-            .header-red-price { width: 32%; text-align: center; }
-            
-            .header-grey-part {
+
+            .th-red-slant {
+              background: linear-gradient(112deg, #dc2626 76%, #e5e7eb 76.5%);
+              color: #ffffff;
+              text-align: center;
+              font-style: italic;
+              padding-right: 28px !important;
+            }
+
+            .th-grey-center {
               background: #e5e7eb;
               color: #1f2937;
-              display: flex;
-              align-items: center;
-              padding: 0 16px;
-              width: 35%;
-              margin-left: -20px;
-              padding-left: 28px;
-              font-size: 12px;
-              font-weight: 700;
-              -webkit-print-color-adjust: exact;
-              print-color-adjust: exact;
+              text-align: center;
             }
-            .header-grey-qty { width: 40%; text-align: center; }
-            .header-grey-total { width: 60%; text-align: right; }
 
-            table.items-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+            .th-grey-right {
+              background: #e5e7eb;
+              color: #1f2937;
+              text-align: right;
+            }
 
             /* Summary & Totals Section */
             .summary-flex { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 20px; gap: 20px; }
             .notes-left { width: 48%; }
             .note-title { font-weight: 700; font-size: 11px; color: #111827; margin-bottom: 2px; }
             .note-text { font-size: 11px; color: #4b5563; line-height: 1.45; }
-            .thank-you-msg { font-size: 13px; font-weight: 800; color: #dc2626; margin-top: 24px; }
+            .thank-you-msg { font-size: 13.5px; font-weight: 800; color: #dc2626; margin-top: 24px; letter-spacing: -0.2px; }
 
-            .totals-right { width: 46%; font-size: 12px; font-weight: 700; color: #374151; }
-            .summary-line { display: flex; justify-content: space-between; padding: 4px 0; }
+            .totals-right { width: 44%; font-size: 12px; font-weight: 700; color: #374151; }
+            .summary-line { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f3f4f6; }
             .total-due-banner {
               background: #dc2626;
               color: #ffffff;
@@ -433,7 +443,7 @@ export const AdminOrders = () => {
               align-items: center;
               padding: 10px 16px;
               margin-top: 10px;
-              clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+              clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
               font-size: 14px;
               font-weight: 800;
               -webkit-print-color-adjust: exact;
@@ -441,8 +451,8 @@ export const AdminOrders = () => {
             }
 
             /* Bottom Red Rule & 3-Column Footer */
-            .footer-divider { border: 0; border-top: 1px solid #dc2626; margin-top: 36px; margin-bottom: 16px; }
-            .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; font-size: 10px; color: #4b5563; line-height: 1.4; }
+            .footer-divider { border: 0; border-top: 1.5px solid #dc2626; margin-top: 36px; margin-bottom: 16px; }
+            .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; font-size: 10px; color: #4b5563; line-height: 1.45; }
             .footer-col-title { font-weight: 800; color: #dc2626; font-size: 11px; margin-bottom: 4px; }
           </style>
         </head>
@@ -477,19 +487,23 @@ export const AdminOrders = () => {
               </div>
             </div>
 
-            <!-- Items Table with 2-Tone Slanted Header -->
+            <!-- Single Table Architecture with Perfect Column Alignment & Slanted Header -->
             <div class="table-container">
-              <div class="custom-table-header">
-                <div class="header-red-part">
-                  <div class="header-red-title">Items Description</div>
-                  <div class="header-red-price">Unit Price</div>
-                </div>
-                <div class="header-grey-part">
-                  <div class="header-grey-qty">Qnt</div>
-                  <div class="header-grey-total">Total</div>
-                </div>
-              </div>
               <table class="items-table">
+                <colgroup>
+                  <col class="c-desc" />
+                  <col class="c-price" />
+                  <col class="c-qty" />
+                  <col class="c-total" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th class="th-red-left">Items Description</th>
+                    <th class="th-red-slant">Unit Price</th>
+                    <th class="th-grey-center">Qnt</th>
+                    <th class="th-grey-right">Total</th>
+                  </tr>
+                </thead>
                 <tbody>
                   ${itemsHtml}
                 </tbody>
@@ -502,7 +516,7 @@ export const AdminOrders = () => {
                 <div class="note-title">Note:</div>
                 <div class="note-text">
                   Direct Sivakasi factory packed items. Non-hazardous cargo legal transport.<br/>
-                  Invoice Order Ref: #${ord.order_number || ord.id}
+                  Invoice Ref No: #${invoiceNo}
                 </div>
                 <div class="thank-you-msg">Thank you for your Business</div>
               </div>

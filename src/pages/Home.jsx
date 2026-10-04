@@ -231,26 +231,21 @@ export const Home = () => {
       </section>
 
       {/* Section 2: Authorized Brand Partners Logo Scroll Bar (Mobile Friendly Infinite Carousel) */}
-      <section className="bg-gradient-to-r from-slate-900 via-rose-950 to-slate-900 text-white py-7 shadow-inner relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-[11px] font-bold text-amber-300 uppercase tracking-widest flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" /> Authorized Sivakasi Manufacturers
-            </span>
-          </div>
-          <p className="text-xs text-slate-300 font-normal">
-            100% Genuine, PESO-certified green fireworks directly sourced from India's leading Sivakasi brands.
-          </p>
+      <section className="bg-white border-y border-slate-200/80 py-6 relative overflow-hidden shadow-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4 text-center">
+
+          <h2 className="text-xl sm:text-2xl font-black font-heading text-slate-900 mt-1">
+            Top Sivakasi Cracker Brands
+          </h2>
         </div>
 
         {/* Continuous Auto-Marquee with Manual Touch Scroll Fallback */}
-        <div className="relative w-full overflow-x-auto no-scrollbar py-2">
+        <div className="relative w-full overflow-x-auto no-scrollbar py-1">
           <div className="animate-infinite-scroll flex items-center gap-4 sm:gap-6 px-4">
             {[...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS].map((logo, idx) => (
               <div
                 key={`${logo.id}-${idx}`}
-                className="shrink-0 bg-white/95 hover:bg-white border border-white/20 rounded-2xl p-2.5 sm:p-3.5 shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center min-w-[120px] sm:min-w-[150px] h-18 sm:h-22 group select-none cursor-pointer"
+                className="shrink-0 bg-white border border-slate-200/80 hover:border-red-300 rounded-2xl p-2.5 sm:p-3.5 shadow-xs hover:shadow-md transition-all duration-300 flex items-center justify-center min-w-[120px] sm:min-w-[150px] h-18 sm:h-22 group select-none cursor-pointer"
               >
                 <img
                   src={logo.url}

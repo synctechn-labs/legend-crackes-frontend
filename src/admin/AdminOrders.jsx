@@ -515,7 +515,7 @@ export const AdminOrders = () => {
               <div class="notes-left">
                 <div class="note-title">Note:</div>
                 <div class="note-text">
-                  Direct Sivakasi factory packed items. Non-hazardous cargo legal transport.<br/>
+                  By placing an order on our website, you acknowledge and agree to these terms regarding potential minor variations in brand packaging and product visuals.<br/>
                   Invoice Ref No: #${invoiceNo}
                 </div>
                 <div class="thank-you-msg">Thank you for your Business</div>
@@ -555,13 +555,17 @@ export const AdminOrders = () => {
               </div>
               <div>
                 <div class="footer-col-title">Payment Info :</div>
-                Account : COD / UPI Transfer<br/>
-                A/C Name : ${companySettings.companyName || 'Classic Legend Crackers'}<br/>
+                Gpay : 7010849600<br/>
+                A/C Name : ${companySettings.companyName || 'Gugan SR'}<br/>
                 Status : ${status}
               </div>
               <div>
                 <div class="footer-col-title">Terms & Conditions/Note:</div>
-                Quality verified. Subject to Sivakasi Jurisdiction.
+                Firecrackers once sold cannot be returned or exchanged due to safety and legal restrictions.<br/>
+
+All purchases must be paid for in full at the time of sale.<br/>
+
+Delivery charges are to be paid by the customer.
               </div>
             </div>
 
@@ -587,10 +591,10 @@ export const AdminOrders = () => {
   const orderProfitBeforeExtra = backendProfit !== null
     ? backendProfit
     : (activeOrder?.items?.reduce((acc, item) => {
-        const sellP = Number(item.price || item.unit_price || 0);
-        const myP = Number(item.myPrice ?? item.my_price ?? 0);
-        return acc + (sellP - myP) * (item.quantity || 1);
-      }, 0) || 0);
+      const sellP = Number(item.price || item.unit_price || 0);
+      const myP = Number(item.myPrice ?? item.my_price ?? 0);
+      return acc + (sellP - myP) * (item.quantity || 1);
+    }, 0) || 0);
 
   const extraDiscAmt = Number(activeOrder?.extraDiscountAmount ?? activeOrder?.extra_discount_amount ?? (orderProfitBeforeExtra * (extraDiscPct / 100)));
   const finalTotalPayable = orderSubtotal - extraDiscAmt;
@@ -618,8 +622,8 @@ export const AdminOrders = () => {
               }
             }}
             className={`px-3 py-2 border rounded-xl shadow-xs text-xs font-bold transition-all flex items-center gap-1.5 ${soundEnabled
-                ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                : 'bg-slate-100 border-slate-200 text-slate-500'
+              ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
+              : 'bg-slate-100 border-slate-200 text-slate-500'
               }`}
             title="Toggle Order Sound Alerts"
           >
@@ -931,22 +935,20 @@ export const AdminOrders = () => {
                     <button
                       type="button"
                       onClick={() => setExtraDiscountType('percent')}
-                      className={`px-2.5 py-0.5 rounded-md font-bold text-[10px] transition-colors ${
-                        extraDiscountType === 'percent'
-                          ? 'bg-emerald-600 text-white shadow-xs'
-                          : 'text-slate-600 hover:text-slate-900'
-                      }`}
+                      className={`px-2.5 py-0.5 rounded-md font-bold text-[10px] transition-colors ${extraDiscountType === 'percent'
+                        ? 'bg-emerald-600 text-white shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                        }`}
                     >
                       % Percent
                     </button>
                     <button
                       type="button"
                       onClick={() => setExtraDiscountType('amount')}
-                      className={`px-2.5 py-0.5 rounded-md font-bold text-[10px] transition-colors ${
-                        extraDiscountType === 'amount'
-                          ? 'bg-emerald-600 text-white shadow-xs'
-                          : 'text-slate-600 hover:text-slate-900'
-                      }`}
+                      className={`px-2.5 py-0.5 rounded-md font-bold text-[10px] transition-colors ${extraDiscountType === 'amount'
+                        ? 'bg-emerald-600 text-white shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                        }`}
                     >
                       ₹ Flat Amount
                     </button>

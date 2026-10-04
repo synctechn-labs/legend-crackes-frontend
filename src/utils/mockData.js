@@ -97,8 +97,8 @@ export const queryMockProducts = ({
     filtered.sort((a, b) => (a.sellingPrice ?? 0) - (b.sellingPrice ?? 0));
   } else if (sortBy === 'price-high') {
     filtered.sort((a, b) => (b.sellingPrice ?? 0) - (a.sellingPrice ?? 0));
-  } else if (sortBy === 'new') {
-    filtered.sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+  } else {
+    filtered.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
   }
 
   const total = filtered.length;

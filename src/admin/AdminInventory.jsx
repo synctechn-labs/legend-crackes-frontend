@@ -136,7 +136,7 @@ export const AdminInventory = () => {
   const handleOpenEdit = (product) => {
     const origP = product.originalPrice ?? product.original_price ?? '';
     const sellP = product.sellingPrice ?? product.selling_price ?? '';
-    const myP = product.myPrice ?? product.my_price ?? origP;
+    const myP = product.myPrice ?? product.my_price ?? '';
 
     setEditingProduct(product);
     setFormData({
@@ -372,8 +372,8 @@ export const AdminInventory = () => {
                 Array.from({ length: 6 }).map((_, i) => <TableRowSkeleton key={i} columns={6} />)
               ) : inventoryData.products.length > 0 ? (
                 inventoryData.products.map((product) => {
-                  const myP = product.myPrice ?? product.my_price ?? product.originalPrice ?? 0;
-                  const sellP = product.sellingPrice ?? product.selling_price ?? 0;
+                  const myP = Number(product.myPrice ?? product.my_price ?? 0);
+                  const sellP = Number(product.sellingPrice ?? product.selling_price ?? 0);
                   const profitVal = sellP - myP;
 
                   return (

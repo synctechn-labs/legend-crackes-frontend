@@ -13,7 +13,7 @@ import {
   PhoneCall
 } from 'lucide-react';
 import { useCart } from '../../hooks/useCart';
-import { CATEGORIES, BRAND_LOGO_URL } from '../../utils/constants';
+import { CATEGORIES, BRAND_LOGO_URL, getCategoryImage } from '../../utils/constants';
 import { categoryService } from '../../services/categoryService';
 import { GlobalSearchModal } from './GlobalSearchModal';
 
@@ -108,8 +108,8 @@ export const Navbar = () => {
                   <div className="absolute top-full left-0 w-80 bg-white rounded-2xl shadow-2xl border border-slate-100 p-3 grid grid-cols-2 gap-1 animate-fade-in z-50">
                     {(dynamicCategories.length > 0 ? dynamicCategories.filter(c => c.id !== 'all') : CATEGORIES.slice(1, 11)).slice(0, 10).map((cat) => (
                       <Link
-                        key={cat.id}
-                        to={`/shop?category=${cat.id}`}
+                        key={cat.id || cat.slug}
+                        to={`/shop?category=${cat.slug || cat.id}`}
                         onClick={() => setIsCategoriesDropdownOpen(false)}
                         className="px-3 py-2 text-xs font-medium text-slate-700 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors flex items-center justify-between"
                       >

@@ -1,5 +1,5 @@
 import apiClient, { executeApi } from './api';
-import { CATEGORIES } from '../utils/constants';
+import { CATEGORIES, getCategoryImage } from '../utils/constants';
 
 const STORAGE_KEY = 'sivakasi_categories_v1';
 
@@ -37,7 +37,8 @@ export const categoryService = {
           slug: c.slug || String(c.id),
           name: c.name,
           count: c.product_count ?? c.count ?? 0,
-          desc: c.description || c.desc || ''
+          desc: c.description || c.desc || '',
+          image: c.image || c.logo || c.icon_url || getCategoryImage(c)
         }));
         const hasAll = normalized.some(c => String(c.id) === 'all' || c.slug === 'all');
         const totalItems = normalized.reduce((acc, curr) => acc + (curr.count || 0), 0);

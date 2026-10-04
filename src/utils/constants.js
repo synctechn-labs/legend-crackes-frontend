@@ -4,24 +4,74 @@ export const CONTACT_PHONE = '+91 70108 49600';
 export const CONTACT_PHONE_RAW = '7010849600';
 export const WHATSAPP_LINK = 'https://wa.me/917010849600';
 
+export const CATEGORY_IMAGE_MAP = {
+  'bomb': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791143867/1791141485149.png',
+  'bombs': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791143867/1791141485149.png',
+  'atom-bombs': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791143867/1791141485149.png',
+  'sound-crackers': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791143867/1791141485149.png',
+
+  'ayyans-spl-items': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791143991/1791141770745.png',
+  'ayyans spl items': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791143991/1791141770745.png',
+  'festival-special': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791143991/1791141770745.png',
+
+  'multi-colour-shots': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144070/1791142256932.png',
+  'multi colour shots': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144070/1791142256932.png',
+  'multi colour shorts': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144070/1791142256932.png',
+  'multi-shots': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144070/1791142256932.png',
+
+  'wow-colour-shots': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144135/1791142517296.png',
+  'wow colour': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144135/1791142517296.png',
+  'wow colour shots': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144135/1791142517296.png',
+
+  'single-color-fancy': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144288/1791142762024.png',
+  'single color fancy': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144288/1791142762024.png',
+  'fancy-crackers': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144288/1791142762024.png',
+
+  'fancy-combo-pack': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144339/1791143561915.png',
+  'fancy combo pack': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144339/1791143561915.png',
+  'combo-packs': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144339/1791143561915.png',
+
+  'mega-foundation': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144407/1791143751839.png',
+  'mega foundation': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144407/1791143751839.png',
+  'flower-pots': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144407/1791143751839.png',
+
+  'new-arrivals': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144850/1791144564596.png',
+  'new arrivals': 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144850/1791144564596.png',
+};
+
+export const getCategoryImage = (cat) => {
+  if (!cat) return null;
+  if (typeof cat === 'string') {
+    const key = cat.trim().toLowerCase();
+    return CATEGORY_IMAGE_MAP[key] || null;
+  }
+  if (cat.image || cat.logo || cat.icon_url) {
+    return cat.image || cat.logo || cat.icon_url;
+  }
+  const nameKey = (cat.name || '').trim().toLowerCase();
+  const slugKey = (cat.slug || '').trim().toLowerCase();
+  const idKey = (cat.id || '').toString().trim().toLowerCase();
+
+  return CATEGORY_IMAGE_MAP[nameKey] || CATEGORY_IMAGE_MAP[slugKey] || CATEGORY_IMAGE_MAP[idKey] || null;
+};
+
 export const CATEGORIES = [
   { id: 'all', name: 'All Crackers', icon: 'Sparkles', count: 3250 },
+  { id: 'new-arrivals', name: 'New Arrivals', icon: 'BadgePercent', count: 110, desc: 'Latest 2026 eco-friendly fireworks creations', image: 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144850/1791144564596.png' },
+  { id: 'ayyans-spl-items', name: 'AYYANS SPL ITEMS', icon: 'PartyPopper', count: 140, desc: 'Exclusive Sivakasi special items', image: 'https://res.cloudinary.com/yez0xdym/image/upload/v1791143991/1791141770745.png' },
+  { id: 'multi-colour-shots', name: 'MULTI COLOUR SHOTS', icon: 'Sparkle', count: 260, desc: '12, 30, 60 & 120 Shots sky spectacles', image: 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144070/1791142256932.png' },
+  { id: 'wow-colour-shots', name: 'WOW COLOUR SHOTS', icon: 'SunMedium', count: 340, desc: 'Vibrant sky bloom fireworks', image: 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144135/1791142517296.png' },
+  { id: 'single-color-fancy', name: 'SINGLE COLOR FANCY', icon: 'Star', count: 290, desc: 'Novelty visual wonder crackers', image: 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144288/1791142762024.png' },
+  { id: 'fancy-combo-pack', name: 'FANCY COMBO PACK', icon: 'Package', count: 120, desc: 'Money-saver bundles for grand celebrations', image: 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144339/1791143561915.png' },
+  { id: 'mega-foundation', name: 'MEGA FOUNDATION', icon: 'Flame', count: 310, desc: 'Giant festive fountains', image: 'https://res.cloudinary.com/yez0xdym/image/upload/v1791144407/1791143751839.png' },
+  { id: 'atom-bombs', name: 'BOMBS', icon: 'Bomb', count: 190, desc: 'Loud burst sound crackers', image: 'https://res.cloudinary.com/yez0xdym/image/upload/v1791143867/1791141485149.png' },
   { id: 'sparklers', name: 'Sparklers', icon: 'Wand2', count: 280, desc: 'Golden, electric, color sparklers for all ages' },
-  { id: 'flower-pots', name: 'Flower Pots', icon: 'Flame', count: 310, desc: 'Ashoka, Colour Koti, Giant festive fountains' },
   { id: 'ground-chakkars', name: 'Ground Chakkars', icon: 'Disc', count: 240, desc: 'Whistling, Deluxe & Special spinning wheels' },
   { id: 'bijili-crackers', name: 'Bijili Crackers', icon: 'Zap', count: 180, desc: 'Red & striped traditional crackling sound' },
-  { id: 'atom-bombs', name: 'Atom Bombs', icon: 'Bomb', count: 190, desc: 'Hydro, Classic Bullet & Green Thunder bombs' },
   { id: 'rockets', name: 'Rockets', icon: 'Rocket', count: 220, desc: 'Sky whistle, Tri-colour & Parachute rockets' },
-  { id: 'fancy-crackers', name: 'Fancy Crackers', icon: 'Star', count: 290, desc: 'Novelty sound & visual wonder crackers' },
-  { id: 'aerial-shots', name: 'Aerial Shots', icon: 'SunMedium', count: 340, desc: 'Single & double sky bloom aerial fireworks' },
-  { id: 'multi-shots', name: 'Multi Shots', icon: 'Sparkle', count: 260, desc: '12, 30, 60, 120 & 240 Shots sky spectacles' },
   { id: 'garlands', name: 'Garlands (Wala)', icon: 'Repeat', count: 150, desc: '100 to 10,000 Wala traditional garlands' },
-  { id: 'sound-crackers', name: 'Sound Crackers', icon: 'Volume2', count: 210, desc: 'Classic double sound, 28 chorsa & loud bursts' },
   { id: 'kids-crackers', name: 'Kids Crackers', icon: 'Smile', count: 175, desc: 'Safe roll caps, serpents, magic pops & sparklers' },
   { id: 'gift-boxes', name: 'Gift Boxes', icon: 'Gift', count: 95, desc: 'Curated VIP family celebration gift hampers' },
-  { id: 'combo-packs', name: 'Combo Packs', icon: 'Package', count: 120, desc: 'Money-saver bundles for grand celebrations' },
-  { id: 'festival-special', name: 'Festival Special', icon: 'PartyPopper', count: 140, desc: 'Exclusive Diwali limited edition releases' },
-  { id: 'new-arrivals', name: 'New Arrivals', icon: 'BadgePercent', count: 110, desc: 'Latest 2026 eco-friendly fireworks creations' },
   { id: 'best-sellers', name: 'Best Sellers', icon: 'Trophy', count: 160, desc: 'Most loved & highest rated crackers in India' },
 ];
 

@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { productService } from '../services/productService';
 import { categoryService } from '../services/categoryService';
-import { CATEGORIES, SAFETY_TIPS } from '../utils/constants';
+import { CATEGORIES, SAFETY_TIPS, getCategoryImage } from '../utils/constants';
 import { ProductCard } from '../components/common/ProductCard';
 import { ProductGridSkeleton } from '../components/common/SkeletonLoader';
 import { formatCurrency } from '../utils/formatters';
@@ -297,28 +297,43 @@ export const Home = () => {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5">
-          {(categories.length > 0 ? categories.filter(c => c.id !== 'all' && c.slug !== 'all') : CATEGORIES.slice(1)).slice(0, 8).map((category) => (
-            <Link
-              key={category.id || category.slug}
-              to={`/shop?category=${category.slug || category.id}`}
-              className="group p-4 sm:p-5 bg-white rounded-2xl border border-slate-200/80 hover:border-red-300 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden"
-            >
-              {category.isNew && (
-                <span className="absolute top-2 right-2 text-[9px] font-semiblod uppercase px-1.5 py-0.5 rounded bg-amber-500 text-white shadow-2xs">
-                  NEW
+          {(categories.length > 0 ? categories.filter(c => c.id !== 'all' && c.slug !== 'all') : CATEGORIES.slice(1)).slice(0, 8).map((category) => {
+            const catImage = category.image || getCategoryImage(category);
+            return (
+              <Link
+                key={category.id || category.slug}
+                to={`/shop?category=${category.slug || category.id}`}
+                className="group p-4 sm:p-6 bg-white rounded-2xl border border-slate-200/80 hover:border-red-300 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden"
+              >
+                {category.isNew && (
+                  <span className="absolute top-2 right-2 text-[9px] font-semibold uppercase px-1.5 py-0.5 rounded bg-amber-500 text-white shadow-2xs">
+                    NEW
+                  </span>
+                )}
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-rose-50/60 p-3 flex items-center justify-center mb-3.5 overflow-hidden border border-rose-100/80 shrink-0 shadow-2xs group-hover:bg-rose-100/80 group-hover:scale-105 transition-all duration-300">
+                  {catImage ? (
+                    <img
+                      src={catImage}
+                      alt={category.name}
+                      className="w-full h-full object-contain filter drop-shadow-xs"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <Flame className="w-10 h-10 text-red-600 group-hover:scale-110 transition-all" />
+                  )}
+                </div>
+                <h3 className="font-heading font-bold text-slate-900 text-sm sm:text-base group-hover:text-red-600 transition-colors leading-tight truncate w-full">
+                  {category.name}
+                </h3>
+                <span className="text-[11px] text-slate-400 font-medium mt-1">
+                  {category.count ?? category.product_count ?? 0} Varieties
                 </span>
-              )}
-              <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors flex items-center justify-center mb-3">
-                <Flame className="w-6 h-6" />
-              </div>
-              <h3 className="font-heading font-bold text-slate-900 text-sm sm:text-base group-hover:text-red-600 transition-colors leading-tight truncate w-full">
-                {category.name}
-              </h3>
-              <span className="text-[11px] text-slate-400 font-medium mt-1">
-                {category.count ?? category.product_count ?? 0} Varieties
-              </span>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </section>
 

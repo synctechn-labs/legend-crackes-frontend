@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { productService } from '../services/productService';
 import { categoryService } from '../services/categoryService';
+import { getCategoryImage } from '../utils/constants';
 import { ProductCard } from '../components/common/ProductCard';
 import { Pagination } from '../components/common/Pagination';
 import { ProductGridSkeleton } from '../components/common/SkeletonLoader';

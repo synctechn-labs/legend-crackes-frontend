@@ -450,9 +450,9 @@ export const AdminOrders = () => {
                   <span style="color: #64748b;">Subtotal:</span>
                   <span style="font-weight: 700; color: #0f172a;">₹${subtotal.toLocaleString('en-IN')}</span>
                 </div>
-                ${extraDiscPct > 0 ? `
+                ${extraDiscAmt > 0 ? `
                   <div class="total-row" style="color: #059669;">
-                    <span>Extra Discount (${extraDiscPct}%):</span>
+                    <span>Extra Discount:</span>
                     <span style="font-weight: 700;">- ₹${extraDiscAmt.toLocaleString('en-IN')}</span>
                   </div>
                 ` : ''}
@@ -886,14 +886,14 @@ export const AdminOrders = () => {
                 </button>
               </div>
 
-              {extraDiscPct > 0 && (
+              {extraDiscAmt > 0 && (
                 <div className="pt-2 border-t border-emerald-200/60 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
                   <div>
                     <span className="text-slate-500 block">Subtotal</span>
                     <span className="font-bold text-slate-800">{formatCurrency(orderSubtotal)}</span>
                   </div>
                   <div>
-                    <span className="text-emerald-700 block">Discount ({extraDiscPct}%)</span>
+                    <span className="text-emerald-700 block">Extra Discount</span>
                     <span className="font-bold text-emerald-700">- {formatCurrency(extraDiscAmt)}</span>
                   </div>
                   <div>
@@ -932,7 +932,7 @@ export const AdminOrders = () => {
                 </span>
                 {extraDiscAmt > 0 && (
                   <span className="text-[11px] text-emerald-600 font-bold block">
-                    (Includes {extraDiscPct}% Extra Discount)
+                    (Includes Extra Discount -{formatCurrency(extraDiscAmt)})
                   </span>
                 )}
               </div>

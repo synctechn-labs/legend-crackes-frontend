@@ -119,13 +119,13 @@ export const Contact = () => {
               </p>
             </div>
             <a
-              href="https://instagram.com/classiclegendcrackers"
+              href="https://www.instagram.com/classic_legend_crackers"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-rose-700 font-bold text-xs rounded-xl shadow-xs hover:bg-rose-50 transition-colors"
             >
               <InstagramIcon className="w-4 h-4 text-rose-600" />
-              <span>Follow @classiclegendcrackers</span>
+              <span>Follow @classic_legend_crackers</span>
             </a>
           </div>
 

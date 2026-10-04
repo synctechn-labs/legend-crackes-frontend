@@ -14,7 +14,8 @@ import {
   Zap,
   Volume2,
   PackageCheck,
-  Star
+  Star,
+  MessageCircle
 } from 'lucide-react';
 import { productService } from '../services/productService';
 import { categoryService } from '../services/categoryService';
@@ -153,6 +154,16 @@ export const Home = () => {
                   <Gift className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
                   <span>Family Gift Boxes</span>
                 </Link>
+
+                <a
+                  href="https://wa.me/917010849600?text=Hi%20Classic%20Legend%20Crackers!%20I%20want%20to%20inquire%20about%20fireworks%20orders."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm sm:text-base rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/25 active:scale-[0.98]"
+                >
+                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  <span>WhatsApp Inquiry</span>
+                </a>
               </div>
 
               {/* Trust Badges */}

@@ -296,176 +296,261 @@ export const AdminOrders = () => {
 
     const clean = (val) => String(val || '').replace(/^string:/i, '').trim();
 
-    const itemsHtml = (ord.items || []).map((it, idx) => {
+    const items = ord.items || [];
+    const itemsHtml = items.map((it, idx) => {
       const itemName = clean(it.name || it.product_name_snapshot || it.productName || `Cracker Item #${idx + 1}`);
-      const itemCode = clean(it.code || it.product_code || '-');
+      const itemCode = clean(it.code || it.product_code || '');
       const unitPrice = Number(it.price || it.unit_price || 0);
       const qty = Number(it.quantity || 1);
       const lineTotal = Number(it.total || it.total_price || (unitPrice * qty));
+      const isEven = idx % 2 === 0;
 
       return `
-        <tr style="background-color: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; border-bottom: 1px solid #e2e8f0;">
-          <td style="padding: 10px 12px; text-align: center; color: #64748b; font-size: 11px; font-weight: 600;">${idx + 1}</td>
-          <td style="padding: 10px 12px; font-family: monospace; font-size: 11px; font-weight: 700; color: #0f172a;">${itemCode}</td>
-          <td style="padding: 10px 12px;">
-            <div style="font-weight: 700; color: #0f172a; font-size: 13px;">${itemName}</div>
+        <tr style="background-color: ${isEven ? '#ffffff' : '#f3f4f6'};">
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb;">
+            <div style="font-weight: 700; color: #111827; font-size: 13px;">${itemName}</div>
+            ${itemCode ? `<div style="font-size: 11px; color: #6b7280; font-family: monospace; margin-top: 2px;">Code: ${itemCode}</div>` : ''}
           </td>
-          <td style="padding: 10px 12px; text-align: center; font-weight: 800; color: #0f172a; font-size: 13px;">${qty}</td>
-          <td style="padding: 10px 12px; text-align: right; color: #334155; font-size: 12px;">₹${unitPrice.toLocaleString('en-IN')}</td>
-          <td style="padding: 10px 12px; text-align: right; font-weight: 800; color: #0f172a; font-size: 13px;">₹${lineTotal.toLocaleString('en-IN')}</td>
+          <td style="padding: 12px 16px; text-align: center; color: #111827; font-size: 13px; font-weight: 600; border-bottom: 1px solid #e5e7eb;">
+            ₹${unitPrice.toLocaleString('en-IN')}
+          </td>
+          <td style="padding: 12px 16px; text-align: center; color: #111827; font-size: 13px; font-weight: 700; border-bottom: 1px solid #e5e7eb;">
+            ${qty}
+          </td>
+          <td style="padding: 12px 16px; text-align: right; color: #111827; font-size: 13px; font-weight: 700; border-bottom: 1px solid #e5e7eb;">
+            ₹${lineTotal.toLocaleString('en-IN')}
+          </td>
         </tr>
       `;
     }).join('');
 
-    const subtotal = Number(ord.subtotal || ord.total || 0);
-    const extraDiscPct = Number(ord.extraDiscountPercentage ?? ord.extra_discount_percentage ?? 0);
+    const subtotal = Number(ord.subtotal || 0);
+    const deliveryCharge = Number(ord.delivery_charge ?? ord.deliveryCharge ?? 500);
     const extraDiscAmt = Number(ord.extraDiscountAmount ?? ord.extra_discount_amount ?? 0);
-    const finalTotal = Number(ord.finalTotal ?? ord.final_total_amount ?? (subtotal - extraDiscAmt));
+    const finalTotal = Number(ord.final_total_amount ?? ord.finalTotal ?? (subtotal + deliveryCharge - extraDiscAmt));
     const status = clean(ord.status || 'Confirmed');
 
-    const statusBg = status === 'Cancelled' ? '#ffe4e6' : status === 'Delivered' ? '#d1fae5' : '#e0f2fe';
-    const statusColor = status === 'Cancelled' ? '#e11d48' : status === 'Delivered' ? '#059669' : '#0284c7';
-
-    const customerName = clean(ord.customer?.name || 'Valued Customer');
-    const customerPhone = clean(ord.customer?.phone || '');
+    const customerName = clean(ord.customer?.name || ord.customer_name || 'Valued Customer');
+    const customerPhone = clean(ord.customer?.phone || ord.customer_phone || '');
     const customerAltPhone = clean(ord.customer?.alternatePhone || ord.customer?.alternate_phone || ord.customer_alternate_phone || '');
-    const customerEmail = clean(ord.customer?.email || '');
-    const customerAddress = clean(ord.customer?.address || '');
-    const customerCity = clean(ord.customer?.city || '');
-    const customerState = clean(ord.customer?.state || '');
-    const customerPincode = clean(ord.customer?.pincode || '');
+    const customerEmail = clean(ord.customer?.email || ord.customer_email || '');
+    const customerAddress = clean(ord.customer?.address || ord.address || '');
+    const customerCity = clean(ord.customer?.city || ord.city || '');
+    const customerState = clean(ord.customer?.state || ord.state || '');
+    const customerPincode = clean(ord.customer?.pincode || ord.pincode || '');
+
+    const formattedDate = ord.createdAt || ord.created_at
+      ? new Date(ord.createdAt || ord.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+      : new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
     printWindow.document.write(`
       <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8" />
-          <title>Invoice #${ord.id || ord.order_number} - Classic Legend Crackers</title>
+          <title>Invoice #${ord.order_number || ord.id} - ${companySettings.companyName || 'Classic Legend Crackers'}</title>
           <style>
             @media print {
-              body { padding: 0 !important; background: #fff !important; }
+              @page { size: A4 portrait; margin: 15mm; }
+              body { padding: 0 !important; background: #fff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
               .no-print { display: none !important; }
               .invoice-card { border: none !important; box-shadow: none !important; width: 100% !important; max-width: none !important; padding: 0 !important; }
             }
-            body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1e293b; background: #f1f5f9; margin: 0; padding: 24px; }
-            .invoice-card { max-width: 820px; margin: 0 auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 16px; padding: 32px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); }
-            .brand-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #dc2626; padding-bottom: 20px; margin-bottom: 24px; }
-            .brand-logo-title { display: flex; align-items: center; gap: 14px; }
-            .brand-logo { width: 56px; height: 56px; object-fit: contain; }
-            .brand-name { font-size: 22px; font-weight: 900; color: #dc2626; letter-spacing: -0.5px; text-transform: uppercase; }
-            .brand-sub { font-size: 11px; color: #64748b; margin-top: 2px; font-weight: 600; }
-            .invoice-title-block { text-align: right; }
-            .invoice-tag { font-size: 20px; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; }
-            .inv-id { font-size: 13px; font-weight: 800; color: #dc2626; margin-top: 2px; }
-            .inv-date { font-size: 11px; color: #64748b; margin-top: 2px; }
+            * { box-sizing: border-box; }
+            body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; color: #111827; background: #f8fafc; margin: 0; padding: 24px; }
+            .invoice-card { max-width: 800px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 36px 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
             
-            .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
-            .info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; }
-            .box-heading { font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-            .cust-name { font-size: 15px; font-weight: 800; color: #0f172a; }
-            .cust-detail { font-size: 12px; color: #475569; margin-top: 3px; line-height: 1.4; }
+            /* Top Header Bar */
+            .header-grid { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+            .brand-left { width: 55%; }
+            .brand-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+            .brand-dot { width: 28px; height: 28px; background: #dc2626; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+            .brand-logo-img { width: 42px; height: 42px; object-fit: contain; }
+            .brand-title { font-size: 22px; font-weight: 800; color: #dc2626; line-height: 1.1; font-family: inherit; }
+            .office-section { font-size: 11px; color: #4b5563; line-height: 1.45; }
+            .office-heading { font-weight: 700; color: #111827; font-size: 11px; margin-bottom: 2px; }
+
+            .header-right { text-align: right; width: 42%; }
+            .invoice-main-title { font-size: 28px; font-weight: 900; color: #dc2626; letter-spacing: 0.5px; text-transform: uppercase; margin: 0 0 2px 0; }
+            .invoice-date { font-size: 12px; font-weight: 700; color: #111827; margin-bottom: 14px; }
+            .to-section { font-size: 11px; color: #4b5563; line-height: 1.45; }
+            .to-heading { font-weight: 700; color: #111827; font-size: 11px; margin-bottom: 2px; }
+            .customer-name { font-size: 13px; font-weight: 700; color: #111827; }
+
+            /* Table Header Bar with Slanted Cut */
+            .table-container { margin-top: 10px; margin-bottom: 24px; border-radius: 4px; overflow: hidden; }
+            .custom-table-header { display: flex; width: 100%; height: 38px; }
+            .header-red-part {
+              background: #dc2626;
+              color: #ffffff;
+              display: flex;
+              align-items: center;
+              padding: 0 16px;
+              width: 65%;
+              clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%);
+              font-size: 12px;
+              font-weight: 700;
+              font-style: italic;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+            .header-red-title { width: 68%; text-align: left; }
+            .header-red-price { width: 32%; text-align: center; }
             
-            .status-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase; background: ${statusBg}; color: ${statusColor}; margin-top: 6px; }
-            
-            table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
-            th { background: #0f172a; color: #ffffff; padding: 10px 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; border: none; }
-            th:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
-            th:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
-            
-            .summary-section { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 24px; }
-            .terms-box { max-width: 380px; font-size: 11px; color: #64748b; line-height: 1.5; }
-            .totals-table { width: 280px; font-size: 12px; }
-            .total-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f1f5f9; }
-            .grand-payable { border-top: 2px dashed #dc2626; border-bottom: 2px solid #dc2626; padding: 10px 0; font-size: 18px; font-weight: 900; color: #dc2626; margin-top: 6px; }
-            
-            .footer-notes { text-align: center; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 20px; margin-top: 30px; font-weight: 500; }
+            .header-grey-part {
+              background: #e5e7eb;
+              color: #1f2937;
+              display: flex;
+              align-items: center;
+              padding: 0 16px;
+              width: 35%;
+              margin-left: -20px;
+              padding-left: 28px;
+              font-size: 12px;
+              font-weight: 700;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+            .header-grey-qty { width: 40%; text-align: center; }
+            .header-grey-total { width: 60%; text-align: right; }
+
+            table.items-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+
+            /* Summary & Totals Section */
+            .summary-flex { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 20px; gap: 20px; }
+            .notes-left { width: 48%; }
+            .note-title { font-weight: 700; font-size: 11px; color: #111827; margin-bottom: 2px; }
+            .note-text { font-size: 11px; color: #4b5563; line-height: 1.45; }
+            .thank-you-msg { font-size: 13px; font-weight: 800; color: #dc2626; margin-top: 24px; }
+
+            .totals-right { width: 46%; font-size: 12px; font-weight: 700; color: #374151; }
+            .summary-line { display: flex; justify-content: space-between; padding: 4px 0; }
+            .total-due-banner {
+              background: #dc2626;
+              color: #ffffff;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 10px 16px;
+              margin-top: 10px;
+              clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+              font-size: 14px;
+              font-weight: 800;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+
+            /* Bottom Red Rule & 3-Column Footer */
+            .footer-divider { border: 0; border-top: 1px solid #dc2626; margin-top: 36px; margin-bottom: 16px; }
+            .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; font-size: 10px; color: #4b5563; line-height: 1.4; }
+            .footer-col-title { font-weight: 800; color: #dc2626; font-size: 11px; margin-bottom: 4px; }
           </style>
         </head>
         <body>
           <div class="invoice-card">
-            <div class="brand-bar">
-              <div class="brand-logo-title">
-                <img src="https://res.cloudinary.com/yez0xdym/image/upload/v1790708530/1000240064.png" class="brand-logo" alt="Classic Legend Crackers Logo" />
-                <div>
-                  <div class="brand-name">Classic Legend Crackers</div>
-                  <div class="brand-sub">Sivakasi Direct Factory Wholesale | Ph: +91 70108 49600</div>
-                </div>
-              </div>
-              <div class="invoice-title-block">
-                <div class="invoice-tag">TAX INVOICE</div>
-                <div class="inv-id">INVOICE #${formatOrderId(ord.order_number || ord.orderNumber || ord.id)}</div>
-                <div class="inv-date">Date: ${formatDate(ord.createdAt)}</div>
-              </div>
-            </div>
 
-            <div class="meta-grid">
-              <div class="info-box">
-                <div class="box-heading">Billed To (Customer)</div>
-                <div class="cust-name">${customerName}</div>
-                <div class="cust-detail">
-                  ${customerPhone ? `Phone: <strong>+91 ${customerPhone}</strong><br/>` : ''}
-                  ${customerAltPhone ? `Alt Phone: <strong>+91 ${customerAltPhone}</strong><br/>` : ''}
-                  ${customerEmail ? `Email: ${customerEmail}` : ''}
+            <!-- Top Header -->
+            <div class="header-grid">
+              <div class="brand-left">
+                <div class="brand-logo-row">
+                  <img src="https://res.cloudinary.com/yez0xdym/image/upload/v1790708530/1000240064.png" class="brand-logo-img" alt="Logo" onError="this.style.display='none'; this.previousElementSibling.style.display='inline-block';" />
+                  <span class="brand-dot" style="display:none;"></span>
+                  <div class="brand-title">${companySettings.companyName || 'Classic Legend Crackers.'}</div>
+                </div>
+                <div class="office-section">
+                  <div class="office-heading">Office Address</div>
+                  ${companySettings.address || 'Factory Main Road, Sivakasi, Tamil Nadu - 626123'}<br/>
+                  ${companySettings.phone || '(+91) 70108 49600'}
                 </div>
               </div>
 
-              <div class="info-box">
-                <div class="box-heading">Delivery Address & Status</div>
-                <div class="cust-detail" style="font-weight: 600; color: #0f172a;">
+              <div class="header-right">
+                <div class="invoice-main-title">INVOICE</div>
+                <div class="invoice-date">${formattedDate}</div>
+                <div class="to-section">
+                  <div class="to-heading">To :</div>
+                  <div class="customer-name">${customerName}</div>
                   ${customerAddress ? `${customerAddress}<br/>` : ''}
-                  ${customerCity ? `${customerCity}, ` : ''}${customerState ? `${customerState} ` : ''}${customerPincode ? `- ${customerPincode}` : ''}
-                </div>
-                <div>
-                  <span class="status-badge">Status: ${status}</span>
+                  ${customerCity ? `${customerCity}, ` : ''}${customerState ? `${customerState} ` : ''}${customerPincode ? `- ${customerPincode}` : ''}<br/>
+                  ${customerPhone ? `Ph: +91 ${customerPhone}` : ''}
                 </div>
               </div>
             </div>
 
-            <table>
-              <thead>
-                <tr>
-                  <th style="width: 40px; text-align: center;">S.No</th>
-                  <th style="width: 80px;">Code</th>
-                  <th>Product Variety</th>
-                  <th style="width: 60px; text-align: center;">Qty</th>
-                  <th style="width: 100px; text-align: right;">Unit Price</th>
-                  <th style="width: 110px; text-align: right;">Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${itemsHtml}
-              </tbody>
-            </table>
+            <!-- Items Table with 2-Tone Slanted Header -->
+            <div class="table-container">
+              <div class="custom-table-header">
+                <div class="header-red-part">
+                  <div class="header-red-title">Items Description</div>
+                  <div class="header-red-price">Unit Price</div>
+                </div>
+                <div class="header-grey-part">
+                  <div class="header-grey-qty">Qnt</div>
+                  <div class="header-grey-total">Total</div>
+                </div>
+              </div>
+              <table class="items-table">
+                <tbody>
+                  ${itemsHtml}
+                </tbody>
+              </table>
+            </div>
 
-            <div class="summary-section">
-              <div class="terms-box">
-                <strong style="color: #0f172a;">Terms & Guarantee:</strong><br/>
-                • All items are direct Sivakasi factory packed.<br/>
-                • Safe & legal non-hazardous transport guaranteed.<br/>
-                • Helpline: +91 70108 49600 (Mon - Sun)
+            <!-- Summary & Totals Block -->
+            <div class="summary-flex">
+              <div class="notes-left">
+                <div class="note-title">Note:</div>
+                <div class="note-text">
+                  Direct Sivakasi factory packed items. Non-hazardous cargo legal transport.<br/>
+                  Invoice Order Ref: #${ord.order_number || ord.id}
+                </div>
+                <div class="thank-you-msg">Thank you for your Business</div>
               </div>
 
-              <div class="totals-table">
-                <div class="total-row">
-                  <span style="color: #64748b;">Subtotal:</span>
-                  <span style="font-weight: 700; color: #0f172a;">₹${subtotal.toLocaleString('en-IN')}</span>
+              <div class="totals-right">
+                <div class="summary-line">
+                  <span>SUBTOTAL :</span>
+                  <span>₹${subtotal.toLocaleString('en-IN')}</span>
                 </div>
-                ${extraDiscAmt > 0 ? `
-                  <div class="total-row" style="color: #059669;">
-                    <span>Extra Discount:</span>
-                    <span style="font-weight: 700;">- ₹${extraDiscAmt.toLocaleString('en-IN')}</span>
+                ${deliveryCharge > 0 ? `
+                  <div class="summary-line">
+                    <span>Delivery Charge :</span>
+                    <span>₹${deliveryCharge.toLocaleString('en-IN')}</span>
                   </div>
                 ` : ''}
-                <div class="total-row grand-payable">
-                  <span>Total Payable:</span>
+                ${extraDiscAmt > 0 ? `
+                  <div class="summary-line" style="color: #dc2626;">
+                    <span>DISCOUNT :</span>
+                    <span>- ₹${extraDiscAmt.toLocaleString('en-IN')}</span>
+                  </div>
+                ` : ''}
+                <div class="total-due-banner">
+                  <span>TOTAL DUE :</span>
                   <span>₹${finalTotal.toLocaleString('en-IN')}</span>
                 </div>
               </div>
             </div>
 
-            <div class="footer-notes">
-              Thank you for choosing <strong>Classic Legend Crackers</strong>! Wish you a bright & happy celebration.
+            <!-- Bottom Divider & 3-Column Footer -->
+            <hr class="footer-divider" />
+            <div class="footer-grid">
+              <div>
+                <div class="footer-col-title">Questions?</div>
+                Email us : ${companySettings.email || 'classiclegendcrackers@gmail.com'}<br/>
+                Call us : ${companySettings.phone || '+91 70108 49600'}
+              </div>
+              <div>
+                <div class="footer-col-title">Payment Info :</div>
+                Account : COD / UPI Transfer<br/>
+                A/C Name : ${companySettings.companyName || 'Classic Legend Crackers'}<br/>
+                Status : ${status}
+              </div>
+              <div>
+                <div class="footer-col-title">Terms & Conditions/Note:</div>
+                Quality verified. Subject to Sivakasi Jurisdiction.
+              </div>
             </div>
+
           </div>
         </body>
       </html>

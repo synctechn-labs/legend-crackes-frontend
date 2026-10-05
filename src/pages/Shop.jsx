@@ -39,11 +39,11 @@ export const Shop = () => {
   const [inStockOnly, setInStockOnly] = useState(false);
   const [viewMode, setViewMode] = useState('list'); // 'list' | 'grid'
 
-  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
   const [productsData, setProductsData] = useState({
     products: [],
     page: 1,
-    limit: 4,
+    limit: 8,
     total: 0,
     totalPages: 1
   });

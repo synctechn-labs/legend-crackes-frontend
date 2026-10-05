@@ -5,7 +5,7 @@ export const Pagination = ({
   currentPage = 1,
   totalPages = 1,
   totalItems = 0,
-  itemsPerPage = 4,
+  itemsPerPage = 8,
   onPageChange,
   onItemsPerPageChange
 }) => {

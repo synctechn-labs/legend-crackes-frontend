@@ -93,8 +93,29 @@ export const AdminDashboard = () => {
     },
   ];
 
-  // Helper for max revenue bar scaling
-  const maxDayRevenue = Math.max(...stats.revenueOverTime.map((d) => d.revenue));
+  // Safe fallback and calculation for graph bars
+  const revenueOverTime = (stats?.revenueOverTime && stats.revenueOverTime.length > 0)
+    ? stats.revenueOverTime
+    : (stats?.revenue_over_time && stats.revenue_over_time.length > 0)
+      ? stats.revenue_over_time
+      : [
+          { day: 'Mon', revenue: 0, orders: 0 },
+          { day: 'Tue', revenue: 0, orders: 0 },
+          { day: 'Wed', revenue: 0, orders: 0 },
+          { day: 'Thu', revenue: 0, orders: 0 },
+          { day: 'Fri', revenue: 0, orders: 0 },
+          { day: 'Sat', revenue: 0, orders: 0 },
+          { day: 'Sun', revenue: 0, orders: 0 }
+        ];
+
+  const rawMax = Math.max(...revenueOverTime.map((d) => Number(d.revenue || 0)));
+  const maxDayRevenue = rawMax > 0 ? rawMax : 1;
+
+  const categoryWiseSales = (stats?.categoryWiseSales && stats.categoryWiseSales.length > 0)
+    ? stats.categoryWiseSales
+    : (stats?.category_wise_sales && stats.category_wise_sales.length > 0)
+      ? stats.category_wise_sales
+      : [];
 
   return (
     <div className="space-y-8">
@@ -176,12 +197,13 @@ export const AdminDashboard = () => {
 
           {/* Interactive SVG / Bar Graph */}
           <div className="h-64 flex items-end justify-between gap-3 sm:gap-6 pt-6 pb-2 px-2 border-b border-slate-100">
-            {stats.revenueOverTime.map((item, idx) => {
-              const heightPct = Math.round((item.revenue / maxDayRevenue) * 100);
+            {revenueOverTime.map((item, idx) => {
+              const rev = Number(item.revenue || 0);
+              const heightPct = Math.min(100, Math.max(6, Math.round((rev / maxDayRevenue) * 100)));
               return (
                 <div key={idx} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity text-[11px] font-mono font-bold text-slate-700 bg-slate-100 px-1.5 py-0.5 rounded shadow-xs mb-1">
-                    {formatCurrency(item.revenue)}
+                    {formatCurrency(rev)}
                   </div>
                   <div className="w-full flex items-end justify-center gap-1 h-44">
                     {/* Revenue Bar */}
@@ -191,8 +213,8 @@ export const AdminDashboard = () => {
                     />
                   </div>
                   <div className="text-center mt-2">
-                    <span className="block text-xs font-bold text-slate-700">{item.day}</span>
-                    <span className="text-[10px] text-slate-400">{item.orders} ord</span>
+                    <span className="block text-xs font-bold text-slate-700">{item.day || item.period}</span>
+                    <span className="text-[10px] text-slate-400">{item.orders || 0} ord</span>
                   </div>
                 </div>
               );
@@ -206,30 +228,34 @@ export const AdminDashboard = () => {
             <h3 className="font-heading font-black text-slate-900 text-base">
               Category-Wise Sales
             </h3>
-            <p className="text-xs text-slate-400">Share of total Diwali order value</p>
+            <p className="text-xs text-slate-400 font-medium">Share of total Diwali order value</p>
           </div>
 
           <div className="space-y-4">
-            {stats.categoryWiseSales.map((cat, idx) => (
-              <div key={idx} className="space-y-1.5">
-                <div className="flex justify-between text-xs font-semibold text-slate-700">
-                  <span>{cat.name}</span>
-                  <span className="font-bold text-slate-900">{cat.percentage}%</span>
+            {categoryWiseSales.length === 0 ? (
+              <p className="text-xs text-slate-400 italic py-6 text-center">No category sales data recorded yet.</p>
+            ) : (
+              categoryWiseSales.map((cat, idx) => (
+                <div key={idx} className="space-y-1.5">
+                  <div className="flex justify-between text-xs font-semibold text-slate-700">
+                    <span>{cat.name || cat.category}</span>
+                    <span className="font-bold text-slate-900">{cat.percentage || cat.share || 0}%</span>
+                  </div>
+                  <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full transition-all duration-500"
+                      style={{
+                        width: `${cat.percentage || cat.share || 0}%`,
+                        backgroundColor: cat.color || '#DC2626',
+                      }}
+                    />
+                  </div>
+                  <span className="text-[11px] text-slate-400 block text-right font-mono">
+                    {formatCurrency(cat.sales || cat.amount || 0)}
+                  </span>
                 </div>
-                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{
-                      width: `${cat.percentage}%`,
-                      backgroundColor: cat.color,
-                    }}
-                  />
-                </div>
-                <span className="text-[11px] text-slate-400 block text-right font-mono">
-                  {formatCurrency(cat.sales)}
-                </span>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>

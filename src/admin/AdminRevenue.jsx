@@ -48,7 +48,17 @@ export const AdminRevenue = () => {
     );
   }
 
-  const maxMonthRev = Math.max(...revenueData.monthlyTrend.map((m) => m.revenue));
+  const monthlyTrend = (revenueData?.monthlyTrend && revenueData.monthlyTrend.length > 0)
+    ? revenueData.monthlyTrend
+    : (revenueData?.monthly_trend && revenueData.monthly_trend.length > 0)
+      ? revenueData.monthly_trend
+      : [];
+
+  const rawMax = Math.max(...monthlyTrend.map((m) => Number(m.revenue || 0)));
+  const maxMonthRev = rawMax > 0 ? rawMax : 1;
+
+  const salesByCategory = revenueData?.salesByCategory || revenueData?.sales_by_category || [];
+  const topSellingProducts = revenueData?.topSellingProducts || revenueData?.top_selling_products || [];
 
   return (
     <div className="space-y-8">
@@ -115,40 +125,62 @@ export const AdminRevenue = () => {
 
       {/* Revenue Over Time Chart */}
       <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h3 className="font-heading font-black text-slate-900 text-base flex items-center gap-2">
               <BarChart2 className="w-4 h-4 text-red-600" />
               <span>Diwali Season Revenue Growth Trajectory</span>
             </h3>
-            <p className="text-xs text-slate-400">Monthly gross volume leading to festive peak</p>
+            <p className="text-xs text-slate-400 mt-0.5">
+              {range === 'daily' ? 'Daily' : range === 'weekly' ? 'Weekly' : 'Monthly'} gross sales volume from live customer orders
+            </p>
           </div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-            <Calendar className="w-3.5 h-3.5 text-slate-400" />
-            <span>2026 Festive Cycle</span>
+          <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200">
+            {[
+              { id: 'daily', label: 'Day-Wise' },
+              { id: 'weekly', label: 'Week-Wise' },
+              { id: 'monthly', label: 'Month-Wise' }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setRange(tab.id)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  range === tab.id
+                    ? 'bg-red-600 text-white shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
         </div>
 
         {/* Visual Bar Chart */}
-        <div className="h-64 flex items-end justify-between gap-3 sm:gap-8 pt-6 pb-2 px-4 border-b border-slate-100">
-          {revenueData.monthlyTrend.map((m, idx) => {
-            const heightPct = Math.round((m.revenue / maxMonthRev) * 100);
-            return (
-              <div key={idx} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity text-[11px] font-mono font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded shadow-xs mb-1">
-                  {formatCurrency(m.revenue)}
+        <div className="h-64 flex items-end justify-between gap-3 sm:gap-8 pt-6 pb-2 px-4 border-b border-slate-100 overflow-x-auto">
+          {monthlyTrend.length === 0 ? (
+            <p className="text-xs text-slate-400 italic py-12 text-center w-full">No revenue trend data recorded for this period yet.</p>
+          ) : (
+            monthlyTrend.map((m, idx) => {
+              const rev = Number(m.revenue || 0);
+              const heightPct = Math.min(100, Math.max(6, Math.round((rev / maxMonthRev) * 100)));
+              return (
+                <div key={idx} className="flex-1 min-w-[48px] flex flex-col items-center gap-2 h-full justify-end group">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity text-[11px] font-mono font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded shadow-xs mb-1 whitespace-nowrap">
+                    {formatCurrency(rev)}
+                  </div>
+                  <div
+                    style={{ height: `${heightPct}%` }}
+                    className="w-full max-w-10 bg-gradient-to-t from-red-700 to-red-500 hover:from-red-600 hover:to-red-400 rounded-t-xl transition-all shadow-sm"
+                  />
+                  <div className="text-center mt-2">
+                    <span className="block text-xs font-bold text-slate-800 whitespace-nowrap">{m.period || m.month || m.day}</span>
+                    <span className="text-[10px] text-slate-400">{m.orders || 0} ord</span>
+                  </div>
                 </div>
-                <div
-                  style={{ height: `${heightPct}%` }}
-                  className="w-full max-w-10 bg-gradient-to-t from-red-700 to-red-500 hover:from-red-600 hover:to-red-400 rounded-t-xl transition-all shadow-sm"
-                />
-                <div className="text-center mt-2">
-                  <span className="block text-xs font-bold text-slate-800">{m.period}</span>
-                  <span className="text-[10px] text-slate-400">{m.orders} ord</span>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
 
@@ -165,24 +197,28 @@ export const AdminRevenue = () => {
           </div>
 
           <div className="space-y-4">
-            {revenueData.salesByCategory.map((cat, idx) => (
-              <div key={idx} className="space-y-1.5">
-                <div className="flex justify-between text-xs font-semibold text-slate-700">
-                  <span>{cat.category}</span>
-                  <span className="font-bold text-slate-900">{cat.share}%</span>
+            {salesByCategory.length === 0 ? (
+              <p className="text-xs text-slate-400 italic py-6 text-center">No category sales recorded yet.</p>
+            ) : (
+              salesByCategory.map((cat, idx) => (
+                <div key={idx} className="space-y-1.5">
+                  <div className="flex justify-between text-xs font-semibold text-slate-700">
+                    <span>{cat.category || cat.name}</span>
+                    <span className="font-bold text-slate-900">{cat.share || cat.percentage || 0}%</span>
+                  </div>
+                  <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-red-600 rounded-full transition-all duration-500"
+                      style={{ width: `${cat.share || cat.percentage || 0}%` }}
+                    />
+                  </div>
+                  <div className="flex justify-between text-[11px] text-slate-400 font-mono">
+                    <span>Gross Sales</span>
+                    <span>{formatCurrency(cat.amount || cat.sales || 0)}</span>
+                  </div>
                 </div>
-                <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-red-600 rounded-full transition-all duration-500"
-                    style={{ width: `${cat.share}%` }}
-                  />
-                </div>
-                <div className="flex justify-between text-[11px] text-slate-400 font-mono">
-                  <span>Gross Sales</span>
-                  <span>{formatCurrency(cat.amount)}</span>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
@@ -202,33 +238,37 @@ export const AdminRevenue = () => {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="border-b border-slate-100 text-slate-400 uppercase font-semibold">
-                  <th className="pb-3">Product Name</th>
-                  <th className="pb-3">Category</th>
-                  <th className="pb-3 text-center">Units Sold</th>
-                  <th className="pb-3 text-right">Total Revenue</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {revenueData.topSellingProducts.map((p, idx) => (
-                  <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                    <td className="py-3">
-                      <span className="font-bold text-slate-900 block truncate max-w-xs">{p.name}</span>
-                      <span className="font-mono text-[10px] text-slate-400">{p.code}</span>
-                    </td>
-                    <td className="py-3 text-slate-600">{p.category}</td>
-                    <td className="py-3 text-center font-bold text-slate-800">
-                      {p.unitsSold.toLocaleString()}
-                    </td>
-                    <td className="py-3 text-right font-black text-red-600 font-heading">
-                      {formatCurrency(p.totalRevenue)}
-                    </td>
+            {topSellingProducts.length === 0 ? (
+              <p className="text-xs text-slate-400 italic py-6 text-center">No sales recorded yet.</p>
+            ) : (
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-slate-100 text-slate-400 uppercase font-semibold">
+                    <th className="pb-3">Product Name</th>
+                    <th className="pb-3">Category</th>
+                    <th className="pb-3 text-center">Units Sold</th>
+                    <th className="pb-3 text-right">Total Revenue</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {topSellingProducts.map((p, idx) => (
+                    <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                      <td className="py-3">
+                        <span className="font-bold text-slate-900 block truncate max-w-xs">{p.name}</span>
+                        <span className="font-mono text-[10px] text-slate-400">{p.code}</span>
+                      </td>
+                      <td className="py-3 text-slate-600">{p.category}</td>
+                      <td className="py-3 text-center font-bold text-slate-800">
+                        {(p.unitsSold || p.units_sold || 0).toLocaleString()}
+                      </td>
+                      <td className="py-3 text-right font-black text-red-600 font-heading">
+                        {formatCurrency(p.totalRevenue || p.total_revenue || 0)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
       </div>

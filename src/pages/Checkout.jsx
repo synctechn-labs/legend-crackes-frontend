@@ -18,6 +18,7 @@ import { orderService } from '../services/orderService';
 import { useToast } from '../hooks/useToast';
 import { formatCurrency } from '../utils/formatters';
 import { MIN_ORDER_AMOUNT } from '../utils/constants';
+import { getGuestId } from '../utils/guestIdentity';
 
 export const Checkout = () => {
   const navigate = useNavigate();
@@ -133,6 +134,7 @@ export const Checkout = () => {
 
     try {
       const orderPayload = {
+        guest_id: getGuestId(),
         customer: {
           name: formData.name.trim(),
           phone: formData.phone.trim(),
@@ -145,6 +147,7 @@ export const Checkout = () => {
           deliveryNotes: formData.deliveryNotes.trim(),
         },
         items: cartItems.map((item) => ({
+          product_id: item.id,
           id: item.id,
           code: item.code,
           name: item.name,

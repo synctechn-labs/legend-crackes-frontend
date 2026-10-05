@@ -11,7 +11,9 @@ import {
   Eye,
   Calendar,
   Sparkles,
-  BarChart3
+  BarChart3,
+  Users,
+  UserCheck
 } from 'lucide-react';
 import { dashboardService } from '../services/dashboardService';
 import { formatCurrency, formatDate } from '../utils/formatters';
@@ -75,19 +77,19 @@ export const AdminDashboard = () => {
     },
     {
       title: 'Total Orders',
-      value: stats.totalOrders.toLocaleString(),
-      change: `${stats.pendingOrders} orders pending packing`,
+      value: (stats.totalOrders || 0).toLocaleString(),
+      change: `${stats.pendingOrders || 0} orders pending packing`,
       icon: ShoppingBag,
       color: 'bg-indigo-50 text-indigo-600',
       badge: 'Orders',
     },
     {
-      title: 'Active Products',
-      value: stats.totalProducts.toLocaleString(),
-      change: 'In catalog',
-      icon: Boxes,
-      color: 'bg-amber-50 text-amber-600',
-      badge: 'Catalog',
+      title: 'Total Customers',
+      value: (stats.totalCustomers || 0).toLocaleString(),
+      change: `${stats.repeatCustomerRate || 0}% Repeat Customer Rate`,
+      icon: Users,
+      color: 'bg-blue-50 text-blue-600',
+      badge: 'Customers',
     },
   ];
 

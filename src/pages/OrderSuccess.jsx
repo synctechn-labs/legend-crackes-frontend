@@ -203,34 +203,49 @@ export const OrderSuccess = () => {
           </div>
 
           {/* Pricing Summary */}
-          <div className="pt-4 border-t border-slate-200 space-y-2 text-xs max-w-xs ml-auto">
-            <div className="flex justify-between text-slate-600">
-              <span>Subtotal</span>
-              <span className="font-semibold text-slate-900">{formatCurrency(displayOrder.subtotal)}</span>
-            </div>
-            {displayOrder.discount > 0 && (
-              <div className="flex justify-between text-emerald-600 font-semibold">
-                <span>Festive Discount</span>
-                <span>- {formatCurrency(displayOrder.discount)}</span>
-              </div>
-            )}
-            <div className="flex justify-between text-slate-600">
-              <span>Safe Transport Delivery</span>
-              <span>
-                {displayOrder.shippingFee === 0 ? (
-                  <strong className="text-emerald-600">FREE</strong>
-                ) : (
-                  formatCurrency(displayOrder.shippingFee)
+          {(() => {
+            const subtotalVal = Number(displayOrder.subtotal || 0);
+            const discountVal = Number(displayOrder.discount || displayOrder.extra_discount_amount || 0);
+            const totalVal = Number(displayOrder.total_amount || displayOrder.totalAmount || displayOrder.total || displayOrder.finalTotal || 0);
+            const deliveryVal = Number(
+              displayOrder.delivery_charge ??
+              displayOrder.deliveryCharge ??
+              displayOrder.shippingFee ??
+              displayOrder.shipping_fee ??
+              (totalVal > 0 && subtotalVal > 0 ? Math.max(0, totalVal - subtotalVal + discountVal) : 500)
+            );
+
+            return (
+              <div className="pt-4 border-t border-slate-200 space-y-2 text-xs max-w-xs ml-auto">
+                <div className="flex justify-between text-slate-600">
+                  <span>Subtotal</span>
+                  <span className="font-semibold text-slate-900">{formatCurrency(subtotalVal)}</span>
+                </div>
+                {discountVal > 0 && (
+                  <div className="flex justify-between text-emerald-600 font-semibold">
+                    <span>Festive Discount</span>
+                    <span>- {formatCurrency(discountVal)}</span>
+                  </div>
                 )}
-              </span>
-            </div>
-            <div className="pt-2 border-t border-slate-200 flex justify-between items-baseline text-sm">
-              <span className="font-bold text-slate-900">Total Amount</span>
-              <span className="text-2xl font-black text-red-600 font-heading">
-                {formatCurrency(displayOrder.total)}
-              </span>
-            </div>
-          </div>
+                <div className="flex justify-between text-slate-600">
+                  <span>Safe Transport Delivery</span>
+                  <span>
+                    {deliveryVal === 0 ? (
+                      <strong className="text-emerald-600">FREE</strong>
+                    ) : (
+                      formatCurrency(deliveryVal)
+                    )}
+                  </span>
+                </div>
+                <div className="pt-2 border-t border-slate-200 flex justify-between items-baseline text-sm">
+                  <span className="font-bold text-slate-900">Total Amount</span>
+                  <span className="text-2xl font-black text-red-600 font-heading">
+                    {formatCurrency(totalVal || (subtotalVal - discountVal + deliveryVal))}
+                  </span>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
 

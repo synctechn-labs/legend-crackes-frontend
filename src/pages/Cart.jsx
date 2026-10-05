@@ -99,7 +99,7 @@ export const Cart = () => {
             Shopping Cart ({totalCount} items)
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Direct Sivakasi factory order • Minimum order amount: <strong>₹500</strong>
+            Direct Sivakasi factory order • Minimum order amount: <strong>₹3000</strong>
           </p>
         </div>
         <button

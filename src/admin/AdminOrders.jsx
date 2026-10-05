@@ -76,32 +76,6 @@ export const AdminOrders = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const knownOrderIdsRef = useRef(null);
 
-  const playOrderNotificationSound = () => {
-    if (!soundEnabled) return;
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = new AudioCtx();
-      const playNote = (freq, startTime, duration) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, startTime);
-        gain.gain.setValueAtTime(0.3, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(startTime);
-        osc.stop(startTime + duration);
-      };
-      const now = ctx.currentTime;
-      playNote(587.33, now, 0.35);      // D5 note
-      playNote(880, now + 0.15, 0.55);  // A5 note
-    } catch (e) {
-      console.warn('Audio play error:', e);
-    }
-  };
-
   const handleSaveSettings = (e) => {
     e?.preventDefault();
     setCompanySettings(settingsForm);
@@ -123,7 +97,6 @@ export const AdminOrders = () => {
       if (knownOrderIdsRef.current !== null) {
         const newOrders = fetchedOrders.filter((o) => !knownOrderIdsRef.current.has(String(o.id)));
         if (newOrders.length > 0) {
-          playOrderNotificationSound();
           newOrders.forEach((newOrd) => {
             const custName = cleanStr(newOrd.customer?.name || 'Customer');
             const amt = formatCurrency(newOrd.finalTotal || newOrd.total || 0);
@@ -132,13 +105,6 @@ export const AdminOrders = () => {
               message: `Order #${newOrd.id} by ${custName} for ${amt}`,
               type: 'success'
             });
-
-            if (window.Notification && Notification.permission === 'granted') {
-              new Notification(`🚨 New Order #${newOrd.id}`, {
-                body: `Customer: ${custName} | Total: ${amt}`,
-                icon: 'https://res.cloudinary.com/yez0xdym/image/upload/v1790708530/1000240064.png'
-              });
-            }
           });
           setOrders(fetchedOrders);
         }
@@ -151,17 +117,11 @@ export const AdminOrders = () => {
   };
 
   useEffect(() => {
-    if (window.Notification && Notification.permission === 'default') {
-      Notification.requestPermission();
-    }
-  }, []);
-
-  useEffect(() => {
     const interval = setInterval(() => {
       checkForNewOrders();
     }, 12000);
     return () => clearInterval(interval);
-  }, [soundEnabled]);
+  }, []);
 
   const loadOrders = async () => {
     setLoading(true);

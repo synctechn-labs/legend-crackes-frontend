@@ -11,7 +11,9 @@ import {
   LayoutGrid,
   List,
   ChevronDown,
-  Check
+  Check,
+  Download,
+  FileText
 } from 'lucide-react';
 import { productService } from '../services/productService';
 import { categoryService } from '../services/categoryService';
@@ -20,6 +22,7 @@ import { ProductCard } from '../components/common/ProductCard';
 import { Pagination } from '../components/common/Pagination';
 import { ProductGridSkeleton } from '../components/common/SkeletonLoader';
 import { useDebounce } from '../hooks/useDebounce';
+import { generateBrochureHTML } from '../utils/brochureGenerator';
 
 export const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -258,9 +261,9 @@ export const Shop = () => {
         {/* Product Catalog Content */}
         <div className="lg:col-span-9 space-y-6">
           {/* Single Unified Controls Bar: Search, Custom React Category Popover & View Switcher */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-xs flex flex-wrap items-center justify-between gap-3 sticky top-16 z-30 backdrop-blur-md bg-white/95">
+          <div className="bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-xs flex flex-wrap items-center justify-between gap-2.5 sticky top-16 z-30 backdrop-blur-md bg-white/95 overflow-hidden">
             {/* Search Input with Debounce */}
-            <div className="relative flex-1 min-w-[180px] sm:min-w-[240px]">
+            <div className="relative flex-1 min-w-[160px] sm:min-w-[220px]">
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
@@ -283,13 +286,13 @@ export const Shop = () => {
               )}
             </div>
 
-            <div className="flex items-center gap-2.5 shrink-0">
+            <div className="flex items-center gap-2 flex-wrap max-w-full">
               {/* Custom React Category Filter Popover */}
               <div className="relative" ref={categoryDropdownRef}>
                 <button
                   type="button"
                   onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-                  className="flex items-center justify-between gap-2 px-3 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 transition-colors shadow-xs max-w-[190px] sm:max-w-[240px]"
+                  className="flex items-center justify-between gap-2 px-3 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 transition-colors shadow-xs max-w-[160px] sm:max-w-[220px]"
                 >
                   <div className="flex items-center gap-1.5 truncate">
                     <Filter className="w-4 h-4 text-red-600 shrink-0" />
@@ -373,6 +376,19 @@ export const Shop = () => {
                   <LayoutGrid className="w-4 h-4" />
                 </button>
               </div>
+
+              {/* Download Brochure Button */}
+              <a
+                href="/Classic_Legend_Crackers_Price_List_2026_Updated.pdf"
+                download="Classic_Legend_Crackers_Price_List_2026_Updated.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs shrink-0 active:scale-95 cursor-pointer no-underline"
+                title="Download Product Brochure & Price List"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Brochure</span>
+              </a>
             </div>
           </div>
 

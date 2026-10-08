@@ -285,6 +285,7 @@ export const AdminOrders = () => {
     }).join('');
 
     const subtotal = Number(ord.subtotal || 0);
+    const couponDiscount = Number(ord.discount || ord.couponDiscount || ord.coupon_discount || 0);
     const deliveryCharge = Number(ord.delivery_charge ?? ord.deliveryCharge ?? 500);
     const extraDiscAmt = Number(ord.extraDiscountAmount ?? ord.extra_discount_amount ?? 0);
     const finalTotal = Number(ord.final_total_amount ?? ord.finalTotal ?? (subtotal + deliveryCharge - extraDiscAmt));
@@ -492,9 +493,15 @@ export const AdminOrders = () => {
                     <span>₹${deliveryCharge.toLocaleString('en-IN')}</span>
                   </div>
                 ` : ''}
+                ${couponDiscount > 0 ? `
+                  <div class="summary-line" style="color: #059669; font-weight: 700;">
+                    <span>COUPON DISCOUNT :</span>
+                    <span>- ₹${couponDiscount.toLocaleString('en-IN')}</span>
+                  </div>
+                ` : ''}
                 ${extraDiscAmt > 0 ? `
                   <div class="summary-line" style="color: #dc2626;">
-                    <span>DISCOUNT :</span>
+                    <span>EXTRA DISCOUNT :</span>
                     <span>- ₹${extraDiscAmt.toLocaleString('en-IN')}</span>
                   </div>
                 ` : ''}

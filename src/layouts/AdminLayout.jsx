@@ -6,6 +6,7 @@ import {
   ShoppingBag,
   TrendingUp,
   Users,
+  Tag,
   LogOut,
   ExternalLink,
   Sparkles,
@@ -39,6 +40,7 @@ export const AdminLayout = () => {
     { to: '/admin/inventory', icon: Boxes, label: 'Inventory' },
     { to: '/admin/orders', icon: ShoppingBag, label: 'Order Management' },
     { to: '/admin/customers', icon: Users, label: 'Customers' },
+    { to: '/admin/coupons', icon: Tag, label: 'Coupons' },
     { to: '/admin/revenue', icon: TrendingUp, label: 'Revenue & Sales' },
   ];
 

@@ -24,6 +24,7 @@ import { AdminOrders } from '../admin/AdminOrders';
 import { AdminRevenue } from '../admin/AdminRevenue';
 import { AdminCustomers } from '../admin/AdminCustomers';
 import { AdminCustomerDetail } from '../admin/AdminCustomerDetail';
+import { AdminCoupons } from '../admin/AdminCoupons';
 
 // 404 Page
 const NotFound = () => (
@@ -77,6 +78,7 @@ export const AppRoutes = () => {
         <Route path="orders" element={<AdminOrders />} />
         <Route path="customers" element={<AdminCustomers />} />
         <Route path="customers/:id" element={<AdminCustomerDetail />} />
+        <Route path="coupons" element={<AdminCoupons />} />
         <Route path="revenue" element={<AdminRevenue />} />
       </Route>
 

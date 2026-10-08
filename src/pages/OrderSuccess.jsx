@@ -221,10 +221,17 @@ export const OrderSuccess = () => {
                   <span>Subtotal</span>
                   <span className="font-semibold text-slate-900">{formatCurrency(subtotalVal)}</span>
                 </div>
-                {discountVal > 0 && (
-                  <div className="flex justify-between text-emerald-600 font-semibold">
-                    <span>Festive Discount</span>
-                    <span>- {formatCurrency(discountVal)}</span>
+                {(discountVal > 0 || displayOrder.couponCode || displayOrder.coupon_code) && (
+                  <div className="flex justify-between text-emerald-700 font-bold bg-emerald-50/70 border border-emerald-200/80 px-2.5 py-1 rounded-lg">
+                    <span className="flex items-center gap-1">
+                      <span>Coupon Discount</span>
+                      {(displayOrder.couponCode || displayOrder.coupon_code) && (
+                        <span className="font-mono text-[10px] bg-emerald-200/60 px-1.5 py-0.5 rounded text-emerald-900 uppercase">
+                          {displayOrder.couponCode || displayOrder.coupon_code}
+                        </span>
+                      )}
+                    </span>
+                    <span>- {formatCurrency(discountVal > 0 ? discountVal : Math.round(subtotalVal * 0.05))}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-slate-600">

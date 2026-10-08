@@ -140,7 +140,7 @@ export const Home = () => {
 
               <p className="text-sm sm:text-base lg:text-lg text-slate-200/90 max-w-2xl leading-relaxed font-normal">
                 Experience authentic Sivakasi fireworks directly from certified manufacturers. Save up to <span className="font-semibold text-amber-300">50% direct factory discount</span> on over 500+ green crackers, aerial multi-shots, and curated family gift hampers.
-              </p>
+                By placing an order on our website, you acknowledge and agree to these terms regarding potential minor variations in brand packaging and product visuals.</p>
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-1">

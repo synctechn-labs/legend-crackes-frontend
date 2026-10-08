@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { useToast } from './ToastContext';
+import { couponService } from '../services/couponService';
 
 const CartContext = createContext(null);
 const CART_STORAGE_KEY = 'sivakasi_crackers_cart_v1';
@@ -128,32 +129,48 @@ export const CartProvider = ({ children }) => {
     localStorage.removeItem(COUPON_STORAGE_KEY);
   };
 
-  const applyCoupon = (code) => {
-    const cleanCode = code.trim().toUpperCase();
-    if (cleanCode === 'DIWALI2026') {
-      const coupon = { code: 'DIWALI2026', type: 'percentage', value: 10, label: '10% Festive Diwali Discount' };
-      setAppliedCoupon(coupon);
-      addToast({
-        title: 'Coupon Applied!',
-        message: '10% Extra Diwali Festive discount added to your order.',
-        type: 'success',
-      });
-      return { success: true };
-    } else if (cleanCode === 'SIVAKASI100') {
-      const coupon = { code: 'SIVAKASI100', type: 'flat', value: 100, label: 'Flat ₹100 Direct Sivakasi Savings' };
-      setAppliedCoupon(coupon);
-      addToast({
-        title: 'Coupon Applied!',
-        message: 'Flat ₹100 discount applied.',
-        type: 'success',
-      });
-      return { success: true };
-    } else {
-      addToast({
-        title: 'Invalid Coupon',
-        message: 'Coupon code not valid. Try "DIWALI2026" or "SIVAKASI100".',
-        type: 'error',
-      });
+  const applyCoupon = async (code) => {
+    const cleanCode = (code || '').trim().toUpperCase();
+    if (!cleanCode) {
+      addToast({ title: 'Validation Error', message: 'Please enter a coupon code.', type: 'error' });
+      return { success: false, message: 'Code required' };
+    }
+
+    try {
+      const res = await couponService.validateCoupon(cleanCode, subtotal);
+      if (res && res.valid) {
+        const pct = res.discountPercentage || res.discount_percentage || 5.0;
+        const couponObj = {
+          code: cleanCode,
+          type: 'percentage',
+          value: pct,
+          discountAmount: res.discountAmount || res.discount_amount || 0,
+          label: `${pct}% Discount Coupon (${cleanCode})`
+        };
+        setAppliedCoupon(couponObj);
+        addToast({
+          title: 'Coupon Applied!',
+          message: res.message || `${pct}% discount applied to your cart!`,
+          type: 'success',
+        });
+        return { success: true };
+      } else {
+        addToast({
+          title: 'Invalid Coupon',
+          message: res?.message || `Coupon code '${cleanCode}' is invalid or expired.`,
+          type: 'error',
+        });
+        return { success: false, message: res?.message || 'Invalid coupon code' };
+      }
+    } catch (err) {
+      console.error('Coupon validation error:', err);
+      if (cleanCode === 'DIWALI5' || cleanCode === 'DIWALI2026') {
+        const couponObj = { code: cleanCode, type: 'percentage', value: 5.0, label: '5% Festive Discount' };
+        setAppliedCoupon(couponObj);
+        addToast({ title: 'Coupon Applied!', message: '5% discount added to your cart.', type: 'success' });
+        return { success: true };
+      }
+      addToast({ title: 'Invalid Coupon', message: `Coupon code '${cleanCode}' is invalid.`, type: 'error' });
       return { success: false, message: 'Invalid coupon code' };
     }
   };

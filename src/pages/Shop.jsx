@@ -261,7 +261,7 @@ export const Shop = () => {
         {/* Product Catalog Content */}
         <div className="lg:col-span-9 space-y-6">
           {/* Single Unified Controls Bar: Search, Custom React Category Popover & View Switcher */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-xs flex flex-wrap items-center justify-between gap-2.5 sticky top-16 z-30 backdrop-blur-md bg-white/95 overflow-hidden">
+          <div className="bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-xs flex flex-wrap items-center justify-between gap-2.5 sticky top-16 z-30 backdrop-blur-md bg-white/95">
             {/* Search Input with Debounce */}
             <div className="relative flex-1 min-w-[160px] sm:min-w-[220px]">
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />

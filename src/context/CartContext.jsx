@@ -212,10 +212,10 @@ export const CartProvider = ({ children }) => {
     return 0;
   }, [appliedCoupon, subtotal]);
 
-  // Flat delivery charge of ₹500 for all orders
+  // Delivery fee logic: ₹200 if subtotal < 3000, ₹500 if subtotal >= 3000
   const shippingFee = useMemo(() => {
     if (subtotal === 0) return 0;
-    return 500;
+    return subtotal < 3000 ? 200 : 500;
   }, [subtotal]);
 
   const grandTotal = useMemo(() => {

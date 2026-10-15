@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { productService } from '../services/productService';
 import { categoryService } from '../services/categoryService';
-import { getCategoryImage } from '../utils/constants';
+import { getCategoryImage, MIN_ORDER_AMOUNT } from '../utils/constants';
 import { ProductCard } from '../components/common/ProductCard';
 import { Pagination } from '../components/common/Pagination';
 import { ProductGridSkeleton } from '../components/common/SkeletonLoader';
@@ -164,10 +164,10 @@ export const Shop = () => {
             <Sparkles className="w-4 h-4" /> Direct Sivakasi Wholesaler Notice
           </span>
           <h1 className="text-2xl sm:text-4xl font-black font-heading leading-tight">
-            Minimum Order Value: ₹3000
+            Minimum Order Value: ₹{MIN_ORDER_AMOUNT}
           </h1>
           <p className="text-xs sm:text-sm text-rose-100 font-medium">
-            <strong>Important:</strong> Wholesale factory discounts are applicable with a minimum order total of <strong>₹3000</strong>.
+            <strong>Important:</strong> Wholesale factory discounts are applicable with a minimum order total of <strong>₹{MIN_ORDER_AMOUNT}</strong>.
           </p>
         </div>
       </div>

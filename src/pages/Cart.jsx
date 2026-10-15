@@ -99,7 +99,7 @@ export const Cart = () => {
             Shopping Cart ({totalCount} items)
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Direct Sivakasi factory order • Minimum order amount: <strong>₹3000</strong>
+            Direct Sivakasi factory order • Minimum order amount: <strong>₹{MIN_ORDER_AMOUNT}</strong>
           </p>
         </div>
         <button
@@ -124,14 +124,14 @@ export const Cart = () => {
                 ? 'bg-red-600 text-white shadow-xs'
                 : 'bg-emerald-600 text-white shadow-xs'
                 }`}>
-                {subtotal < MIN_ORDER_AMOUNT ? 'Mandatory Order Minimum: ₹500' : 'Order Minimum Achieved!'}
+                {subtotal < MIN_ORDER_AMOUNT ? `Mandatory Order Minimum: ₹${MIN_ORDER_AMOUNT}` : 'Order Minimum Achieved!'}
               </span>
             </div>
             <h3 className="font-heading font-semiblod text-base sm:text-lg text-slate-900">
               {subtotal < MIN_ORDER_AMOUNT ? (
                 <>Add <span className="text-red-600 underline decoration-red-300 font-black">{formatCurrency(remainingForMinOrder)}</span> more to unlock direct checkout</>
               ) : (
-                <>🎉 Minimum order of ₹500 satisfied!</>
+                <>🎉 Minimum order of ₹{MIN_ORDER_AMOUNT} satisfied!</>
               )}
             </h3>
           </div>

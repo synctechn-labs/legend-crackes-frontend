@@ -286,7 +286,7 @@ export const AdminOrders = () => {
 
     const subtotal = Number(ord.subtotal || 0);
     const couponDiscount = Number(ord.discount || ord.couponDiscount || ord.coupon_discount || 0);
-    const deliveryCharge = Number(ord.delivery_charge ?? ord.deliveryCharge ?? 500);
+    const deliveryCharge = Number(ord.delivery_charge ?? ord.deliveryCharge ?? (subtotal < 3000 ? 200 : 500));
     const extraDiscAmt = Number(ord.extraDiscountAmount ?? ord.extra_discount_amount ?? 0);
     const finalTotal = Number(ord.final_total_amount ?? ord.finalTotal ?? (subtotal + deliveryCharge - extraDiscAmt));
     const status = clean(ord.status || 'Confirmed');
